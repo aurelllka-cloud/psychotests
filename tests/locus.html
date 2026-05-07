@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Тест: Хозяин судьбы или заложник обстоятельств | Локус контроля</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #e0eafc 0%, #cfdef3 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            padding: 1.5rem;
+        }
+
+        /* главная карточка */
+        .test-container {
+            max-width: 720px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .test-card {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(2px);
+            border-radius: 2.5rem;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.35), 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* декоративный акцент */
+        .accent-header {
+            background: linear-gradient(135deg, #2c3e66 0%, #1a2a48 100%);
+            padding: 1.8rem 2rem 1.5rem;
+            color: white;
+            text-align: center;
+        }
+
+        .accent-header h1 {
+            font-size: 1.9rem;
+            letter-spacing: -0.3px;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.7rem;
+            flex-wrap: wrap;
+        }
+
+        .accent-header h1 span {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.2rem 0.6rem;
+            border-radius: 60px;
+            font-size: 1.2rem;
+        }
+
+        .accent-header p {
+            font-size: 0.95rem;
+            opacity: 0.85;
+            max-width: 90%;
+            margin: 0.6rem auto 0;
+        }
+
+        .content-panel {
+            padding: 2rem 2rem 2.2rem;
+        }
+
+        /* Стили для экранов */
+        .screen {
+            transition: opacity 0.2s ease;
+        }
+
+        .welcome-text {
+            font-size: 1.05rem;
+            line-height: 1.5;
+            color: #1e2a3e;
+            background: #f8fafd;
+            padding: 1.3rem;
+            border-radius: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid #3b6ea0;
+        }
+
+        .badge-info {
+            display: inline-block;
+            background: #e9edf2;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #2c3e66;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            border: none;
+            background: #2c3e66;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.9rem 1.8rem;
+            border-radius: 3rem;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+            max-width: 260px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-primary {
+            background: #2c5b8c;
+            box-shadow: 0 6px 14px rgba(44, 91, 140, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: #1f4568;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #1e2a3e;
+            border: 1px solid #cbd5e1;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd9e8;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+        }
+
+        .q-counter {
+            background: #eef2f7;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #1e3a5f;
+        }
+
+        .progress-bar-bg {
+            background: #e2e8f0;
+            border-radius: 20px;
+            height: 8px;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .progress-fill {
+            background: #2c5b8c;
+            width: 0%;
+            height: 8px;
+            border-radius: 20px;
+            transition: width 0.2s ease;
+        }
+
+        .question-text {
+            font-size: 1.55rem;
+            font-weight: 600;
+            line-height: 1.35;
+            margin: 1.8rem 0 2rem;
+            color: #0a1929;
+        }
+
+        .option-buttons {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            margin: 1.5rem 0 0.5rem;
+        }
+
+        .answer-btn {
+            background: #f1f5f9;
+            border: 1.5px solid #cbd5e1;
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            min-width: 120px;
+            color: #1e2a3e;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .answer-btn.yes {
+            background: #eaf6f0;
+            border-color: #2f855a;
+            color: #1f5e41;
+        }
+
+        .answer-btn.no {
+            background: #feeceb;
+            border-color: #c2412c;
+            color: #9b2c1d;
+        }
+
+        .answer-btn:hover {
+            transform: scale(0.97);
+            filter: brightness(0.96);
+        }
+
+        .result-card {
+            background: #fefef9;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin: 1rem 0 1.8rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .result-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .result-desc {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #2c3e50;
+            margin: 1.2rem 0;
+        }
+
+        .advice {
+            background: #eef2ff;
+            padding: 1rem 1.2rem;
+            border-radius: 1.2rem;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            border-left: 4px solid #2c5b8c;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .footer-note {
+            margin-top: 1.2rem;
+            font-size: 0.7rem;
+            text-align: center;
+            color: #5b6e8c;
+        }
+
+        hr {
+            margin: 1rem 0;
+            border: none;
+            height: 1px;
+            background: #e0e7ef;
+        }
+
+        @media (max-width: 550px) {
+            .content-panel {
+                padding: 1.5rem;
+            }
+            .question-text {
+                font-size: 1.3rem;
+            }
+            .answer-btn {
+                padding: 0.6rem 1rem;
+                min-width: 100px;
+                font-size: 1rem;
+            }
+            .accent-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="test-container">
+    <div class="test-card">
+        <div class="accent-header">
+            <h1>
+                🧭 Хозяин судьбы
+                <span>или</span>
+                заложник обстоятельств?
+            </h1>
+            <p>Ваш жизненный локус контроля · Методика Дж. Роттера</p>
+        </div>
+        <div class="content-panel" id="appRoot">
+            <!-- динамическая загрузка экранов через JS -->
+        </div>
+    </div>
+</div>
+
+<script>
+    // Академическая основа: опросник локуса контроля Дж. Роттера (адаптация)
+    // Все вопросы сформулированы так, что ответ «ДА» = интернальный локус (Хозяин)
+    // Ответ «НЕТ» = экстернальный локус (Заложник)
+    const QUESTIONS = [
+        "Я считаю, что достижение успеха в работе зависит в первую очередь от моих способностей и усилий, а не от удачи.",
+        "Большинство неудач в моей жизни происходят из-за моих собственных ошибок, а не невезения.",
+        "Граждане несут ответственность за экономические проблемы своей страны не меньше, чем правительство.",
+        "Ответственность за то, что происходит с людьми, в конечном счете лежит на них самих.",
+        "Многие проблемы в своей жизни я мог бы предотвратить, если бы действовал иначе.",
+        "Я чувствую, что могу сильно повлиять на то, что со мной случается.",
+        "Достижение целей зависит от упорной работы, а не от везения.",
+        "Люди в состоянии справиться со своими проблемами без посторонней помощи.",
+        "Если у человека что-то идет не так, он должен винить в первую очередь себя.",
+        "Я обычно могу защитить свои интересы в любой ситуации.",
+        "Получение хорошего образования зависит от личных способностей, а не от качества учебного заведения.",
+        "Я верю, что могу влиять на важные события в своей жизни.",
+        "Обычно я могу изменить отношение окружающих ко мне своими действиями.",
+        "Люди несчастны потому, что не прикладывают достаточно усилий.",
+        "Я предпочитаю полагаться на свои силы, а не на помощь судьбы."
+    ];
+
+    const TOTAL_QS = QUESTIONS.length;
+
+    // Состояние теста
+    let currentIndex = 0;          // 0-индекс текущего вопроса
+    let answers = new Array(TOTAL_QS).fill(null); // null = нет ответа, 1 = ДА, 0 = НЕТ
+    let testActive = false;         // активен ли процесс прохождения
+
+    // DOM элементы
+    const appRoot = document.getElementById('appRoot');
+
+    // ========== Функции рендеринга экранов ==========
+    function renderStartScreen() {
+        appRoot.innerHTML = `
+            <div class="screen welcome-screen">
+                <div class="badge-info">📋 академическая основа: методика Дж. Роттера</div>
+                <div class="welcome-text">
+                    <strong>🧠 Кто виноват в ваших неудачах: вы сами или внешний мир?</strong><br><br>
+                    Этот тест определит, являетесь ли вы <strong>«Автором своей жизни»</strong> (внутренний локус контроля) 
+                    или <strong>«Жертвой обстоятельств»</strong> (внешний локус). Ответьте на 15 вопросов честно — 
+                    выбирайте «Да» или «Нет» в зависимости от того, насколько утверждение соответствует вашему мировоззрению.
+                    <br><br>
+                    ✨ Результат покажет ваш путь к большей самостоятельности и осознанности.
+                </div>
+                <div class="btn-group">
+                    <button id="startTestBtn" class="btn btn-primary">🚀 Начать тест</button>
+                </div>
+                <div class="footer-note">
+                    ⚡ Тест анонимный, данные не сохраняются. Основан на шкале локуса контроля Роттера.
+                </div>
+            </div>
+        `;
+        document.getElementById('startTestBtn')?.addEventListener('click', () => {
+            resetAndStart();
+        });
+    }
+
+    function resetAndStart() {
+        // сброс всех данных
+        currentIndex = 0;
+        answers = new Array(TOTAL_QS).fill(null);
+        testActive = true;
+        renderQuestionScreen();
+    }
+
+    function renderQuestionScreen() {
+        if (!testActive) return;
+        if (currentIndex >= TOTAL_QS) {
+            // все вопросы отвечены → результат
+            finishAndShowResult();
+            return;
+        }
+        const currentQuestion = QUESTIONS[currentIndex];
+        const answered = answers[currentIndex] !== null;
+        // прогресс база
+        const answeredCount = answers.filter(v => v !== null).length;
+        const percent = (answeredCount / TOTAL_QS) * 100;
+
+        appRoot.innerHTML = `
+            <div class="screen question-screen">
+                <div class="question-header">
+                    <div class="q-counter">Вопрос ${currentIndex+1} из ${TOTAL_QS}</div>
+                    <div class="progress-bar-bg"><div class="progress-fill" style="width: ${percent}%;"></div></div>
+                </div>
+                <div class="question-text">${escapeHtml(currentQuestion)}</div>
+                <div class="option-buttons">
+                    <button class="answer-btn yes" data-answer="1">✅ Да, согласен(на)</button>
+                    <button class="answer-btn no" data-answer="0">❌ Нет, не согласен(на)</button>
+                </div>
+                <div class="footer-note" style="margin-top: 1.8rem;">
+                    🔹 Доверьтесь первому импульсу — это повышает точность.
+                </div>
+            </div>
+        `;
+
+        // обработка кликов по кнопкам ответа
+        const yesBtn = document.querySelector('.answer-btn.yes');
+        const noBtn = document.querySelector('.answer-btn.no');
+        if (yesBtn) {
+            yesBtn.addEventListener('click', () => {
+                if (answers[currentIndex] !== null) return; // уже ответили
+                recordAnswer(currentIndex, 1); // 1 = ДА (интернальный)
+                moveToNext();
+            });
+        }
+        if (noBtn) {
+            noBtn.addEventListener('click', () => {
+                if (answers[currentIndex] !== null) return;
+                recordAnswer(currentIndex, 0); // 0 = НЕТ (экстернальный)
+                moveToNext();
+            });
+        }
+    }
+
+    function recordAnswer(idx, value) {
+        if (idx >= 0 && idx < TOTAL_QS) {
+            answers[idx] = value;
+        }
+    }
+
+    function moveToNext() {
+        // переход к следующему вопросу
+        if (currentIndex + 1 < TOTAL_QS) {
+            currentIndex++;
+            renderQuestionScreen();
+        } else if (currentIndex + 1 === TOTAL_QS) {
+            // мы только что ответили на последний вопрос — закончить
+            // проверка на полноту ответов (все заполнены)
+            const allAnswered = answers.every(v => v !== null);
+            if (allAnswered) {
+                finishAndShowResult();
+            } else {
+                // теоретически не должно случиться, но на всякий случай
+                currentIndex++;
+                finishAndShowResult();
+            }
+        } else {
+            finishAndShowResult();
+        }
+    }
+
+    function finishAndShowResult() {
+        testActive = false;
+        const totalInternal = answers.reduce((sum, val) => sum + (val === 1 ? 1 : 0), 0);
+        // totalInternal — количество ответов "ДА" (от 0 до 15)
+        // Вычисляем результат и интерпретацию
+        let resultType = '';
+        let title = '';
+        let description = '';
+        let adviceText = '';
+
+        if (totalInternal >= 0 && totalInternal <= 4) {
+            resultType = '⚓ Заложник обстоятельств';
+            title = 'Вы — в плену внешних сил';
+            description = `Ваш локус контроля ярко выражен как <strong>экстернальный</strong> (${totalInternal} из 15). 
+            Вы склонны считать, что ваши успехи и неудачи определяются судьбой, везением, влиятельными людьми или 
+            непреодолимыми обстоятельствами. Это часто ведёт к пассивности и ощущению бессилия.`;
+            adviceText = `🌟 <strong>Путь к самостоятельности:</strong> Начните с малого: фиксируйте 3 маленьких победы за день,
+            которые зависели именно от вас. Постепенно тренируйте внутреннюю ответственность, задавая вопрос: 
+            «Что я могу сделать прямо сейчас, чтобы изменить ситуацию?». Помните: опора на себя даёт свободу.`;
+        } 
+        else if (totalInternal >= 5 && totalInternal <= 7) {
+            resultType = '🌫️ Склонность к позиции заложника';
+            title = 'Вы часто зависите от обстоятельств';
+            description = `Ваш результат ${totalInternal} из 15. Вы склонны перекладывать ответственность на внешние факторы, 
+            хотя иногда способны взять ситуацию под контроль. Баланс смещён в сторону «жертвы обстоятельств», 
+            но потенциал для роста огромен.`;
+            adviceText = `💡 <strong>Рекомендация:</strong> Практикуйте осознанность: перед тем как обвинить удачу или других людей,
+            спросите себя: «На 10% я мог бы повлиять на это?». Постепенно увеличивайте зону своей ответственности — это укрепит 
+            внутренний локус контроля.`;
+        }
+        else if (totalInternal >= 8 && totalInternal <= 10) {
+            resultType = '⚖️ Гибкий баланс';
+            title = 'Вы — между авторством и зависимостью';
+            description = `Ваш результат ${totalInternal} из 15. Вы сочетаете черты «Хозяина» и «Заложника»: в одних сферах 
+            берёте на себя ответственность, в других полагаетесь на судьбу. Это адаптивно, но порой мешает полной реализации.`;
+            adviceText = `🔑 <strong>Как стать увереннее:</strong> Определите 2–3 области, где вы чувствуете себя бессильным,
+            и понемногу берите там инициативу. Укрепляя внутренний локус, вы усилите веру в собственные возможности.`;
+        }
+        else if (totalInternal >= 11 && totalInternal <= 13) {
+            resultType = '🌿 Склонность быть хозяином судьбы';
+            title = 'Вы уверенно идёте к авторству жизни';
+            description = `Ваш результат ${totalInternal} из 15. Вы преимущественно полагаетесь на свои силы, 
+            считаете, что ваши решения и усилия формируют будущее. Это качество — фундамент успеха и психологической устойчивости.`;
+            adviceText = `✨ <strong>Совет для роста:</strong> Продолжайте развивать рефлексию. Поддерживайте баланс, 
+            признавая, что есть объективные трудности, но ваша сила — в реакции на них. Делитесь своей уверенностью с близкими.`;
+        }
+        else { // 14-15
+            resultType = '👑 Абсолютный Хозяин судьбы';
+            title = 'Вы — автор собственной жизни';
+            description = `Поздравляем! ${totalInternal} из 15. У вас ярко выраженный <strong>интернальный локус контроля</strong>.
+            Вы берёте ответственность за всё, что с вами происходит, и верите, что ваши усилия меняют реальность. 
+            Это качество отличает лидеров и людей, добивающихся высоких результатов.`;
+            adviceText = `🚀 <strong>Ваш потенциал:</strong> Остерегайтесь перфекционизма — помните, что не всё зависит исключительно от вас.
+            Тем не менее, ваша жизненная позиция вдохновляет окружающих. Используйте свой локус как ресурс для достижения целей.`;
+        }
+
+        // Итоговое отображение с возможностью пройти заново
+        appRoot.innerHTML = `
+            <div class="screen result-screen">
+                <div class="result-card">
+                    <div class="result-title">
+                        <span>${resultType}</span>
+                    </div>
+                    <h3 style="margin-top: 0.2rem;">${title}</h3>
+                    <div class="result-desc">
+                        ${description}
+                        <br><br>
+                        <strong>📊 Ваш итог:</strong> ${totalInternal} из ${TOTAL_QS} ответов в пользу внутреннего локуса («Хозяин»).
+                    </div>
+                    <div class="advice">
+                        ${adviceText}
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button id="restartBtn" class="btn btn-secondary">🔄 Пройти тест заново</button>
+                </div>
+                <hr>
+                <div class="footer-note">
+                    🧠 Методика определения локуса контроля Дж. Роттера. Результат показывает вашу базовую тенденцию: 
+                    «интерналы» чаще добиваются успеха, «экстерналы» — нуждаются в развитии самостоятельности.
+                </div>
+            </div>
+        `;
+        document.getElementById('restartBtn')?.addEventListener('click', () => {
+            resetAndStart();
+        });
+    }
+
+    // вспомогательная функция для защиты от XSS (экранирование)
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+
+    // инициализация — стартовый экран
+    renderStartScreen();
+</script>
+</body>
+</html>

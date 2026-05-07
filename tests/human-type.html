@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Тест: Человек-Техника или Человек-Человек | Профессиональный склад (Климов)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(135deg, #cde3d9 0%, #b8cfc2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            padding: 1.5rem;
+        }
+        .test-container {
+            max-width: 760px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .test-card {
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 2rem;
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            border: 1px solid #bdd9ce;
+        }
+        .accent-header {
+            background: linear-gradient(105deg, #2c6e4f 0%, #468b67 100%);
+            padding: 1.8rem 2rem 1.5rem;
+            color: white;
+            text-align: center;
+        }
+        .accent-header h1 {
+            font-size: 1.9rem;
+            letter-spacing: -0.3px;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .accent-header p {
+            font-size: 0.95rem;
+            opacity: 0.92;
+            max-width: 90%;
+            margin: 0.5rem auto 0;
+        }
+        .content-panel {
+            padding: 2rem 2rem 2.2rem;
+        }
+        .welcome-text {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #254e3a;
+            background: #eff7f2;
+            padding: 1.3rem;
+            border-radius: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid #468b67;
+        }
+        .badge-info {
+            display: inline-block;
+            background: #e1f0e8;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #2c6e4f;
+            margin-bottom: 1rem;
+        }
+        .btn {
+            border: none;
+            background: #2c6e4f;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.9rem 1.8rem;
+            border-radius: 3rem;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+            max-width: 260px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background: #3f8b66;
+            box-shadow: 0 6px 14px rgba(44, 110, 79, 0.3);
+        }
+        .btn-primary:hover {
+            background: #2a5f46;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: #e4f3ec;
+            color: #2a5f46;
+            border: 1px solid #c5e0d3;
+        }
+        .btn-secondary:hover {
+            background: #d4e9df;
+        }
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+        }
+        .q-counter {
+            background: #e7f2ec;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #2c6e4f;
+        }
+        .progress-bar-bg {
+            background: #ddebe4;
+            border-radius: 20px;
+            height: 8px;
+            flex: 1;
+            min-width: 120px;
+        }
+        .progress-fill {
+            background: #468b67;
+            width: 0%;
+            height: 8px;
+            border-radius: 20px;
+            transition: width 0.2s ease;
+        }
+        .question-text {
+            font-size: 1.45rem;
+            font-weight: 500;
+            line-height: 1.4;
+            margin: 1.5rem 0 2rem;
+            color: #1e4433;
+        }
+        .option-buttons {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            margin: 1.2rem 0 0.5rem;
+        }
+        .answer-btn {
+            background: #f4faf7;
+            border: 1.5px solid #c5e0d3;
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            min-width: 120px;
+            color: #2a5f46;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .answer-btn.yes {
+            background: #e2f3ea;
+            border-color: #8fc2a8;
+        }
+        .answer-btn.no {
+            background: #f2f6f4;
+            border-color: #cbdcd2;
+        }
+        .answer-btn:hover {
+            transform: scale(0.97);
+            background: #d0e4d9;
+        }
+        .result-card {
+            background: #fefefc;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin: 1rem 0 1.8rem;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+        }
+        .result-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+        .type-badge {
+            display: inline-block;
+            background: #c8e2d6;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #1e5a41;
+            margin: 0.5rem 0;
+        }
+        .result-desc {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #2a4a3a;
+            margin: 1rem 0;
+        }
+        .advice {
+            background: #edf6f1;
+            padding: 1rem 1.2rem;
+            border-radius: 1.2rem;
+            margin-top: 1rem;
+            border-left: 4px solid #468b67;
+        }
+        .footer-note {
+            margin-top: 1.2rem;
+            font-size: 0.7rem;
+            text-align: center;
+            color: #6f9581;
+        }
+        hr {
+            margin: 1rem 0;
+            border: none;
+            height: 1px;
+            background: #deece4;
+        }
+        @media (max-width: 550px) {
+            .content-panel { padding: 1.5rem; }
+            .question-text { font-size: 1.2rem; }
+            .answer-btn { padding: 0.6rem 1rem; min-width: 100px; }
+        }
+    </style>
+</head>
+<body>
+<div class="test-container">
+    <div class="test-card">
+        <div class="accent-header">
+            <h1>🧰 Человек-Техника или Человек-Человек</h1>
+            <p>Ваш природный склад · типология профессий Е.А. Климова (ДДО)</p>
+        </div>
+        <div class="content-panel" id="klimovApp"></div>
+    </div>
+</div>
+
+<script>
+    // ========= ДИФФЕРЕНЦИАЛЬНО-ДИАГНОСТИЧЕСКИЙ ОПРОСНИК Е.А. КЛИМОВА =========
+    // 5 шкал: 
+    // Человек-Человек, Человек-Техника, Человек-Знаковая система, Человек-Художественный образ, Человек-Природа.
+    // По 8 вопросов на каждую шкалу (всего 40). Опросник определяет склонности.
+    // Пользователь отвечает "Да" (1 балл) или "Нет" (0) на каждое утверждение.
+    // Результат показывает максимальные баллы по типам, даёт описание и профессиональные советы.
+
+    const QUESTIONS = [
+        // Человек-Человек (0-7)
+        "Мне легко находить общий язык с новыми людьми.",
+        "Я люблю заботиться о других, помогать, обучать.",
+        "Мне нравится работа, связанная с постоянным общением (клиенты, ученики, пациенты).",
+        "Я чувствую настроение собеседника и умею его поддержать.",
+        "Ко мне часто обращаются за советом или помощью.",
+        "Работа с людьми приносит мне больше энергии, чем отнимает её.",
+        "Я умею разрешать конфликты и находить компромиссы.",
+        "Мне интересны мотивы и чувства других людей.",
+        // Человек-Техника (8-15)
+        "Мне нравится разбираться в устройстве техники (гаджеты, автомобили, механизмы).",
+        "Я легко осваиваю новые инструменты и программы.",
+        "Ремонт или сборка чего-либо доставляют мне удовольствие.",
+        "Я умею читать чертежи, схемы, инструкции к приборам.",
+        "Мне интересно, как работает двигатель, компьютер или бытовая техника.",
+        "Я предпочитаю работать с конкретными предметами, а не с людьми.",
+        "У меня хорошо развито техническое мышление.",
+        "Работа, связанная с эксплуатацией или ремонтом машин, мне близка.",
+        // Человек-Знаковая система (16-23)
+        "Мне легко работать с цифрами, таблицами, формулами.",
+        "Я люблю расшифровывать схемы, диаграммы, карты.",
+        "Программирование, бухгалтерия, работа с документами — это моё.",
+        "Я внимателен к деталям и символам, редко ошибаюсь в расчётах.",
+        "Мне нравится наводить порядок в данных, систематизировать информацию.",
+        "Я легко запоминаю условные обозначения и знаки.",
+        "Работа с текстами и числами не вызывает у меня скуки.",
+        "Я мог бы стать хорошим экономистом, программистом, корректором.",
+        // Человек-Художественный образ (24-31)
+        "Я люблю рисовать, писать стихи, музицировать, заниматься дизайном.",
+        "У меня развито воображение и чувство прекрасного.",
+        "Я получаю удовольствие, создавая красивые вещи своими руками.",
+        "Мне интересны выставки, театр, музыка, живопись.",
+        "Я могу придумать оригинальное оформление или идею для творчества.",
+        "Работа в сфере искусства, моды или дизайна привлекает меня.",
+        "Я вижу красоту там, где другие не замечают.",
+        "Мне важно самовыражаться через творчество.",
+        // Человек-Природа (32-39)
+        "Мне нравятся животные, и я умею за ними ухаживать.",
+        "Растения, сад, огород — это моя стихия.",
+        "Я люблю наблюдать за природными явлениями и изучать биологию.",
+        "Работа с землёй, растениями или животными приносит мне радость.",
+        "Я легко замечаю изменения в природе, чувствую погоду.",
+        "Мне интересна медицина, экология, сельское хозяйство.",
+        "Я готов ухаживать за больными растениями или животными.",
+        "Я чувствую связь с природой и предпочитаю работать на свежем воздухе."
+    ];
+
+    const SCALES = [
+        "Человек-Человек",
+        "Человек-Техника",
+        "Человек-Знаковая система",
+        "Человек-Художественный образ",
+        "Человек-Природа"
+    ];
+
+    const TOTAL_QS = 40;
+    let currentIndex = 0;
+    let answers = new Array(TOTAL_QS).fill(null); // 1 = да, 0 = нет
+    let testActive = false;
+    const appRoot = document.getElementById('klimovApp');
+
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    function renderStart() {
+        appRoot.innerHTML = `
+            <div class="screen welcome-screen">
+                <div class="badge-info">🌱 академическая основа: ДДО Е.А. Климова</div>
+                <div class="welcome-text">
+                    <strong>Самый короткий и честный путь понять, стоит ли вам сидеть в офисе с бумагами или работать руками и создавать что-то реальное.</strong><br><br>
+                    Этот тест поможет определить ваш природный склад к одному из пяти типов профессий: человек-человек, человек-техника, человек-знак, человек-художественный образ или человек-природа.<br><br>
+                    Ответьте «да» или «нет» на 40 утверждений — выбирайте то, что ближе именно вам. Результат подскажет ваши сильные стороны и лучшие направления для работы.
+                </div>
+                <div class="btn-group">
+                    <button id="startKlimovBtn" class="btn btn-primary">🌿 Узнать свой тип</button>
+                </div>
+                <div class="footer-note">Тест профессиональной склонности. Без правильных ответов — только ваша уникальность.</div>
+            </div>
+        `;
+        document.getElementById('startKlimovBtn')?.addEventListener('click', () => {
+            resetTest();
+        });
+    }
+
+    function resetTest() {
+        currentIndex = 0;
+        answers = new Array(TOTAL_QS).fill(null);
+        testActive = true;
+        renderQuestion();
+    }
+
+    function renderQuestion() {
+        if (!testActive) return;
+        if (currentIndex >= TOTAL_QS) {
+            computeResults();
+            return;
+        }
+        const qText = QUESTIONS[currentIndex];
+        const answeredCount = answers.filter(v => v !== null).length;
+        const percent = (answeredCount / TOTAL_QS) * 100;
+
+        appRoot.innerHTML = `
+            <div class="screen question-screen">
+                <div class="question-header">
+                    <div class="q-counter">Вопрос ${currentIndex+1} из ${TOTAL_QS}</div>
+                    <div class="progress-bar-bg"><div class="progress-fill" style="width: ${percent}%;"></div></div>
+                </div>
+                <div class="question-text">${escapeHtml(qText)}</div>
+                <div class="option-buttons">
+                    <button class="answer-btn yes" data-ans="1">✅ Да</button>
+                    <button class="answer-btn no" data-ans="0">❌ Нет</button>
+                </div>
+                <div class="footer-note" style="margin-top: 1.8rem;">✨ отвечайте интуитивно — это самый точный способ</div>
+            </div>
+        `;
+        const yesBtn = document.querySelector('.answer-btn.yes');
+        const noBtn = document.querySelector('.answer-btn.no');
+        if (yesBtn) {
+            yesBtn.addEventListener('click', () => {
+                if (answers[currentIndex] !== null) return;
+                answers[currentIndex] = 1;
+                moveNext();
+            });
+        }
+        if (noBtn) {
+            noBtn.addEventListener('click', () => {
+                if (answers[currentIndex] !== null) return;
+                answers[currentIndex] = 0;
+                moveNext();
+            });
+        }
+    }
+
+    function moveNext() {
+        if (currentIndex + 1 < TOTAL_QS) {
+            currentIndex++;
+            renderQuestion();
+        } else {
+            computeResults();
+        }
+    }
+
+    function computeResults() {
+        testActive = false;
+        let scores = [0, 0, 0, 0, 0]; // для 5 шкал
+        for (let i = 0; i < TOTAL_QS; i++) {
+            let scaleIdx = Math.floor(i / 8); // 0..4
+            if (answers[i] === 1) scores[scaleIdx]++;
+        }
+        // максимальный балл по шкале = 8
+        // найдём максимальные значения (может быть несколько ведущих)
+        let maxScore = Math.max(...scores);
+        let topScales = [];
+        for (let i = 0; i < scores.length; i++) {
+            if (scores[i] === maxScore) topScales.push(i);
+        }
+        
+        // если несколько типов набрали одинаковый максимум (например, 6 и 6) — покажем комбинацию
+        let primaryType = "";
+        let description = "";
+        let careerTips = "";
+        
+        // Функция генерации описания для одного или двух типов
+        function getDescriptionForType(typeIdx, score, isPrimary=true) {
+            let base = "";
+            if (typeIdx === 0) { // человек-человек
+                base = "ваша стихия — общение, помощь, обучение, работа с людьми. Вы эмпатичны, умеете находить подход, заряжаетесь от контактов. ✅ подходящие профессии: учитель, врач, психолог, менеджер по работе с клиентами, HR, социальный работник, продажи, коуч.";
+            } else if (typeIdx === 1) { // техника
+                base = "ваш склад — техника, механизмы, ремонт, конструирование. Вы любите разбираться в устройстве вещей, практичны и технически подкованы. ✅ направления: инженер, механик, водитель, IT-специалист, электромонтёр, сварщик, технолог, пилот.";
+            } else if (typeIdx === 2) { // знаковая система
+                base = "ваша сила — знаки, цифры, символы, тексты. Вы внимательны к деталям, хорошо систематизируете информацию, точны в расчётах. ✅ профессии: программист, бухгалтер, экономист, аналитик, корректор, переводчик, нотариус, архивариус.";
+            } else if (typeIdx === 3) { // художественный образ
+                base = "вам близко творчество, искусство, самовыражение. Вы видите красоту, любите создавать новое, у вас развито воображение. ✅ сферы: дизайнер, художник, музыкант, актёр, фотограф, архитектор, писатель, режиссёр, стилист.";
+            } else { // природа
+                base = "ваша стихия — природа, животные, растения, биология. Вы наблюдательны, бережны, любите работать на свежем воздухе. ✅ направления: ветеринар, агроном, эколог, биолог, лесник, садовник, кинолог, геолог, фермер.";
+            }
+            return base;
+        }
+        
+        if (topScales.length === 1) {
+            let idx = topScales[0];
+            primaryType = SCALES[idx];
+            let baseDesc = getDescriptionForType(idx, scores[idx]);
+            description = `Ваш ведущий тип: <strong>${primaryType}</strong>. ${baseDesc}<br><br>Вы набрали ${scores[idx]} из 8 баллов по этой шкале. Это значит, что вам комфортно реализовываться именно в этой сфере.`;
+            careerTips = `💡 совет: попробуйте проекты или подработку в этой области — скорее всего, они принесут удовольствие и успех. Даже если сейчас вы работаете в другом месте, ваши природные склонности можно развивать как хобби или постепенно менять профессию.`;
+        } else {
+            // несколько ведущих типов (до 3 шт)
+            let combined = topScales.map(i => SCALES[i]).join(" и ");
+            primaryType = combined;
+            let combinedDesc = "";
+            for (let i = 0; i < topScales.length; i++) {
+                let idx = topScales[i];
+                combinedDesc += `<strong>${SCALES[idx]}</strong> (${scores[idx]}/8) — ${getDescriptionForType(idx, scores[idx], false).substring(0, 120)}...<br><br>`;
+            }
+            description = `У вас ярко выражено несколько природных складов: ${combined}. Это говорит о многогранности — вы можете успешно сочетать разные виды деятельности.<br><br>${combinedDesc}`;
+            careerTips = `🌟 вы — универсал или человек с комплексными способностями. Ищите профессии на стыке сфер: например, UX/дизайнер (человек-знак + художественный образ), менеджер в IT (человек-человек + техника), эко-просветитель (природа + человек). Такие специалисты очень востребованы!`;
+        }
+        
+        // Построим также всех 5 шкал для наглядности
+        let allScalesHtml = "";
+        for (let i=0; i<SCALES.length; i++) {
+            let percent = (scores[i]/8)*100;
+            allScalesHtml += `
+                <div style="margin-bottom: 0.6rem;">
+                    <div style="display: flex; justify-content: space-between; font-size:0.85rem;"><span>${SCALES[i]}</span><span>${scores[i]}/8</span></div>
+                    <div style="background:#e1efe8; border-radius: 20px; height: 6px;"><div style="width:${percent}%; background:#2c6e4f; height:6px; border-radius:20px;"></div></div>
+                </div>
+            `;
+        }
+        
+        appRoot.innerHTML = `
+            <div class="screen result-screen">
+                <div class="result-card">
+                    <div class="result-title">🧭 Ваш природный профессиональный склад</div>
+                    <div class="type-badge">ведущий тип: ${primaryType}</div>
+                    <div class="result-desc">
+                        ${description}
+                    </div>
+                    <div style="margin: 1rem 0;">
+                        <strong>📊 ваши склонности по всем типам:</strong>
+                        <div style="margin-top: 0.5rem;">${allScalesHtml}</div>
+                    </div>
+                    <div class="advice">
+                        ${careerTips}
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button id="restartKlimovBtn" class="btn btn-secondary">🔄 Пройти заново</button>
+                </div>
+                <hr>
+                <div class="footer-note">
+                    📚 Методика Е.А. Климова помогает выбрать профессиональный путь с опорой на врожденные предпочтения. Помните: любой тип может быть успешным.
+                </div>
+            </div>
+        `;
+        document.getElementById('restartKlimovBtn')?.addEventListener('click', () => {
+            resetTest();
+        });
+    }
+
+    renderStart();
+</script>
+</body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Тест: Цвет вашего настроения | Цветовой тест Люшера</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(145deg, #e3dee8 0%, #cbc4d6 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            padding: 1.5rem;
+        }
+        .test-container {
+            max-width: 950px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .test-card {
+            background: #fffefc;
+            border-radius: 2rem;
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            border: 1px solid #cfc3dc;
+        }
+        .accent-header {
+            background: linear-gradient(105deg, #5e4b6e 0%, #836e9b 100%);
+            padding: 1.6rem 2rem;
+            color: white;
+            text-align: center;
+        }
+        .accent-header h1 {
+            font-size: 1.8rem;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .accent-header p {
+            font-size: 0.9rem;
+            opacity: 0.95;
+            margin-top: 0.3rem;
+        }
+        .content-panel {
+            padding: 2rem;
+        }
+        .badge-info {
+            background: #ede7f3;
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #5e4b6e;
+            margin-bottom: 1rem;
+        }
+        .welcome-text {
+            background: #f9f6fc;
+            padding: 1rem;
+            border-radius: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: #3c2e47;
+        }
+        .btn {
+            background: #5e4b6e;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 3rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-primary {
+            background: #7a6396;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .btn-primary:hover {
+            background: #5e4b6e;
+            transform: translateY(-2px);
+        }
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .color-card {
+            aspect-ratio: 1 / 1;
+            border-radius: 1.2rem;
+            cursor: pointer;
+            transition: 0.1s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border: 3px solid transparent;
+        }
+        .color-card:hover {
+            transform: scale(0.97);
+            filter: brightness(0.96);
+        }
+        .color-card.selected {
+            border-color: #2c2c2c;
+            box-shadow: 0 0 0 2px #fff, 0 0 0 4px #5e4b6e;
+        }
+        .selection-order {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin: 1rem 0;
+            min-height: 70px;
+            background: #f3eff7;
+            border-radius: 1.2rem;
+            padding: 0.8rem;
+            align-items: center;
+        }
+        .order-chip {
+            background: white;
+            border-radius: 2rem;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .color-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        .reset-btn {
+            background: #e2d9ec;
+            color: #5e4b6e;
+            border: none;
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .result-card {
+            background: #fffdf9;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+        .interpretation {
+            background: #f7f2fc;
+            padding: 1rem;
+            border-radius: 1rem;
+            margin: 1rem 0;
+            border-left: 5px solid #9b86b3;
+        }
+        .footer-note {
+            margin-top: 1rem;
+            font-size: 0.7rem;
+            text-align: center;
+            color: #8a78a4;
+        }
+        .btn-small {
+            background: #e0d6ea;
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            cursor: pointer;
+        }
+        @media (max-width: 550px) {
+            .content-panel { padding: 1.2rem; }
+            .color-palette { gap: 0.6rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="test-container">
+    <div class="test-card">
+        <div class="accent-header">
+            <h1>🎨 Цвет вашего настроения</h1>
+            <p>о чем молчит ваш разум · цветовой тест Люшера</p>
+        </div>
+        <div class="content-panel" id="luescherApp"></div>
+    </div>
+</div>
+
+<script>
+    // Цветовой тест Люшера (краткая версия, 8 цветов)
+    // Цвета: синий, зеленый, красный, желтый, фиолетовый, коричневый, серый, черный.
+    // Последовательность выбора интерпретируется.
+    const COLORS = [
+        { name: "Синий", code: "#2c6e9e", meaning: "глубина, покой, удовлетворенность, потребность в эмоциональной привязанности" },
+        { name: "Зеленый", code: "#4c9a5e", meaning: "уверенность, сопротивление, самоутверждение, потребность в признании" },
+        { name: "Красный", code: "#d64531", meaning: "активность, воля, желание достижений, энергия" },
+        { name: "Желтый", code: "#e5b82e", meaning: "открытость, радость, надежда, потребность в переменах" },
+        { name: "Фиолетовый", code: "#9b6fa3", meaning: "чувствительность, интуиция, фантазия, эмоциональная зрелость" },
+        { name: "Коричневый", code: "#8b5a2b", meaning: "телесный комфорт, потребность в безопасности, усталость" },
+        { name: "Серый", code: "#8c8f94", meaning: "нейтральность, невовлеченность, желание спрятаться" },
+        { name: "Черный", code: "#333333", meaning: "протест, страх, подавленность, отказ от осознания" }
+    ];
+    
+    let selectedOrder = []; // индексы цветов в порядке выбора
+    let availableIndices = [0,1,2,3,4,5,6,7];
+    let testComplete = false;
+    const appRoot = document.getElementById('luescherApp');
+    
+    function renderStart() {
+        appRoot.innerHTML = `
+            <div class="badge-info">🎭 без сложных вопросов, только выбор цвета</div>
+            <div class="welcome-text">
+                <strong>За 5 минут покажет ваш уровень стресса и истинные желания, которые вы, возможно, скрываете даже от себя.</strong><br><br>
+                Перед вами 8 цветов. Кликайте на них по порядку — сначала на самый приятный для вас цвет, затем на самый приятный из оставшихся, и так далее. Не думайте слишком долго, доверьтесь первому импульсу.<br>
+                После выбора всех цветов вы получите расшифровку вашего актуального состояния, скрытых потребностей и уровня стресса.
+            </div>
+            <button id="startTestBtn" class="btn btn-primary">🎨 Начать выбор цветов</button>
+            <div class="footer-note">методика М. Люшера, адаптированная для самопознания</div>
+        `;
+        document.getElementById('startTestBtn')?.addEventListener('click', () => {
+            selectedOrder = [];
+            availableIndices = [0,1,2,3,4,5,6,7];
+            testComplete = false;
+            renderColorSelection();
+        });
+    }
+    
+    function renderColorSelection() {
+        // отображаем все цвета, но уже выбранные становятся полупрозрачными или disabled
+        // более правильно: показываем все, но клик по уже выбранному игнорируем, либо удалить из сетки.
+        // Для удобства: выбранные цвета перемещаются в верхнюю полосу выбранного порядка.
+        const remainingColors = COLORS.filter((_, idx) => availableIndices.includes(idx));
+        const colorsHtml = remainingColors.map((c, mapIdx) => {
+            const originalIdx = COLORS.findIndex(col => col.name === c.name);
+            return `<div class="color-card" data-idx="${originalIdx}" style="background: ${c.code};"></div>`;
+        }).join('');
+        
+        const orderHtml = selectedOrder.map((idx, pos) => {
+            const col = COLORS[idx];
+            return `<div class="order-chip"><div class="color-dot" style="background: ${col.code};"></div> ${pos+1}. ${col.name}</div>`;
+        }).join('');
+        
+        appRoot.innerHTML = `
+            <div class="selection-order">
+                ${orderHtml || '<span style="color:#9381a8;">порядок выбора цветов:</span>'}
+            </div>
+            <div class="color-palette" id="colorPalette">
+                ${colorsHtml}
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                <button id="resetSelectionBtn" class="reset-btn">⟳ Начать заново</button>
+                ${selectedOrder.length === 8 ? '<button id="getResultBtn" class="btn-primary" style="background:#7a6396; padding:0.5rem 1.2rem;">✨ Узнать результат</button>' : ''}
+            </div>
+            <div class="footer-note">кликайте на цвета в порядке убывания предпочтения (сначала самый приятный)</div>
+        `;
+        
+        if (selectedOrder.length === 8) {
+            document.getElementById('getResultBtn')?.addEventListener('click', () => {
+                computeResult();
+            });
+        }
+        
+        document.getElementById('resetSelectionBtn')?.addEventListener('click', () => {
+            selectedOrder = [];
+            availableIndices = [0,1,2,3,4,5,6,7];
+            renderColorSelection();
+        });
+        
+        // добавляем обработчики на цветные карточки
+        const colorCards = document.querySelectorAll('.color-card');
+        colorCards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                if (selectedOrder.length === 8) return;
+                const idx = parseInt(card.getAttribute('data-idx'));
+                if (availableIndices.includes(idx)) {
+                    selectedOrder.push(idx);
+                    availableIndices = availableIndices.filter(i => i !== idx);
+                    renderColorSelection();
+                }
+            });
+        });
+    }
+    
+    function computeResult() {
+        // Интерпретация по Люшеру: позиции 1-2 (основные цели), 3-4 (актуальное состояние), 5-6 (безразличные), 7-8 (подавленные потребности, стресс)
+        const order = selectedOrder;
+        
+        const getColorName = (idx) => COLORS[idx].name;
+        const getMeaning = (idx) => COLORS[idx].meaning;
+        
+        const firstTwo = order.slice(0,2).map(i => COLORS[i]);
+        const activeState = order.slice(2,4).map(i => COLORS[i]);
+        const indifferent = order.slice(4,6).map(i => COLORS[i]);
+        const rejected = order.slice(6,8).map(i => COLORS[i]);
+        
+        // Анализ стресса: если в первых позициях присутствуют серый, коричневый, черный — признаки стресса.
+        // Также если основные цвета (синий, зеленый, красный, желтый) находятся в последних позициях — напряжение.
+        const stressIndicators = [];
+        if (order.indexOf(6) < 2 || order.indexOf(5) < 2 || order.indexOf(7) < 2) {
+            stressIndicators.push("Вы выбрали нейтральные или тёмные цвета (серый, коричневый, чёрный) среди самых предпочтительных — это может говорить о внутреннем напряжении, усталости или потребности в защите.");
+        }
+        if (order.indexOf(0) >= 6 || order.indexOf(1) >= 6 || order.indexOf(2) >= 6 || order.indexOf(3) >= 6) {
+            stressIndicators.push("Основные цвета (синий, зелёный, красный, жёлтый) оказались в конце выбора — вы можете испытывать разочарование, подавленность или нехватку эмоциональных ресурсов.");
+        }
+        if (order.indexOf(4) < 3 && order.indexOf(4) > -1) {
+            stressIndicators.push("Фиолетовый на ранней позиции — чувствительность, поиск глубины, возможно, избегание реальности.");
+        }
+        
+        let stressLevel = "низкий";
+        if (stressIndicators.length >= 2) stressLevel = "высокий";
+        else if (stressIndicators.length === 1) stressLevel = "средний";
+        
+        let desireInterpretation = "";
+        // о чём говорят первые два цвета
+        if (firstTwo.length === 2) {
+            desireInterpretation = `Ваше подсознание стремится к: ${firstTwo[0].name.toLowerCase()} (${firstTwo[0].meaning.split(',')[0]}) и ${firstTwo[1].name.toLowerCase()} (${firstTwo[1].meaning.split(',')[0]}). Это ведущие мотивы.`;
+        }
+        
+        let stateHtml = `Актуальное состояние: ${activeState.map(c => c.name.toLowerCase()).join(' и ')}. ${activeState.map(c => c.meaning.split('.')[0]).join('. ')}.`;
+        let suppressedHtml = `Подавленные потребности: ${rejected.map(c => c.name.toLowerCase()).join(', ')}. Эти аспекты вы сейчас игнорируете или они вызывают дискомфорт.`;
+        
+        let generalAdvice = "";
+        if (stressLevel === "высокий") {
+            generalAdvice = "Ваш уровень психологического напряжения повышен. Обратите внимание на отдых, сбалансируйте нагрузку. Техники релаксации и разговор с близкими помогут снизить тревогу.";
+        } else if (stressLevel === "средний") {
+            generalAdvice = "У вас есть некоторые зоны напряжения, но в целом состояние стабильно. Прислушайтесь к сигналам тела и позвольте себе небольшие паузы.";
+        } else {
+            generalAdvice = "Ваше эмоциональное состояние гармонично. Вы хорошо осознаёте свои желания. Поддерживайте этот баланс, оставаясь честным с собой.";
+        }
+        
+        appRoot.innerHTML = `
+            <div class="result-card">
+                <span class="badge-info">🌈 интерпретация по Люшеру</span>
+                <h3 style="margin: 0.5rem 0;">О чем рассказали ваши цвета</h3>
+                <div class="interpretation">
+                    <strong>🎯 Ваши истинные желания:</strong> ${desireInterpretation}<br><br>
+                    <strong>😌 Текущее состояние:</strong> ${stateHtml}<br><br>
+                    <strong>🔒 Скрытые потребности:</strong> ${suppressedHtml}<br><br>
+                    <strong>⚠️ Индикаторы стресса:</strong> ${stressIndicators.length ? stressIndicators.join(' ') : 'не выражены. Вы чувствуете себя достаточно спокойно.'}<br>
+                    <strong>📊 Уровень стресса:</strong> ${stressLevel === "высокий" ? "🔴 высокий" : (stressLevel === "средний" ? "🟡 средний" : "🟢 низкий")}
+                </div>
+                <div style="background: #f3eef9; border-radius: 1rem; padding: 0.8rem; margin: 1rem 0;">
+                    <strong>💡 Рекомендация:</strong> ${generalAdvice}
+                </div>
+                <details style="margin: 0.5rem 0;">
+                    <summary style="cursor:pointer; color:#5e4b6e; font-weight:500;">📖 Подробнее о значениях цветов</summary>
+                    <div style="margin-top:0.5rem; font-size:0.85rem;">
+                        ${COLORS.map(c => `<div><span style="display:inline-block; width:20px; height:20px; background:${c.code}; border-radius:20px; vertical-align:middle; margin-right:8px;"></span> <strong>${c.name}</strong> — ${c.meaning}</div>`).join('')}
+                    </div>
+                </details>
+                <button id="restartLuscherBtn" class="btn-small" style="background:#d9cdeb; color:#5e4b6e;">🔄 Пройти тест заново</button>
+            </div>
+            <div class="footer-note">Тест не является медицинским диагнозом и помогает лучше понять своё эмоциональное состояние.</div>
+        `;
+        document.getElementById('restartLuscherBtn')?.addEventListener('click', () => {
+            renderStart();
+        });
+    }
+    
+    renderStart();
+</script>
+</body>
+</html>

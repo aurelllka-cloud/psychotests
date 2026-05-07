@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Тест: Идеальная работа | Профессиональный тип личности (Холланд)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(145deg, #f7f0e6 0%, #e8dbce 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            padding: 1.5rem;
+        }
+        .test-container {
+            max-width: 760px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .test-card {
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 2rem;
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            border: 1px solid #e2cfbc;
+        }
+        .accent-header {
+            background: linear-gradient(105deg, #d68c45 0%, #e2a56a 100%);
+            padding: 1.8rem 2rem 1.5rem;
+            color: white;
+            text-align: center;
+        }
+        .accent-header h1 {
+            font-size: 1.9rem;
+            letter-spacing: -0.3px;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .accent-header p {
+            font-size: 0.95rem;
+            opacity: 0.92;
+            max-width: 90%;
+            margin: 0.5rem auto 0;
+        }
+        .content-panel {
+            padding: 2rem 2rem 2.2rem;
+        }
+        .welcome-text {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #5a3a24;
+            background: #fffaf5;
+            padding: 1.3rem;
+            border-radius: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid #e2a56a;
+        }
+        .badge-info {
+            display: inline-block;
+            background: #f6ece2;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #c57234;
+            margin-bottom: 1rem;
+        }
+        .btn {
+            border: none;
+            background: #d68c45;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.9rem 1.8rem;
+            border-radius: 3rem;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+            max-width: 260px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background: #e09d5e;
+            box-shadow: 0 6px 14px rgba(210, 120, 50, 0.3);
+        }
+        .btn-primary:hover {
+            background: #c47a3a;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: #f2e8df;
+            color: #9b5f2f;
+            border: 1px solid #e2cfbc;
+        }
+        .btn-secondary:hover {
+            background: #e8dad0;
+        }
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+        }
+        .q-counter {
+            background: #f3e8df;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #c57234;
+        }
+        .progress-bar-bg {
+            background: #ece0d5;
+            border-radius: 20px;
+            height: 8px;
+            flex: 1;
+            min-width: 120px;
+        }
+        .progress-fill {
+            background: #e2a56a;
+            width: 0%;
+            height: 8px;
+            border-radius: 20px;
+            transition: width 0.2s ease;
+        }
+        .question-text {
+            font-size: 1.45rem;
+            font-weight: 500;
+            line-height: 1.4;
+            margin: 1.5rem 0 2rem;
+            color: #4f2f19;
+        }
+        .option-buttons {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            margin: 1.2rem 0 0.5rem;
+        }
+        .answer-btn {
+            background: #fef8f2;
+            border: 1.5px solid #e0ccbb;
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            min-width: 120px;
+            color: #7e4d28;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .answer-btn.yes {
+            background: #fff0e4;
+            border-color: #e2b48c;
+        }
+        .answer-btn.no {
+            background: #fef5ed;
+            border-color: #dccbbb;
+        }
+        .answer-btn:hover {
+            transform: scale(0.97);
+            background: #f1e2d6;
+        }
+        .result-card {
+            background: #fffcf9;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin: 1rem 0 1.8rem;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+        }
+        .result-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+        .type-block {
+            background: #fef2e9;
+            border-radius: 1.2rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        .type-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #c57234;
+        }
+        .score-badge {
+            display: inline-block;
+            background: #f2dbc8;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+        }
+        .result-desc {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #4e351f;
+            margin: 1rem 0;
+        }
+        .advice {
+            background: #fef3ea;
+            padding: 1rem 1.2rem;
+            border-radius: 1.2rem;
+            margin-top: 1rem;
+            border-left: 4px solid #e2a56a;
+        }
+        .footer-note {
+            margin-top: 1.2rem;
+            font-size: 0.7rem;
+            text-align: center;
+            color: #a57a58;
+        }
+        hr {
+            margin: 1rem 0;
+            border: none;
+            height: 1px;
+            background: #f0e2d6;
+        }
+        @media (max-width: 550px) {
+            .content-panel { padding: 1.5rem; }
+            .question-text { font-size: 1.2rem; }
+            .answer-btn { padding: 0.6rem 1rem; min-width: 100px; }
+        }
+    </style>
+</head>
+<body>
+<div class="test-container">
+    <div class="test-card">
+        <div class="accent-header">
+            <h1>🎯 Идеальная работа</h1>
+            <p>найди свой профессиональный тип личности · типология Дж. Холланда (RIASEC)</p>
+        </div>
+        <div class="content-panel" id="hollandApp"></div>
+    </div>
+</div>
+
+<script>
+    // ========= ТЕСТ ДЖ. ХОЛЛАНДА (RIASEC) =========
+    // 6 типов: 
+    // R (Реалистичный) – практичность, техника, руки
+    // I (Исследовательский) – аналитика, наука, решение проблем
+    // A (Артистичный) – творчество, самовыражение, искусство
+    // S (Социальный) – общение, помощь, обучение
+    // E (Предприимчивый) – лидерство, убеждение, бизнес
+    // C (Конвенциональный) – порядок, структура, данные/документы
+    // 30 вопросов (по 5 на каждый тип). Ответ "Да" +1 балл.
+    // Результат: ведущий тип и краткое описание + рекомендации.
+
+    const QUESTIONS_DATA = [
+        // Реалистичный (R) – 0-4
+        "Люблю работать руками: ремонтировать, мастерить, собирать.",
+        "Мне нравятся физические, практические задачи (строительство, вождение, ремонт).",
+        "Я предпочитаю использовать инструменты, машины, а не общаться с людьми целый день.",
+        "Мне интересно, как устроены вещи (техника, электроника, автомобили).",
+        "Я получаю удовольствие от работы на открытом воздухе или в цеху.",
+        // Исследовательский (I) – 5-9
+        "Я люблю решать сложные задачи и головоломки.",
+        "Мне нравится изучать научные теории, проводить эксперименты.",
+        "Анализ данных, поиск закономерностей — это моё.",
+        "Я хотел(а) бы работать в области науки, исследований, IT или разработки.",
+        "Я часто задаюсь вопросом «почему» и ищу ответы на сложные вопросы.",
+        // Артистичный (A) – 10-14
+        "Я люблю рисовать, писать, сочинять музыку, танцевать или заниматься дизайном.",
+        "Мне важно самовыражаться через творчество.",
+        "Я часто придумываю оригинальные идеи и нестандартный подход.",
+        "Мне нравятся театр, литература, искусство, мода или фотосъёмка.",
+        "Я стремлюсь создавать красивые, необычные вещи, даже в обычной работе.",
+        // Социальный (S) – 15-19
+        "Мне нравится помогать людям, учить их, поддерживать.",
+        "Я легко нахожу общий язык с незнакомцами.",
+        "Работа с клиентами, учениками, пациентами — это моё призвание.",
+        "Я ценю тёплую, дружелюбную атмосферу в команде.",
+        "Мне важно, чтобы моя работа приносила пользу другим.",
+        // Предприимчивый (E) – 20-24
+        "Я люблю руководить, организовывать, убеждать других.",
+        "Меня привлекает бизнес, продажи, стартапы и достижение результатов.",
+        "Я готов рисковать ради выгоды и успеха.",
+        "Мне нравится влиять на людей, вести переговоры.",
+        "Я хотел(а) бы построить карьеру в управлении или предпринимательстве.",
+        // Конвенциональный (C) – 25-29
+        "Я люблю порядок, структуру, чёткие инструкции.",
+        "Мне нравится работать с цифрами, базами данных, документацией.",
+        "Я аккуратен и педантичен, следую правилам и регламентам.",
+        "Мне комфортна офисная работа с предсказуемыми задачами.",
+        "Я хорошо распределяю время и люблю систематизировать информацию."
+    ];
+
+    const TOTAL_QS = 30;
+    const TYPES = [
+        { name: "Реалистичный (Рукотворный)", key: "R", color: "#8bac7e" },
+        { name: "Исследовательский (Аналитик)", key: "I", color: "#6c91b0" },
+        { name: "Артистичный (Творец)", key: "A", color: "#d4946a" },
+        { name: "Социальный (Помощник)", key: "S", color: "#d9b48b" },
+        { name: "Предприимчивый (Лидер)", key: "E", color: "#c45c3a" },
+        { name: "Конвенциональный (Организатор)", key: "C", color: "#9ba0a6" }
+    ];
+
+    let currentIndex = 0;
+    let answers = new Array(TOTAL_QS).fill(null); // 1 = да, 0 = нет
+    let testActive = false;
+    const appRoot = document.getElementById('hollandApp');
+
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    function renderStart() {
+        appRoot.innerHTML = `
+            <div class="screen welcome-screen">
+                <div class="badge-info">📚 академическая основа: теория профессиональных типов Дж. Холланда (RIASEC)</div>
+                <div class="welcome-text">
+                    <strong>Бестселлер среди подростков, выбирающих вуз, и взрослых, думающих о смене карьеры.</strong><br><br>
+                    Тест делит мир профессий на 6 простых типов: Реалистичный, Исследовательский, Артистичный, Социальный, Предприимчивый и Конвенциональный.<br><br>
+                    Ответьте «да» или «нет» на 30 утверждений — узнайте свой ведущий тип, который раскроет ваши сильные стороны и подходящую работу.
+                </div>
+                <div class="btn-group">
+                    <button id="startHollandBtn" class="btn btn-primary">✨ Найти свой тип</button>
+                </div>
+                <div class="footer-note">Тест профессиональной ориентации. Результаты помогут выбрать вуз, профессию или направление развития.</div>
+            </div>
+        `;
+        document.getElementById('startHollandBtn')?.addEventListener('click', () => {
+            resetTest();
+        });
+    }
+
+    function resetTest() {
+        currentIndex = 0;
+        answers = new Array(TOTAL_QS).fill(null);
+        testActive = true;
+        renderQuestion();
+    }
+
+    function renderQuestion() {
+        if (!testActive) return;
+        if (currentIndex >= TOTAL_QS) {
+            computeResult();
+            return;
+        }
+        const qText = QUESTIONS_DATA[currentIndex];
+        const answeredCount = answers.filter(v => v !== null).length;
+        const percent = (answeredCount / TOTAL_QS) * 100;
+
+        appRoot.innerHTML = `
+            <div class="screen question-screen">
+                <div class="question-header">
+                    <div class="q-counter">Вопрос ${currentIndex+1} из ${TOTAL_QS}</div>
+                    <div class="progress-bar-bg"><div class="progress-fill" style="width: ${percent}%;"></div></div>
+                </div>
+                <div class="question-text">${escapeHtml(qText)}</div>
+                <div class="option-buttons">
+                    <button class="answer-btn yes" data-ans="1">✅ Да</button>
+                    <button class="answer-btn no" data-ans="0">❌ Нет</button>
+                </div>
+                <div class="footer-note" style="margin-top: 1.8rem;">🎯 выбирайте то, что ближе вам, не задумываясь подолгу</div>
+            </div>
+        `;
+        const yesBtn = document.querySelector('.answer-btn.yes');
+        const noBtn = document.querySelector('.answer-btn.no');
+        if (yesBtn) {
+            yesBtn.addEventListener('click', () => {
+                if (answers[currentIndex] !== null) return;
+                answers[currentIndex] = 1;
+                moveNext();
+            });
+        }
+        if (noBtn) {
+            noBtn.addEventListener('click', () => {
+                if (answers[currentIndex] !== null) return;
+                answers[currentIndex] = 0;
+                moveNext();
+            });
+        }
+    }
+
+    function moveNext() {
+        if (currentIndex + 1 < TOTAL_QS) {
+            currentIndex++;
+            renderQuestion();
+        } else {
+            computeResult();
+        }
+    }
+
+    function computeResult() {
+        testActive = false;
+        let scores = [0, 0, 0, 0, 0, 0]; // R, I, A, S, E, C
+        for (let i = 0; i < TOTAL_QS; i++) {
+            let typeIdx = Math.floor(i / 5);
+            if (answers[i] === 1) scores[typeIdx]++;
+        }
+        // максимальное значение
+        let maxScore = Math.max(...scores);
+        let topIndices = [];
+        for (let i = 0; i < scores.length; i++) {
+            if (scores[i] === maxScore) topIndices.push(i);
+        }
+        let primaryTypeIdx = topIndices[0];
+        let primaryType = TYPES[primaryTypeIdx];
+        
+        // Описание типа
+        let description = "";
+        let careerList = "";
+        let advice = "";
+        
+        switch(primaryTypeIdx) {
+            case 0: // R
+                description = "Вы — практик, мастер на все руки. Любите работать с техникой, инструментами, создавать и ремонтировать. Цените конкретный результат, терпеливы к физическому труду. Предпочитаете ясные задачи, а не абстрактные теории.";
+                careerList = "инженер, механик, электрик, строитель, водитель, программист (hardware), столяр, сварщик, техник, фермер, автомеханик, IT-специалист (сетевой инженер).";
+                advice = "вам подойдут профессии, где нужно руками создавать или обслуживать что-то реальное. Обратите внимание на технические специальности, ремесленные мастерские, производство. Избегайте работы с большим объёмом бумаг и людей.";
+                break;
+            case 1: // I
+                description = "Вы — исследователь, аналитик, любите решать сложные задачи и искать закономерности. Вам интересно наука, технологии, программирование, медицина, инженерия. Вы независимы в суждениях, любите учиться и экспериментировать.";
+                careerList = "учёный, программист, аналитик данных, врач, инженер-исследователь, биолог, химик, системный архитектор, математик, психолог (исследователь), фармацевт.";
+                advice = "вам подойдёт среда, где ценят интеллект и инновации. Ищите работу в НИИ, IT-компаниях, фармацевтике, аналитических отделах. Вам важно избегать рутинного администрирования и поверхностного общения.";
+                break;
+            case 2: // A
+                description = "Вы — творец, художник, генератор идей. Вам нужно самовыражаться, создавать красивое, необычное. Вы чувствительны к эстетике, оригинальны, не любите жёсткие рамки и шаблоны.";
+                careerList = "дизайнер (графический, интерьеров, одежды), художник, музыкант, актёр, писатель, арт-директор, сценарист, видеограф, фотограф, архитектор, иллюстратор, стилист.";
+                advice = "выбирайте творческие и гибкие профессии. Работа в сфере рекламы, моды, медиа, искусства, анимации — ваша стихия. Избегайте строго регламентированных офисных должностей с бумажным потоком.";
+                break;
+            case 3: // S
+                description = "Вы — помощник, наставник, командный игрок. Вам важно помогать, заботиться, обучать. Вы обладаете эмпатией и отличными коммуникативными навыками. Вдохновляетесь от взаимодействия с людьми.";
+                careerList = "учитель, психолог, врач, медсестра, социальный работник, HR-менеджер, коуч, продавец-консультант, менеджер по обслуживанию клиентов, логопед, воспитатель.";
+                advice = "ваше место там, где ценят человеческое тепло. Образование, медицина, HR, продажи, сервис — отличный выбор. Избегайте изолированной работы с цифрами или техникой без людей.";
+                break;
+            case 4: // E
+                description = "Вы — лидер, предприниматель, переговорщик. Вас привлекают бизнес, управление, достижение целей. Вы умеете вдохновлять, убеждать, брать на себя ответственность и рисковать.";
+                careerList = "руководитель проекта, менеджер по продажам, предприниматель, директор, маркетолог, бренд-менеджер, политик, юрист, риэлтор, HR-директор, финансовый консультант.";
+                advice = "ищите карьеру с возможностью влиять и вести. Стартапы, управленческие позиции, продажи, собственное дело. Вам не подходит монотонная работа без достижений и статуса.";
+                break;
+            case 5: // C
+                description = "Вы — организатор, систематизатор, любите порядок и чёткость. Вам комфортна работа с документами, цифрами, базами данных. Вы аккуратны, педантичны и надёжны.";
+                careerList = "бухгалтер, экономист, офис-менеджер, архивариус, корректор, специалист по документационному обеспечению, лаборант, библиотекарь, оператор баз данных, кассир, администратор.";
+                advice = "профессии, где важна точность, обработка информации, соблюдение правил — ваш конёк. Отличный выбор — финансы, бухгалтерия, логистика, канцелярия. Избегайте хаоса и неопределённости.";
+                break;
+        }
+        
+        // Построим сводку по всем типам
+        let scoresHtml = "";
+        for (let i = 0; i < TYPES.length; i++) {
+            let percent = (scores[i] / 5) * 100;
+            scoresHtml += `
+                <div style="margin-bottom: 0.5rem;">
+                    <div style="display: flex; justify-content: space-between; font-size:0.85rem;"><span>${TYPES[i].name}</span><span>${scores[i]}/5</span></div>
+                    <div style="background:#f0e1d4; border-radius: 20px; height: 6px;"><div style="width:${percent}%; background:#d68c45; height:6px; border-radius:20px;"></div></div>
+                </div>
+            `;
+        }
+        
+        appRoot.innerHTML = `
+            <div class="screen result-screen">
+                <div class="result-card">
+                    <div class="result-title">🏆 Ваш профессиональный тип</div>
+                    <div class="type-block">
+                        <div class="type-name">${primaryType.name}</div>
+                        <div class="score-badge">основной балл: ${maxScore} из 5</div>
+                    </div>
+                    <div class="result-desc">
+                        <strong>${description}</strong><br><br>
+                        🧭 <strong>Примеры профессий:</strong> ${careerList}<br><br>
+                        📌 <strong>Стратегия развития:</strong> ${advice}
+                    </div>
+                    <div style="margin: 1rem 0;">
+                        <strong>📊 Ваш профиль по всем типам RIASEC:</strong>
+                        <div style="margin-top: 0.5rem;">${scoresHtml}</div>
+                    </div>
+                    <div class="advice">
+                        💡 <strong>Совет:</strong> Идеальная работа — та, где ваши природные склонности совпадают с задачами. Постарайтесь найти профессию, соответствующую вашему ведущему типу, или комбинируйте сильные стороны.
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button id="restartHollandBtn" class="btn btn-secondary">🔄 Пройти заново</button>
+                </div>
+                <hr>
+                <div class="footer-note">
+                    📚 Тест основан на теории Дж. Холланда (RIASEC). Используется в карьерном консультировании по всему миру. Помните, что у большинства людей выражены 2-3 типа.
+                </div>
+            </div>
+        `;
+        document.getElementById('restartHollandBtn')?.addEventListener('click', () => {
+            resetTest();
+        });
+    }
+
+    renderStart();
+</script>
+</body>
+</html>

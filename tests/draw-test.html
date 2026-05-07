@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Тест: Нарисуй свою душу | Дом. Дерево. Человек</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(145deg, #f5efe6 0%, #e8dbce 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            padding: 1.5rem;
+        }
+        .test-container {
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .test-card {
+            background: #fffef9;
+            border-radius: 2rem;
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            border: 1px solid #e2cfbc;
+        }
+        .accent-header {
+            background: linear-gradient(105deg, #a3856c 0%, #c2a188 100%);
+            padding: 1.6rem 2rem;
+            color: white;
+            text-align: center;
+        }
+        .accent-header h1 {
+            font-size: 1.8rem;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .accent-header p {
+            font-size: 0.9rem;
+            opacity: 0.95;
+            margin-top: 0.3rem;
+        }
+        .content-panel {
+            padding: 2rem;
+        }
+        .badge-info {
+            background: #f2e6dc;
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #8b5a3c;
+            margin-bottom: 1rem;
+        }
+        .welcome-text {
+            background: #fef8f0;
+            padding: 1rem;
+            border-radius: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: #4a3523;
+        }
+        .btn {
+            background: #a3856c;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 3rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-primary {
+            background: #b5977c;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .btn-primary:hover {
+            background: #8d6b50;
+            transform: translateY(-2px);
+        }
+        .draw-area {
+            background: #fefcf8;
+            border-radius: 1.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #e2d4c8;
+        }
+        .canvas-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        canvas {
+            background: white;
+            border-radius: 1.2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            cursor: crosshair;
+            border: 2px solid #e2cfbc;
+            max-width: 100%;
+            height: auto;
+        }
+        .tools {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+        .tool-btn {
+            background: #ede3d8;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: #5a3a28;
+        }
+        .tool-btn:hover {
+            background: #dfcfc0;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .next-btn {
+            background: #b5977c;
+            padding: 0.7rem 1.5rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        .result-card {
+            background: #fffef7;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+        .interpretation {
+            background: #f9f3ea;
+            padding: 1rem;
+            border-radius: 1rem;
+            margin: 1rem 0;
+            border-left: 5px solid #c2a188;
+        }
+        .footer-note {
+            margin-top: 1rem;
+            font-size: 0.7rem;
+            text-align: center;
+            color: #9b826a;
+        }
+        @media (max-width: 600px) {
+            .content-panel { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="test-container">
+    <div class="test-card">
+        <div class="accent-header">
+            <h1>🖍️ Нарисуй свою душу</h1>
+            <p>о чем расскажут дом, дерево и человек · проективный тест</p>
+        </div>
+        <div class="content-panel" id="drawApp"></div>
+    </div>
+</div>
+
+<script>
+    // ========= ПРОЕКТИВНЫЙ ТЕСТ "ДОМ. ДЕРЕВО. ЧЕЛОВЕК" =========
+    // Три этапа рисования. После каждого рисунка пользователь может сохранить и перейти к следующему.
+    // В конце — бережная интерпретация на основе видимых признаков (размер, нажим, детали, расположение).
+    // Поскольку полная автоматическая психодиагностика невозможна, пользователь получает 
+    // "вопросы для размышления" и общие направления, которые подсказывают возможные смыслы.
+    
+    let stage = 0; // 0 - приветствие, 1 - дом, 2 - дерево, 3 - человек, 4 - результат
+    let drawings = {
+        house: null,
+        tree: null,
+        person: null
+    };
+    
+    let currentCanvas = null;
+    let currentCtx = null;
+    let drawing = false;
+    let lastX = 0, lastY = 0;
+    
+    const appRoot = document.getElementById('drawApp');
+    
+    function renderWelcome() {
+        appRoot.innerHTML = `
+            <div class="badge-info">🎨 самый бережный способ разобраться в себе</div>
+            <div class="welcome-text">
+                <strong>Через простые каракули вы увидите то, что сложно выразить словами.</strong><br><br>
+                Тест «Дом. Дерево. Человек» (House-Tree-Person) — проективная методика, которая помогает понять ваше отношение к семье, самооценку и внутренний мир.<br>
+                <br>
+                ✏️ Вам нужно будет нарисовать три рисунка: <strong>дом, дерево и человека</strong>. Рисуйте интуитивно, не старайтесь сделать красиво — важны ваши первые импульсы.<br>
+                <br>
+                После каждого рисунка вы сможете сохранить его и перейти к следующему. В конце вы получите бережные подсказки для самоанализа.
+            </div>
+            <button id="startDrawBtn" class="btn btn-primary">🌿 Начать рисовать</button>
+            <div class="footer-note">тест не даёт диагноз, но помогает увидеть скрытые смыслы</div>
+        `;
+        document.getElementById('startDrawBtn')?.addEventListener('click', () => {
+            stage = 1;
+            renderDrawingStage('дом', 'house');
+        });
+    }
+    
+    function renderDrawingStage(title, key) {
+        appRoot.innerHTML = `
+            <div class="draw-area">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
+                    <span class="badge-info">🎨 Рисуем ${title}</span>
+                    <span style="font-size:0.8rem; color:#8b5a3c;">шаг ${stage} из 3</span>
+                </div>
+                <div class="canvas-container">
+                    <canvas id="drawCanvas" width="500" height="400" style="width:100%; max-width:500px; height:auto; background:white; border-radius:1rem;"></canvas>
+                </div>
+                <div class="tools">
+                    <button id="clearCanvasBtn" class="tool-btn">🧽 Очистить</button>
+                    <button id="undoBtn" class="tool-btn">↩️ Отменить</button>
+                </div>
+                <div class="nav-buttons">
+                    <button id="backBtn" class="tool-btn" style="background:#ede3d8;">← Назад</button>
+                    <button id="saveNextBtn" class="next-btn">Сохранить и далее →</button>
+                </div>
+            </div>
+            <div class="footer-note">🧸 Рисуйте так, как вам хочется — не бойтесь каракулей</div>
+        `;
+        
+        const canvas = document.getElementById('drawCanvas');
+        const ctx = canvas.getContext('2d');
+        currentCanvas = canvas;
+        currentCtx = ctx;
+        
+        // загрузка сохранённого рисунка, если есть
+        let savedData = drawings[key];
+        if (savedData) {
+            let img = new Image();
+            img.onload = () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0);
+            };
+            img.src = savedData;
+        } else {
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = '#4a3523';
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+        }
+        
+        let undoStack = [];
+        function saveState() {
+            undoStack.push(canvas.toDataURL());
+            if (undoStack.length > 20) undoStack.shift();
+        }
+        saveState();
+        
+        function restoreState() {
+            if (undoStack.length <= 1) return;
+            undoStack.pop();
+            let last = undoStack[undoStack.length-1];
+            let img = new Image();
+            img.onload = () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0);
+            };
+            img.src = last;
+        }
+        
+        function getCanvasCoords(e) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            let clientX, clientY;
+            if (e.touches) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+            let x = (clientX - rect.left) * scaleX;
+            let y = (clientY - rect.top) * scaleY;
+            x = Math.min(Math.max(0, x), canvas.width);
+            y = Math.min(Math.max(0, y), canvas.height);
+            return { x, y };
+        }
+        
+        function startDrawing(e) {
+            drawing = true;
+            const { x, y } = getCanvasCoords(e);
+            lastX = x; lastY = y;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x+0.5, y+0.5);
+            ctx.stroke();
+            e.preventDefault();
+        }
+        
+        function draw(e) {
+            if (!drawing) return;
+            const { x, y } = getCanvasCoords(e);
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            lastX = x;
+            lastY = y;
+            e.preventDefault();
+        }
+        
+        function endDrawing() {
+            drawing = false;
+            saveState();
+        }
+        
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', endDrawing);
+        canvas.addEventListener('touchstart', startDrawing, {passive: false});
+        canvas.addEventListener('touchmove', draw, {passive: false});
+        canvas.addEventListener('touchend', endDrawing);
+        
+        document.getElementById('clearCanvasBtn')?.addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            saveState();
+        });
+        document.getElementById('undoBtn')?.addEventListener('click', () => {
+            restoreState();
+        });
+        
+        document.getElementById('saveNextBtn')?.addEventListener('click', () => {
+            const dataURL = canvas.toDataURL();
+            drawings[key] = dataURL;
+            if (stage === 1) {
+                stage = 2;
+                renderDrawingStage('дерево', 'tree');
+            } else if (stage === 2) {
+                stage = 3;
+                renderDrawingStage('человека', 'person');
+            } else if (stage === 3) {
+                stage = 4;
+                renderInterpretation();
+            }
+        });
+        
+        document.getElementById('backBtn')?.addEventListener('click', () => {
+            if (stage === 1) {
+                renderWelcome();
+            } else if (stage === 2) {
+                stage = 1;
+                renderDrawingStage('дом', 'house');
+            } else if (stage === 3) {
+                stage = 2;
+                renderDrawingStage('дерево', 'tree');
+            }
+        });
+    }
+    
+    function renderInterpretation() {
+        // Анализ рисунков — общие наблюдения (проективные признаки)
+        // Поскольку полный автоматический анализ невозможен, мы даём серию вопросов для размышления
+        // и интерпретацию на основе грубых признаков (размер, положение, наличие деталей) через аналитику данных изображений - упрощённо.
+        // Для бережности: пользователь сам может сопоставить свои рисунки с типичными ключами.
+        
+        // функция-помощник для получения базовых характеристик рисунка (средняя яркость, оценка размера объекта)
+        function analyzeDrawing(dataURL, bgColor = '#ffffff') {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    let nonWhitePixels = 0;
+                    let totalPixels = imageData.width * imageData.height;
+                    for (let i = 0; i < imageData.data.length; i += 4) {
+                        let r = imageData.data[i];
+                        let g = imageData.data[i+1];
+                        let b = imageData.data[i+2];
+                        if (!(r >= 250 && g >= 250 && b >= 250)) {
+                            nonWhitePixels++;
+                        }
+                    }
+                    let coverage = nonWhitePixels / totalPixels;
+                    // очень грубая оценка: много линий = более 5% покрытия
+                    resolve({ coverage });
+                };
+                img.src = dataURL;
+            });
+        }
+        
+        // Асинхронно получим примерные метрики
+        Promise.all([
+            analyzeDrawing(drawings.house),
+            analyzeDrawing(drawings.tree),
+            analyzeDrawing(drawings.person)
+        ]).then(([houseStat, treeStat, personStat]) => {
+            let houseCoarse = houseStat.coverage > 0.03 ? "проработанный, много деталей" : "простой, минималистичный";
+            let treeCoarse = treeStat.coverage > 0.03 ? "детализированное" : "схематичное";
+            let personCoarse = personStat.coverage > 0.03 ? "подробный" : "обобщённый";
+            
+            let houseInterpret = `Ваш дом получился ${houseCoarse}. `;
+            let treeInterpret = `Дерево выглядит ${treeCoarse}. `;
+            let personInterpret = `Человек нарисован ${personCoarse}. `;
+            
+            let generalGuide = `
+                <strong>🖌️ Ключи к самоанализу (традиционные проективные признаки):</strong><br><br>
+                <strong>🏠 Дом:</strong>
+                <ul style="margin-left: 1.2rem;">
+                    <li>Большой дом — открытость, желание быть замеченным; маленький — возможная неуверенность.</li>
+                    <li>Отсутствие двери — трудности в контактах; дверь с замком — потребность в защите.</li>
+                    <li>Труба с дымом — потребность в тепле; отсутствие трубы — эмоциональная сдержанность.</li>
+                    <li>Крепкие стены — потребность в стабильности.</li>
+                </ul>
+                <strong>🌲 Дерево:</strong>
+                <ul style="margin-left: 1.2rem;">
+                    <li>Толстый ствол — сила, уверенность; тонкий — ранимость.</li>
+                    <li>Корни — связь с прошлым; крона вверх — устремлённость в будущее.</li>
+                    <li>Сучья, шипы — агрессия или защита; плоды — желание признания.</li>
+                    <li>Отсутствие ветвей — возможные трудности в контактах.</li>
+                </ul>
+                <strong>👤 Человек:</strong>
+                <ul style="margin-left: 1.2rem;">
+                    <li>Размер фигуры — самооценка (маленький — заниженная, большой — высокая).</li>
+                    <li>Отсутствие рук или ног — чувство неспособности действовать или опоры.</li>
+                    <li>Лицо без глаз — избегание взгляда; акцент на рот — потребность в общении.</li>
+                    <li>Пальцы прорисованы — контроль; схематичные кисти — импульсивность.</li>
+                </ul>
+                <br>
+                <strong>💭 Посмотрите на свои рисунки и спросите себя:</strong><br>
+                — Какие эмоции у меня вызвал рисунок дома? Что для меня значит "дом"?<br>
+                — Дерево устойчиво или его клонит? Есть ли на нём плоды, раны?<br>
+                — Похож ли нарисованный человек на меня? Чего ему не хватает?<br>
+                — Что бы я хотел(а) изменить в этих рисунках? Это может указать на желаемые перемены.
+            `;
+            
+            appRoot.innerHTML = `
+                <div class="result-card">
+                    <span class="badge-info">🔍 бережная интерпретация</span>
+                    <h3 style="margin: 0.5rem 0;">Ваши рисунки рассказали историю</h3>
+                    <div class="interpretation">
+                        ${houseInterpret}<br>
+                        ${treeInterpret}<br>
+                        ${personInterpret}<br>
+                        <p style="margin-top:0.5rem;">Помните: проективный тест не даёт однозначных выводов, а лишь предлагает возможные направления для размышлений. Вы — главный эксперт по своей душе.</p>
+                    </div>
+                    ${generalGuide}
+                    <div style="margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: center;">
+                        <button id="restartTestBtn" class="tool-btn" style="background:#c2a188; color:white;">🖌️ Нарисовать заново</button>
+                    </div>
+                    <div class="footer-note" style="margin-top: 1rem;">Методика «Дом — Дерево — Человек» (Дж. Бук, 1948). Используйте результаты с заботой о себе.</div>
+                </div>
+            `;
+            document.getElementById('restartTestBtn')?.addEventListener('click', () => {
+                stage = 0;
+                drawings = { house: null, tree: null, person: null };
+                renderWelcome();
+            });
+        });
+    }
+    
+    renderWelcome();
+</script>
+</body>
+</html>

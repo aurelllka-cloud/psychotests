@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Тест: Тип привязанности в отношениях | Секреты близости</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5d0b8 0%, #f9e2cf 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            padding: 1.5rem;
+        }
+
+        .test-container {
+            max-width: 720px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .test-card {
+            background: rgba(255, 252, 245, 0.96);
+            border-radius: 2rem;
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            transition: all 0.2s;
+            border: 1px solid rgba(226, 182, 130, 0.4);
+        }
+
+        .accent-header {
+            background: linear-gradient(105deg, #7b3f2c 0%, #a75739 100%);
+            padding: 1.8rem 2rem 1.5rem;
+            color: white;
+            text-align: center;
+        }
+
+        .accent-header h1 {
+            font-size: 1.9rem;
+            letter-spacing: -0.3px;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .accent-header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            max-width: 90%;
+            margin: 0.5rem auto 0;
+        }
+
+        .content-panel {
+            padding: 2rem 2rem 2.2rem;
+        }
+
+        .welcome-text {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #3d2b1f;
+            background: #fff6ed;
+            padding: 1.3rem;
+            border-radius: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid #c97e5a;
+        }
+
+        .badge-info {
+            display: inline-block;
+            background: #f0e1d4;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #7b3f2c;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            border: none;
+            background: #7b3f2c;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.9rem 1.8rem;
+            border-radius: 3rem;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+            max-width: 260px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #b16245;
+            box-shadow: 0 6px 14px rgba(177, 98, 69, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #8b4a34;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #e9dbcf;
+            color: #5a3a28;
+            border: 1px solid #d9bfab;
+        }
+
+        .btn-secondary:hover {
+            background: #ddcebe;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+        }
+
+        .q-counter {
+            background: #f3e9e2;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #7b3f2c;
+        }
+
+        .progress-bar-bg {
+            background: #edd9cc;
+            border-radius: 20px;
+            height: 8px;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .progress-fill {
+            background: #b16245;
+            width: 0%;
+            height: 8px;
+            border-radius: 20px;
+            transition: width 0.2s ease;
+        }
+
+        .question-text {
+            font-size: 1.45rem;
+            font-weight: 600;
+            line-height: 1.4;
+            margin: 1.5rem 0 2rem;
+            color: #2c1a10;
+        }
+
+        .option-buttons {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            margin: 1.2rem 0 0.5rem;
+        }
+
+        .answer-btn {
+            background: #f9f0e8;
+            border: 1.5px solid #d6b79b;
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            min-width: 120px;
+            color: #4e2d1c;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .answer-btn.yes {
+            background: #ecdfd3;
+            border-color: #aa7a5c;
+        }
+
+        .answer-btn.no {
+            background: #f8e8df;
+            border-color: #c18564;
+        }
+
+        .answer-btn:hover {
+            transform: scale(0.97);
+            background: #e6d2c2;
+        }
+
+        .result-card {
+            background: #fffaf5;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin: 1rem 0 1.8rem;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.05);
+        }
+
+        .result-title {
+            font-size: 1.7rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .result-desc {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #3a2a1e;
+            margin: 1.2rem 0;
+        }
+
+        .advice {
+            background: #faefe7;
+            padding: 1rem 1.2rem;
+            border-radius: 1.2rem;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            border-left: 4px solid #b16245;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .footer-note {
+            margin-top: 1.2rem;
+            font-size: 0.7rem;
+            text-align: center;
+            color: #8b6b53;
+        }
+
+        hr {
+            margin: 1rem 0;
+            border: none;
+            height: 1px;
+            background: #f0dfd2;
+        }
+
+        @media (max-width: 550px) {
+            .content-panel {
+                padding: 1.5rem;
+            }
+            .question-text {
+                font-size: 1.25rem;
+            }
+            .answer-btn {
+                padding: 0.6rem 1rem;
+                min-width: 100px;
+            }
+            .accent-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="test-container">
+    <div class="test-card">
+        <div class="accent-header">
+            <h1>
+                💞 Секреты ваших отношений
+            </h1>
+            <p>Узнайте свой тип привязанности · Тест на основе теории привязанности (Боулби, Эйнсворт)</p>
+        </div>
+        <div class="content-panel" id="appRootAttachment"></div>
+    </div>
+</div>
+
+<script>
+    // ========= МОДЕЛЬ ТЕСТА ==========
+    // Типы привязанности: надежный (secure), тревожный (anxious), избегающий (avoidant), тревожно-избегающий (fearful)
+    // 12 вопросов, каждый прибавляет баллы к шкалам: тревога (Anxiety) и избегание (Avoidance)
+    // Для точности вычислим баллы: вопросы 1,3,5,7,9,11 -> тревога ; 2,4,6,8,10,12 -> избегание.
+    // Ответы: да = 1 балл, нет = 0, но в некоторых вопросах обратный код? Нет, все вопросы сформулированы так, что согласие (да) показывает проявление небезопасного стиля
+    // Для надежного стиля нужно низкое значение по обеим шкалам. 
+    // Диапазон: 0-6 по каждой шкале.
+    // Низкая тревога + низкое избегание = надежный (безопасный).
+    // Высокая тревога + низкое избегание = тревожный.
+    // Низкая тревога + высокое избегание = избегающий.
+    // Высокая тревога + высокое избегание = тревожно-избегающий (дезорганизованный).
+
+    const QUESTIONS = [
+        "Я часто боюсь, что партнёр перестанет меня любить или бросит.",            // тревога 1
+        "Мне трудно полностью доверять партнёру, я предпочитаю держать дистанцию.", // избегание 2
+        "Когда партнёр далеко, я постоянно переживаю, не случилось ли чего-то плохого с нашими отношениями.", // тревога 3
+        "Мне комфортнее, когда в отношениях сохраняется некоторое пространство; близость иногда меня душит.", // избегание 4
+        "Я очень остро реагирую на малейшие признаки охлаждения партнера.",          // тревога 5
+        "Мне тяжело открывать свои глубокие чувства, даже если я в кого-то влюблён.", // избегание 6
+        "Мысли о возможной потере партнёра вызывают у меня сильную тревогу.",        // тревога 7
+        "Я предпочитаю полагаться только на себя, а не на партнёра в трудную минуту.", // избегание 8
+        "Мне нужны постоянные подтверждения любви, иначе я сомневаюсь в партнёре.",   // тревога 9
+        "Физическая или эмоциональная близость часто вызывает у меня дискомфорт.",    // избегание 10
+        "Я боюсь, что мои чувства слишком сильны и оттолкнут партнёра.",              // тревога 11
+        "Когда ссора, я предпочитаю уйти в себя и не обсуждать проблему."             // избегание 12
+    ];
+
+    const TOTAL_QS = QUESTIONS.length;
+    // маппинг: index вопроса -> шкала (0 = тревога, 1 = избегание)
+    const SCALE_MAP = [
+        0, // 0 тревога
+        1, // 1 избегание
+        0, // 2 тревога
+        1, // 3 избегание
+        0, // 4 тревога
+        1, // 5 избегание
+        0, // 6 тревога
+        1, // 7 избегание
+        0, // 8 тревога
+        1, // 9 избегание
+        0, // 10 тревога
+        1  // 11 избегание
+    ];
+
+    let currentIndex = 0;
+    let answers = new Array(TOTAL_QS).fill(null); // null или 1/0
+    let testActive = false;
+    const appRoot = document.getElementById('appRootAttachment');
+
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    function renderStartScreen() {
+        appRoot.innerHTML = `
+            <div class="screen welcome-screen">
+                <div class="badge-info">🧬 академическая основа: теория привязанности (Дж. Боулби, М. Эйнсворт)</div>
+                <div class="welcome-text">
+                    <strong>💡 Инсайт на миллион: почему вы выбираете «не тех» партнёров или боитесь близости?</strong><br><br>
+                    Ответ часто лежит в вашем раннем опыте. Этот тест определит ваш <strong>стиль привязанности</strong> во взрослых отношениях: 
+                    надёжный, тревожный, избегающий или тревожно-избегающий. Вы поймёте свои паттерны и получите путь к здоровой близости.
+                    <br><br>
+                    ✨ Ответьте на 12 вопросов честно (Да / Нет) — узнайте, как ваш детский опыт влияет на любовь сегодня.
+                </div>
+                <div class="btn-group">
+                    <button id="startAttachmentBtn" class="btn btn-primary">💗 Узнать тип привязанности</button>
+                </div>
+                <div class="footer-note">
+                    🔍 Тест основан на современных моделях взрослой привязанности. Результат поможет выстроить гармоничные отношения.
+                </div>
+            </div>
+        `;
+        document.getElementById('startAttachmentBtn')?.addEventListener('click', () => {
+            resetAndStart();
+        });
+    }
+
+    function resetAndStart() {
+        currentIndex = 0;
+        answers = new Array(TOTAL_QS).fill(null);
+        testActive = true;
+        renderQuestionScreen();
+    }
+
+    function renderQuestionScreen() {
+        if (!testActive) return;
+        if (currentIndex >= TOTAL_QS) {
+            finishAndShowResult();
+            return;
+        }
+        const currentQ = QUESTIONS[currentIndex];
+        const answeredCount = answers.filter(v => v !== null).length;
+        const percent = (answeredCount / TOTAL_QS) * 100;
+
+        appRoot.innerHTML = `
+            <div class="screen question-screen">
+                <div class="question-header">
+                    <div class="q-counter">Вопрос ${currentIndex+1} из ${TOTAL_QS}</div>
+                    <div class="progress-bar-bg"><div class="progress-fill" style="width: ${percent}%;"></div></div>
+                </div>
+                <div class="question-text">${escapeHtml(currentQ)}</div>
+                <div class="option-buttons">
+                    <button class="answer-btn yes" data-ans="1">👍 Да, так и есть</button>
+                    <button class="answer-btn no" data-ans="0">👎 Нет, не про меня</button>
+                </div>
+                <div class="footer-note" style="margin-top: 1.8rem;">
+                    🧘‍♀️ Отвечайте интуитивно — так точность выше.
+                </div>
+            </div>
+        `;
+        const yesBtn = document.querySelector('.answer-btn.yes');
+        const noBtn = document.querySelector('.answer-btn.no');
+        if (yesBtn) {
+            yesBtn.addEventListener('click', () => {
+                if (answers[currentIndex] !== null) return;
+                answers[currentIndex] = 1;
+                moveToNext();
+            });
+        }
+        if (noBtn) {
+            noBtn.addEventListener('click', () => {
+                if (answers[currentIndex] !== null) return;
+                answers[currentIndex] = 0;
+                moveToNext();
+            });
+        }
+    }
+
+    function moveToNext() {
+        if (currentIndex + 1 < TOTAL_QS) {
+            currentIndex++;
+            renderQuestionScreen();
+        } else if (currentIndex + 1 === TOTAL_QS) {
+            finishAndShowResult();
+        } else {
+            finishAndShowResult();
+        }
+    }
+
+    function finishAndShowResult() {
+        testActive = false;
+        // Подсчёт баллов по шкалам
+        let anxietyScore = 0; // тревога
+        let avoidanceScore = 0; // избегание
+        
+        for (let i = 0; i < TOTAL_QS; i++) {
+            const answer = answers[i];
+            if (answer === null) continue;
+            const scale = SCALE_MAP[i];
+            if (scale === 0) { // тревога
+                anxietyScore += answer; // 1 если да
+            } else {
+                avoidanceScore += answer;
+            }
+        }
+        
+        // Типология
+        let attachmentType = "";
+        let title = "";
+        let description = "";
+        let advice = "";
+        let resultTag = "";
+        
+        // Пороги: низкий 0-2, высокий 3-6 (учитываем, что максимум 6 по каждой шкале)
+        const isHighAnxiety = anxietyScore >= 3;
+        const isHighAvoidance = avoidanceScore >= 3;
+        
+        if (!isHighAnxiety && !isHighAvoidance) {
+            attachmentType = "🛡️ Надёжный тип привязанности";
+            title = "Безопасная гавань: вы умеете строить здоровые отношения";
+            description = `Ваш результат: тревога ${anxietyScore}/6, избегание ${avoidanceScore}/6. Вы чувствуете себя комфортно в близости, способны доверять партнёру и не боитесь быть покинутым. 
+            Вы — опора для себя и других. Такие люди обычно привлекают надёжных партнёров и легко переживают кризисы.`;
+            advice = `🌱 <strong>Путь к процветанию:</strong> Продолжайте развивать эмоциональный интеллект. Ваш стиль — здоровый фундамент, 
+            но помните: даже у надёжного типа бывают моменты уязвимости, делитесь чувствами открыто. Вы можете стать «якорем» для близких.`;
+            resultTag = "secure";
+        } 
+        else if (isHighAnxiety && !isHighAvoidance) {
+            attachmentType = "🌊 Тревожный тип привязанности";
+            title = "Вы жаждете близости, но часто боитесь отвержения";
+            description = `Ваш результат: тревога ${anxietyScore}/6, избегание ${avoidanceScore}/6. Вам жизненно необходимо одобрение партнёра, вы постоянно ищете подтверждения любви. 
+            Это может приводить к «эмоциональным качелям» и выбору холодных партнёров, которые усиливают вашу тревогу.`;
+            advice = `🪷 <strong>Шаг к спокойствию:</strong> Учитесь саморегуляции: начните с малого — каждый день подтверждайте себе свою ценность независимо от партнёра. 
+            При тревожном типе помогает терапия и практика «якорения» собственной безопасности. Перестаньте искать спасение в других — создайте внутреннюю опору.`;
+        }
+        else if (!isHighAnxiety && isHighAvoidance) {
+            attachmentType = "🏔️ Избегающий тип привязанности";
+            title = "Дистанция — ваша защита, но близость пугает";
+            description = `Ваш результат: тревога ${anxietyScore}/6, избегание ${avoidanceScore}/6. Вы цените независимость выше всего, часто подавляете эмоции и избегаете глубокой близости. 
+            В детстве, возможно, вас приучали быть «сильным» и не показывать чувства. Сейчас это может мешать создавать по-настоящему тёплые отношения.`;
+            advice = `💞 <strong>Путь к открытости:</strong> Позвольте себе маленькие шаги к уязвимости. Начните делиться незначительными чувствами и наблюдайте за реакцией. 
+            Преодолейте убеждение «близость = потеря свободы». Постепенное снижение избегания ведёт к более глубокому и честному партнёрству.`;
+        } 
+        else { // тревожно-избегающий (Fearful-avoidant)
+            attachmentType = "🌀 Тревожно-избегающий (дезорганизованный) тип";
+            title = "Хочу близости, но боюсь её до ужаса";
+            description = `Ваш результат: тревога ${anxietyScore}/6, избегание ${avoidanceScore}/6. Вы одновременно и жаждете любви, и страшитесь её. 
+            Часто привлекаете нестабильные отношения, в них смесь «бей-беги». Такой стиль часто формируется в результате травматичного опыта. 
+            Вы можете то искать спасения, то резко отталкивать партнёра.`;
+            advice = `🤍 <strong>Важнейший шаг:</strong> Исцеление внутреннего конфликта требует времени и поддержки. Лучший путь — психотерапия (особенно схема-терапия или EMDR). 
+            Начните с разрешения себе иметь противоречивые чувства. Практикуйте самонаблюдение без осуждения. Вы достойны стабильной любви, и это возможно.`;
+        }
+        
+        appRoot.innerHTML = `
+            <div class="screen result-screen">
+                <div class="result-card">
+                    <div class="result-title">
+                        <span>${attachmentType}</span>
+                    </div>
+                    <h3 style="margin-top: 0.2rem;">${title}</h3>
+                    <div class="result-desc">
+                        ${description}
+                        <br><br>
+                        <strong>📏 Сводка:</strong> Тревога: ${anxietyScore}/6 | Избегание: ${avoidanceScore}/6
+                    </div>
+                    <div class="advice">
+                        ${advice}
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button id="restartAttBtn" class="btn btn-secondary">🔄 Пройти заново</button>
+                </div>
+                <hr>
+                <div class="footer-note">
+                    💡 Почему мы выбираем «не тех»? Наш стиль привязанности заставляет нас бессознательно искать знакомые (даже болезненные) сценарии. 
+                    Осознание — первый шаг к изменениям. Тест на основе модели взрослой привязанности (Bartholomew & Horowitz).
+                </div>
+            </div>
+        `;
+        document.getElementById('restartAttBtn')?.addEventListener('click', () => {
+            resetAndStart();
+        });
+    }
+
+    renderStartScreen();
+</script>
+</body>
+</html>

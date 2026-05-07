@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Тест: Проверьте уровень тревоги и тоски | Шкалы Бека</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #cfddee 0%, #b7cbdf 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            padding: 1.5rem;
+        }
+
+        .test-container {
+            max-width: 760px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .test-card {
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 2rem;
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            border: 1px solid #bbd2f0;
+        }
+
+        .accent-header {
+            background: linear-gradient(105deg, #4b6a8b 0%, #6f8fb0 100%);
+            padding: 1.8rem 2rem 1.5rem;
+            color: white;
+            text-align: center;
+        }
+
+        .accent-header h1 {
+            font-size: 1.9rem;
+            letter-spacing: -0.3px;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .accent-header p {
+            font-size: 0.95rem;
+            opacity: 0.92;
+            max-width: 90%;
+            margin: 0.5rem auto 0;
+        }
+
+        .content-panel {
+            padding: 2rem 2rem 2.2rem;
+        }
+
+        .welcome-text {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #2d3e54;
+            background: #edf3fa;
+            padding: 1.3rem;
+            border-radius: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid #6f8fb0;
+        }
+
+        .badge-info {
+            display: inline-block;
+            background: #e3ecf5;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #3a6285;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            border: none;
+            background: #4b6a8b;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.9rem 1.8rem;
+            border-radius: 3rem;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+            max-width: 260px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #5e7fa0;
+            box-shadow: 0 6px 14px rgba(75, 106, 139, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: #3f5e7e;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #e3edf6;
+            color: #2d4a6e;
+            border: 1px solid #c5d6e8;
+        }
+
+        .btn-secondary:hover {
+            background: #d2e2f0;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+        }
+
+        .q-counter {
+            background: #e4edf5;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #3a6285;
+        }
+
+        .progress-bar-bg {
+            background: #d6e2ef;
+            border-radius: 20px;
+            height: 8px;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .progress-fill {
+            background: #6f8fb0;
+            width: 0%;
+            height: 8px;
+            border-radius: 20px;
+            transition: width 0.2s ease;
+        }
+
+        .question-text {
+            font-size: 1.45rem;
+            font-weight: 500;
+            line-height: 1.4;
+            margin: 1.5rem 0 2rem;
+            color: #2c4058;
+        }
+
+        .likert-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            margin: 1.2rem 0 0.8rem;
+        }
+        .likert-option {
+            background: #f8fbfe;
+            border: 1px solid #caddf0;
+            border-radius: 2rem;
+            padding: 0.6rem 0.5rem;
+            flex: 1;
+            min-width: 55px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.1s;
+            color: #2d4a6e;
+        }
+        .likert-option.selected {
+            background: #6f8fb0;
+            border-color: #4b6a8b;
+            color: white;
+        }
+        .likert-label {
+            font-size: 0.65rem;
+            display: block;
+            margin-top: 0.2rem;
+            opacity: 0.8;
+        }
+        .note-text {
+            font-size: 0.7rem;
+            text-align: center;
+            margin-top: 0.8rem;
+            color: #6c86a0;
+        }
+
+        .result-card {
+            background: #fcfefc;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin: 1rem 0 1.8rem;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+        }
+        .result-title {
+            font-size: 1.7rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+        .score-badge {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #3a6285;
+            margin: 0.5rem 0;
+        }
+        .advice {
+            background: #ecf3fa;
+            padding: 1rem 1.2rem;
+            border-radius: 1.2rem;
+            margin-top: 1rem;
+            border-left: 4px solid #6f8fb0;
+        }
+        .footer-note {
+            margin-top: 1.2rem;
+            font-size: 0.7rem;
+            text-align: center;
+            color: #6c8bb0;
+        }
+        hr {
+            margin: 1rem 0;
+            border: none;
+            height: 1px;
+            background: #dae5f0;
+        }
+
+        @media (max-width: 550px) {
+            .content-panel { padding: 1.5rem; }
+            .question-text { font-size: 1.2rem; }
+            .likert-option { padding: 0.4rem 0.3rem; font-size: 0.7rem; min-width: 45px; }
+        }
+    </style>
+</head>
+<body>
+<div class="test-container">
+    <div class="test-card">
+        <div class="accent-header">
+            <h1>🕊️ Проверьте уровень тревоги и тоски</h1>
+            <p>шкалы тревоги и депрессии Бека · деликатный чек-ап душевного комфорта</p>
+        </div>
+        <div class="content-panel" id="anxietyDepApp"></div>
+    </div>
+</div>
+
+<script>
+    // Объединённый опросник: 14 вопросов (7 на тревогу, 7 на тоску/депрессию) 
+    // На основе BAI (шкала тревоги Бека) и краткой версии BDI-II.
+    // Каждый вопрос имеет 4 варианта ответа: 0 - совсем нет, 1 - слабо, 2 - умеренно, 3 - сильно.
+    // Диапазон тревога: 0–21, депрессия: 0–21.
+    // Интерпретации: 
+    // Тревога: 0-6 норма, 7-12 лёгкая, 13-18 средняя, 19+ высокая.
+    // Депрессия: 0-8 норма, 9-12 лёгкая, 13-18 средняя, 19+ тяжёлая.
+
+    const QUESTIONS = [
+        // Тревога (1-7)
+        "Ощущение нервозности, беспокойства или напряжения.",
+        "Страх, что случится самое плохое.",
+        "Сердцебиение или учащённый пульс (не от физической нагрузки).",
+        "Дрожь в руках или теле.",
+        "Ощущение нехватки воздуха или удушья.",
+        "Потливость (холодный пот) без явной причины.",
+        "Трудности с засыпанием из-за тревожных мыслей.",
+        // Депрессия / тоска (8-14)
+        "Печаль, подавленность, чувство пустоты.",
+        "Потеря интереса к тому, что раньше приносило удовольствие.",
+        "Чувство усталости или упадок сил.",
+        "Проблемы с концентрацией или принятием решений.",
+        "Мысли о том, что вы никуда не годитесь или чувство вины.",
+        "Изменение аппетита (едите слишком много или слишком мало).",
+        "Мысли о смерти или желание не просыпаться утром."
+    ];
+
+    const TOTAL = 14;
+    const ANXIETY_COUNT = 7;
+    const DEPRESSION_COUNT = 7;
+    
+    let currentIndex = 0;
+    let answers = new Array(TOTAL).fill(null); // 0-3
+    let testActive = false;
+    const appRoot = document.getElementById('anxietyDepApp');
+
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    function renderStart() {
+        appRoot.innerHTML = `
+            <div class="screen welcome-screen">
+                <div class="badge-info">📋 академическая основа: шкалы тревоги (BAI) и депрессии (BDI-II) Бека</div>
+                <div class="welcome-text">
+                    <strong>🧘 Научный, но деликатный чек-ап вашего душевного комфорта прямо сейчас.</strong><br><br>
+                    Не ставит диагноз, но подскажет, когда пора отдохнуть или обратиться к психологу.<br><br>
+                    Оцените, насколько сильно каждое утверждение беспокоило вас <strong>за последнюю неделю</strong>, включая сегодняшний день.<br>
+                    Варианты: 0 — совсем нет, 1 — слабо, 2 — умеренно, 3 — сильно.<br>
+                    Будьте честны с собой — это поможет увидеть реальную картину.
+                </div>
+                <div class="btn-group">
+                    <button id="startBeckBtn" class="btn btn-primary">🌿 Начать тест</button>
+                </div>
+                <div class="footer-note">Тест занимает 3–5 минут. Результаты носят ориентировочный характер.</div>
+            </div>
+        `;
+        document.getElementById('startBeckBtn')?.addEventListener('click', () => {
+            resetTest();
+        });
+    }
+
+    function resetTest() {
+        currentIndex = 0;
+        answers = new Array(TOTAL).fill(null);
+        testActive = true;
+        renderQuestion();
+    }
+
+    function renderQuestion() {
+        if (!testActive) return;
+        if (currentIndex >= TOTAL) {
+            computeResult();
+            return;
+        }
+        const qText = QUESTIONS[currentIndex];
+        const answeredCount = answers.filter(v => v !== null).length;
+        const percent = (answeredCount / TOTAL) * 100;
+        
+        let optionsHtml = '';
+        const labels = ['0 - совсем нет', '1 - слабо', '2 - умеренно', '3 - сильно'];
+        for (let val = 0; val <= 3; val++) {
+            const selected = (answers[currentIndex] === val) ? 'selected' : '';
+            optionsHtml += `
+                <div class="likert-option ${selected}" data-value="${val}">
+                    ${val}
+                    <span class="likert-label">${labels[val].substring(3)}</span>
+                </div>
+            `;
+        }
+        
+        appRoot.innerHTML = `
+            <div class="screen question-screen">
+                <div class="question-header">
+                    <div class="q-counter">Вопрос ${currentIndex+1} из ${TOTAL}</div>
+                    <div class="progress-bar-bg"><div class="progress-fill" style="width: ${percent}%;"></div></div>
+                </div>
+                <div class="question-text">${escapeHtml(qText)}</div>
+                <div class="likert-row" id="beckRow">
+                    ${optionsHtml}
+                </div>
+                <div class="note-text">оцените, насколько это выражено за последнюю неделю</div>
+                <div class="btn-group" style="margin-top: 1.8rem;">
+                    <button id="nextBeckBtn" class="btn btn-primary" ${answers[currentIndex] === null ? 'disabled style="opacity:0.5;"' : ''}>Далее →</button>
+                </div>
+            </div>
+        `;
+        
+        const options = document.querySelectorAll('.likert-option');
+        options.forEach(opt => {
+            opt.addEventListener('click', () => {
+                const val = parseInt(opt.getAttribute('data-value'));
+                answers[currentIndex] = val;
+                options.forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                const nextBtn = document.getElementById('nextBeckBtn');
+                if (nextBtn) {
+                    nextBtn.disabled = false;
+                    nextBtn.style.opacity = '1';
+                }
+            });
+        });
+        
+        const nextBtn = document.getElementById('nextBeckBtn');
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                if (answers[currentIndex] !== null) {
+                    currentIndex++;
+                    renderQuestion();
+                }
+            });
+        }
+    }
+
+    function computeResult() {
+        testActive = false;
+        let anxietySum = 0;
+        let depressionSum = 0;
+        for (let i = 0; i < ANXIETY_COUNT; i++) {
+            anxietySum += answers[i];
+        }
+        for (let i = ANXIETY_COUNT; i < TOTAL; i++) {
+            depressionSum += answers[i];
+        }
+        
+        // интерпретация тревоги
+        let anxietyLevel = "";
+        let anxietyText = "";
+        if (anxietySum <= 6) {
+            anxietyLevel = "норма";
+            anxietyText = "уровень тревоги в пределах нормы — вы спокойны и уравновешены.";
+        } else if (anxietySum <= 12) {
+            anxietyLevel = "лёгкая тревога";
+            anxietyText = "вы периодически испытываете напряжение, но оно не мешает жить. Рекомендуются техники релаксации и отдых.";
+        } else if (anxietySum <= 18) {
+            anxietyLevel = "средняя тревога";
+            anxietyText = "тревога заметно влияет на повседневную жизнь. Стоит обратиться к психологу или освоить практики управления стрессом.";
+        } else {
+            anxietyLevel = "высокая тревога";
+            anxietyText = "выраженная тревога, которая может требовать профессиональной поддержки. Рекомендуется консультация психотерапевта.";
+        }
+        
+        // интерпретация депрессии (тоски)
+        let depressionLevel = "";
+        let depressionText = "";
+        if (depressionSum <= 8) {
+            depressionLevel = "норма";
+            depressionText = "нет признаков депрессивного фона, настроение в порядке.";
+        } else if (depressionSum <= 12) {
+            depressionLevel = "лёгкая тоска";
+            depressionText = "возможно, вы переживаете временный спад. Уделите себе внимание, общение и активность помогут.";
+        } else if (depressionSum <= 18) {
+            depressionLevel = "умеренная тоска";
+            depressionText = "симптомы депрессивного состояния заметны. Будет полезно обратиться к психологу для профилактики.";
+        } else {
+            depressionLevel = "высокая тоска";
+            depressionText = "выраженные депрессивные переживания. Настоятельно рекомендуем обратиться к специалисту — это поможет вернуть радость.";
+        }
+        
+        // общий совет и предупреждение
+        let overallAdvice = "";
+        if (anxietySum >= 13 || depressionSum >= 13) {
+            overallAdvice = "Ваши результаты указывают на повышенный уровень эмоционального дискомфорта. Помните: обращение за помощью — это не слабость, а забота о себе. Психолог, психотерапевт или поддерживающая беседа с близкими могут очень помочь.";
+        } else if (anxietySum >= 7 || depressionSum >= 9) {
+            overallAdvice = "Вы находитесь в зоне риска. Начните с малого: дыхательные упражнения, прогулки, ведение дневника благодарности. Если состояние не улучшится через 2-3 недели, проконсультируйтесь со специалистом.";
+        } else {
+            overallAdvice = "Ваше душевное состояние в гармонии. Продолжайте заботиться о себе: высыпайтесь, поддерживайте социальные связи и не забывайте про отдых.";
+        }
+        
+        appRoot.innerHTML = `
+            <div class="screen result-screen">
+                <div class="result-card">
+                    <div class="result-title">📊 Ваш чек-ап эмоций</div>
+                    <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin: 0.5rem 0;">
+                        <div style="background:#edf3fa; border-radius:1.2rem; padding:0.8rem; flex:1;">
+                            <strong>😟 Тревога:</strong> ${anxietySum}/21<br>
+                            <span style="font-size:0.9rem;">${anxietyLevel}</span>
+                        </div>
+                        <div style="background:#edf3fa; border-radius:1.2rem; padding:0.8rem; flex:1;">
+                            <strong>🌧️ Тоска:</strong> ${depressionSum}/21<br>
+                            <span style="font-size:0.9rem;">${depressionLevel}</span>
+                        </div>
+                    </div>
+                    <div class="result-desc">
+                        <p><strong>Тревога:</strong> ${anxietyText}</p>
+                        <p><strong>Тоска:</strong> ${depressionText}</p>
+                    </div>
+                    <div class="advice">
+                        💙 <strong>Рекомендация:</strong> ${overallAdvice}
+                    </div>
+                    <div class="note-text" style="margin-top: 1rem;">
+                        ⚠️ Тест не является медицинским диагнозом. При стойких нарушениях сна, аппетита или появлении мыслей о самоповреждении необходимо срочно обратиться к врачу.
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button id="restartBeckBtn" class="btn btn-secondary">🔄 Пройти заново</button>
+                </div>
+                <hr>
+                <div class="footer-note">
+                    📚 Шкалы тревоги и депрессии Бека валидизированы и широко используются в клинической практике. Берегите себя.
+                </div>
+            </div>
+        `;
+        document.getElementById('restartBeckBtn')?.addEventListener('click', () => {
+            resetTest();
+        });
+    }
+
+    renderStart();
+</script>
+</body>
+</html>

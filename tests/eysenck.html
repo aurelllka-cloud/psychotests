@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Тест: Формула темперамента | Экстраверт, интроверт или...? (Айзенк)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(145deg, #d4dcec 0%, #b8c4dc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            padding: 1.5rem;
+        }
+        .test-container {
+            max-width: 760px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .test-card {
+            background: #ffffff;
+            border-radius: 2rem;
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+        }
+        .accent-header {
+            background: linear-gradient(105deg, #665191 0%, #8a75b0 100%);
+            padding: 1.6rem 2rem;
+            color: white;
+            text-align: center;
+        }
+        .accent-header h1 {
+            font-size: 1.8rem;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .accent-header p {
+            font-size: 0.9rem;
+            opacity: 0.95;
+            margin-top: 0.3rem;
+        }
+        .content-panel {
+            padding: 2rem;
+        }
+        .badge-info {
+            background: #ece6f5;
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #5c4980;
+            margin-bottom: 1rem;
+        }
+        .welcome-text {
+            background: #f8f5fc;
+            padding: 1rem;
+            border-radius: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: #3d2e52;
+        }
+        .btn {
+            background: #665191;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 3rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-primary {
+            background: #7e68a3;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .btn-primary:hover {
+            background: #5c4980;
+            transform: translateY(-2px);
+        }
+        .question-block {
+            background: #ffffff;
+            border-radius: 1.2rem;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            border: 1px solid #dfd8ee;
+        }
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: #3d2e52;
+        }
+        .options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .option-btn {
+            background: #f3eff9;
+            border: 1px solid #d6cce8;
+            padding: 0.5rem 1.5rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.1s;
+        }
+        .option-btn.selected {
+            background: #7e68a3;
+            color: white;
+            border-color: #7e68a3;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            gap: 0.8rem;
+        }
+        .next-btn {
+            background: #7e68a3;
+            padding: 0.6rem 1.2rem;
+            border-radius: 2rem;
+            border: none;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .next-btn:disabled {
+            background: #c7bce0;
+            cursor: not-allowed;
+        }
+        .progress-bar {
+            background: #e8e2f2;
+            border-radius: 20px;
+            height: 6px;
+            margin: 1rem 0;
+        }
+        .progress-fill {
+            background: #7e68a3;
+            width: 0%;
+            height: 6px;
+            border-radius: 20px;
+            transition: width 0.2s;
+        }
+        .result-card {
+            background: #ffffff;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+        }
+        .temperament-title {
+            font-size: 2rem;
+            font-weight: 800;
+            text-align: center;
+            padding: 0.5rem;
+            border-radius: 1.2rem;
+            margin: 1rem 0;
+        }
+        .axis {
+            display: flex;
+            justify-content: space-between;
+            margin: 0.5rem 0;
+            font-size: 0.8rem;
+        }
+        .score-bar {
+            background: #e8e2f2;
+            border-radius: 12px;
+            height: 12px;
+            margin: 0.3rem 0;
+        }
+        .score-fill {
+            background: #7e68a3;
+            width: 0%;
+            height: 12px;
+            border-radius: 12px;
+        }
+        .interpretation {
+            background: #f8f5fc;
+            padding: 1rem;
+            border-radius: 1rem;
+            margin: 1rem 0;
+            border-left: 5px solid #7e68a3;
+        }
+        .footer-note {
+            margin-top: 1rem;
+            font-size: 0.7rem;
+            text-align: center;
+            color: #8a7cb0;
+        }
+        @media (max-width: 550px) {
+            .content-panel { padding: 1rem; }
+            .question-text { font-size: 1rem; }
+            .option-btn { padding: 0.4rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="test-container">
+    <div class="test-card">
+        <div class="accent-header">
+            <h1>🧬 Формула темперамента</h1>
+            <p>экстраверт, интроверт или...? · опросник Айзенка (EPI)</p>
+        </div>
+        <div class="content-panel" id="eisenckApp"></div>
+    </div>
+</div>
+
+<script>
+    // ========= ОПРОСНИК АЙЗЕНКА EPI (24 вопроса) =========
+    // Две шкалы: экстраверсия (E) и нейротизм (N).
+    // Ответы: Да (1) / Нет (0). Прямые ключи.
+    // Экстраверсия: вопросы 1,3,5,7,9,11,13,15,17,19,21,23 (12 вопросов)
+    // Нейротизм: вопросы 2,4,6,8,10,12,14,16,18,20,22,24 (12 вопросов)
+    // Интерпретация по пересечению осей:
+    // Экстраверсия > 6 — экстраверт, < 6 — интроверт, =6 — амбиверт
+    // Нейротизм > 6 — нестабильный (эмоционально лабильный), < 6 — стабильный
+    // Типы темперамента:
+    // Экстраверт + стабильный = Сангвиник
+    // Экстраверт + нестабильный = Холерик
+    // Интроверт + стабильный = Флегматик
+    // Интроверт + нестабильный = Меланхолик
+    
+    const QUESTIONS = [
+        "Любите ли вы шумную и оживлённую компанию?",                                          // 1 E
+        "Часто ли вы беспокоитесь о том, что сделали или сказали что-то не так?",              // 2 N
+        "Вы обычно предпочитаете быть в кругу друзей, чем наедине?",                          // 3 E
+        "Легко ли вас обидеть?",                                                              // 4 N
+        "Любите ли вы часто бывать в компаниях, где люди общаются?",                          // 5 E
+        "Бывает ли, что у вас портится настроение без видимой причины?",                      // 6 N
+        "Нравится ли вам быть в центре внимания?",                                            // 7 E
+        "Часто ли вы переживаете из-за того, что сказали что-то не то?",                      // 8 N
+        "Вы предпочитаете развлекательную атмосферу, а не спокойный отдых?",                  // 9 E
+        "Вы чувствительный человек?",                                                         // 10 N
+        "Вам нравится заводить новых знакомых?",                                              // 11 E
+        "Бывает ли, что вы теряете сон из-за переживаний?",                                   // 12 N
+        "Любите ли вы шутки и розыгрыши?",                                                   // 13 E
+        "Часто ли вы чувствуете себя несчастным без особой причины?",                         // 14 N
+        "Вы предпочитаете отдыхать активно, а не перед телевизором?",                        // 15 E
+        "Обидчивы ли вы?",                                                                   // 16 N
+        "В компании вы обычно начинаете разговор первым?",                                   // 17 E
+        "Склонны ли вы к перепадам настроения?",                                             // 18 N
+        "Вам нравится, когда вокруг много людей?",                                           // 19 E
+        "Бывает ли, что вы тревожитесь по пустякам?",                                        // 20 N
+        "Вы обычно оптимистично смотрите на жизнь?",                                         // 21 E
+        "Легко ли вас разволновать?",                                                        // 22 N
+        "Любите ли вы смеяться в компании?",                                                 // 23 E
+        "Часто ли вы чувствуете себя виноватым?"                                              // 24 N
+    ];
+    
+    let currentIndex = 0;
+    let answers = new Array(QUESTIONS.length).fill(null);
+    let testActive = false;
+    const appRoot = document.getElementById('eisenckApp');
+    
+    function renderWelcome() {
+        appRoot.innerHTML = `
+            <div class="badge-info">🧪 классическая типология темперамента в современной обёртке</div>
+            <div class="welcome-text">
+                <strong>Объясняем, почему вы ведёте себя так, а не иначе, и с кем вам будет комфортнее всего.</strong><br><br>
+                Отвечайте «Да» или «Нет» на 24 вопроса. Тест определит вашу экстраверсию/интроверсию, эмоциональную стабильность и тип темперамента (сангвиник, холерик, флегматик, меланхолик).<br>
+                Будьте честны — выбирайте первый пришедший в голову ответ.
+            </div>
+            <button id="startBtn" class="btn btn-primary">🎯 Найти свой темперамент</button>
+            <div class="footer-note">методика Г. Айзенка (EPI), адаптированная для самопознания</div>
+        `;
+        document.getElementById('startBtn')?.addEventListener('click', () => {
+            currentIndex = 0;
+            answers = new Array(QUESTIONS.length).fill(null);
+            testActive = true;
+            renderQuestion();
+        });
+    }
+    
+    function renderQuestion() {
+        if (!testActive) return;
+        if (currentIndex >= QUESTIONS.length) {
+            computeResult();
+            return;
+        }
+        const qText = QUESTIONS[currentIndex];
+        const answeredCount = answers.filter(v => v !== null).length;
+        const percent = (answeredCount / QUESTIONS.length) * 100;
+        
+        appRoot.innerHTML = `
+            <div class="progress-bar"><div class="progress-fill" style="width: ${percent}%;"></div></div>
+            <div class="question-block">
+                <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
+                    <span class="badge-info">вопрос ${currentIndex+1} из ${QUESTIONS.length}</span>
+                    <span>${Math.round(percent)}%</span>
+                </div>
+                <div class="question-text">${escapeHtml(qText)}</div>
+                <div class="options">
+                    <div class="option-btn ${answers[currentIndex] === true ? 'selected' : ''}" data-ans="true">👍 Да</div>
+                    <div class="option-btn ${answers[currentIndex] === false ? 'selected' : ''}" data-ans="false">👎 Нет</div>
+                </div>
+                <div class="nav-buttons">
+                    <button id="prevBtn" class="next-btn" style="background:#c7bce0;" ${currentIndex === 0 ? 'disabled' : ''}>← Назад</button>
+                    <button id="nextBtn" class="next-btn" ${answers[currentIndex] === null ? 'disabled' : ''}>Далее →</button>
+                </div>
+            </div>
+        `;
+        
+        document.querySelectorAll('.option-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const val = btn.getAttribute('data-ans') === 'true';
+                answers[currentIndex] = val;
+                renderQuestion();
+            });
+        });
+        
+        document.getElementById('prevBtn')?.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderQuestion();
+            }
+        });
+        document.getElementById('nextBtn')?.addEventListener('click', () => {
+            if (answers[currentIndex] !== null) {
+                currentIndex++;
+                renderQuestion();
+            }
+        });
+    }
+    
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+    
+    function computeResult() {
+        let extraversion = 0;
+        let neuroticism = 0;
+        // экстраверсия - нечетные индексы (0,2,4... всего 12)
+        for (let i = 0; i < QUESTIONS.length; i++) {
+            if (answers[i] === true) {
+                if (i % 2 === 0) extraversion++; // 0,2,4,6... индексы 0,2,4... соответствуют вопросам 1,3,5...
+                else neuroticism++;
+            }
+        }
+        // нейротизм на четных индексах? на самом деле индексы 1,3,5... (нечетные) — это вопросы 2,4,6...
+        // уже посчитали выше.
+        
+        // Определяем категории
+        let eType = "";
+        let nType = "";
+        if (extraversion >= 7) eType = "экстраверт";
+        else if (extraversion <= 5) eType = "интроверт";
+        else eType = "амбиверт (золотая середина)";
+        
+        if (neuroticism >= 7) nType = "эмоционально нестабильный (нейротизм высокий)";
+        else if (neuroticism <= 5) nType = "эмоционально стабильный";
+        else nType = "умеренная эмоциональная изменчивость";
+        
+        // Тип темперамента
+        let temperament = "";
+        let color = "";
+        let description = "";
+        let advice = "";
+        
+        if (extraversion >= 6 && neuroticism <= 5) {
+            temperament = "Сангвиник";
+            color = "#8fcb9b";
+            description = "Сильный, уравновешенный, подвижный. Вы жизнерадостны, общительны, легко переключаетесь между задачами. Оптимист, быстро адаптируетесь к новому.";
+            advice = "Ваша суперсила — энергичность и гибкость. Старайтесь не распыляться, доводите начатое до конца. Вам подходит работа с людьми, творчество, активный отдых.";
+        } else if (extraversion >= 6 && neuroticism >= 6) {
+            temperament = "Холерик";
+            color = "#e6a07e";
+            description = "Сильный, неуравновешенный, вспыльчивый. Вы страстны, решительны, быстро включаетесь в дело, но можете терять интерес и раздражаться.";
+            advice = "Ваша сила — инициативность и лидерство. Учитесь управлять гневом, делайте паузы перед реакцией. Вам подойдут динамичные профессии, спорт, управление.";
+        } else if (extraversion <= 5 && neuroticism <= 5) {
+            temperament = "Флегматик";
+            color = "#a8c0d4";
+            description = "Сильный, уравновешенный, инертный. Вы спокойны, терпеливы, надёжны. Долго раскачиваетесь, но доводите дело до конца. Мало эмоций внешне.";
+            advice = "Ваша стабильность — ресурс. Избегайте застоя, иногда вносите разнообразие. Вам подходят рутинные, требующие усидчивости профессии: аналитика, бухгалтерия, наука.";
+        } else {
+            temperament = "Меланхолик";
+            color = "#ba9dc2";
+            description = "Слабый, чувствительный, глубокий. Вы эмоциональны, ранимы, склонны к рефлексии. Хорошо чувствуете нюансы, но быстро устаёте от стресса.";
+            advice = "Ваша эмпатия и творчество — дар. Окружайте себя заботливыми людьми, избегайте перегрузок. Вам подходят творческие профессии, психология, искусство.";
+        }
+        
+        appRoot.innerHTML = `
+            <div class="result-card">
+                <span class="badge-info">📊 ваш психологический портрет</span>
+                <div class="temperament-title" style="background: ${color}20; color: ${color}; border: 2px solid ${color};">${temperament}</div>
+                <div class="axis">
+                    <span>🔽 Интроверт</span>
+                    <span>⚖️ Экстраверт 🔼</span>
+                </div>
+                <div class="score-bar"><div class="score-fill" style="width: ${extraversion/12*100}%; background: #7e68a3;"></div></div>
+                <div style="text-align:center; margin:0.3rem 0;">Экстраверсия: ${extraversion} из 12 — ${eType}</div>
+                <div class="axis">
+                    <span>😌 Эмоциональная стабильность</span>
+                    <span>😰 Нейротизм (нестабильность)</span>
+                </div>
+                <div class="score-bar"><div class="score-fill" style="width: ${neuroticism/12*100}%; background: #e6a07e;"></div></div>
+                <div style="text-align:center; margin:0.3rem 0;">Нейротизм: ${neuroticism} из 12 — ${nType}</div>
+                <div class="interpretation">
+                    <strong>🧠 ${temperament}:</strong> ${description}<br><br>
+                    <strong>💡 Совет:</strong> ${advice}<br><br>
+                    <strong>✨ С кем вам комфортнее?</strong><br>
+                    • Сангвиники легко ладят со всеми, особенно с холериками и флегматиками.<br>
+                    • Холерикам лучше всего с сангвиниками или флегматиками, которые уравновешивают их.<br>
+                    • Флегматики ценят стабильных партнёров (сангвиников).<br>
+                    • Меланхоликам важны чуткие и терпеливые люди (флегматики, сангвиники).
+                </div>
+                <button id="restartBtn" class="btn" style="background:#7e68a3;">🔄 Пройти заново</button>
+                <div class="footer-note">Тест Айзенка (EPI) не является клиническим диагностическим инструментом, а помогает лучше понять свой характер и темперамент.</div>
+            </div>
+        `;
+        document.getElementById('restartBtn')?.addEventListener('click', () => {
+            renderWelcome();
+        });
+    }
+    
+    renderWelcome();
+</script>
+</body>
+</html>

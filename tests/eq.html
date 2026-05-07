@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Тест: Эмоциональный интеллект | Понимаете ли вы себя и других?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(125deg, #e2d9ff 0%, #cfc6f0 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            padding: 1.5rem;
+        }
+
+        .test-container {
+            max-width: 760px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .test-card {
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 2rem;
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            border: 1px solid #c7bbf0;
+        }
+
+        .accent-header {
+            background: linear-gradient(105deg, #6a4e9b 0%, #8e6fcb 100%);
+            padding: 1.8rem 2rem 1.5rem;
+            color: white;
+            text-align: center;
+        }
+
+        .accent-header h1 {
+            font-size: 1.9rem;
+            letter-spacing: -0.3px;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .accent-header p {
+            font-size: 0.95rem;
+            opacity: 0.92;
+            max-width: 90%;
+            margin: 0.5rem auto 0;
+        }
+
+        .content-panel {
+            padding: 2rem 2rem 2.2rem;
+        }
+
+        .welcome-text {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #3c2a5c;
+            background: #f4f0ff;
+            padding: 1.3rem;
+            border-radius: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid #8e6fcb;
+        }
+
+        .badge-info {
+            display: inline-block;
+            background: #e7e0ff;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #5a3d8c;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            border: none;
+            background: #6a4e9b;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.9rem 1.8rem;
+            border-radius: 3rem;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+            max-width: 260px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #7e5fc4;
+            box-shadow: 0 6px 14px rgba(110, 70, 180, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #624ba0;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #ede8ff;
+            color: #4d3680;
+            border: 1px solid #cfc4f0;
+        }
+
+        .btn-secondary:hover {
+            background: #e1d9fc;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+        }
+
+        .q-counter {
+            background: #edeaff;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #6a4e9b;
+        }
+
+        .progress-bar-bg {
+            background: #e1d9f0;
+            border-radius: 20px;
+            height: 8px;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .progress-fill {
+            background: #8e6fcb;
+            width: 0%;
+            height: 8px;
+            border-radius: 20px;
+            transition: width 0.2s ease;
+        }
+
+        .question-text {
+            font-size: 1.45rem;
+            font-weight: 500;
+            line-height: 1.4;
+            margin: 1.5rem 0 2rem;
+            color: #302250;
+        }
+
+        .likert-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            margin: 1.2rem 0 0.8rem;
+        }
+        .likert-option {
+            background: #fcfaff;
+            border: 1px solid #d6ccf0;
+            border-radius: 2rem;
+            padding: 0.6rem 0.5rem;
+            flex: 1;
+            min-width: 55px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.1s;
+            color: #4d3680;
+        }
+        .likert-option.selected {
+            background: #8e6fcb;
+            border-color: #6a4e9b;
+            color: white;
+            font-weight: 600;
+        }
+        .likert-label {
+            font-size: 0.65rem;
+            display: block;
+            margin-top: 0.2rem;
+            opacity: 0.8;
+        }
+        .note-text {
+            font-size: 0.7rem;
+            text-align: center;
+            margin-top: 0.8rem;
+            color: #8b74b9;
+        }
+
+        .result-card {
+            background: #fdfcff;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin: 1rem 0 1.8rem;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+        }
+
+        .result-title {
+            font-size: 1.7rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .score-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin: 1rem 0;
+            justify-content: space-between;
+        }
+        .scale-item {
+            background: #f1edfe;
+            border-radius: 1.2rem;
+            padding: 0.6rem 1rem;
+            flex: 1 1 150px;
+            text-align: center;
+        }
+        .scale-name {
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        .scale-score {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #6a4e9b;
+        }
+        .advice {
+            background: #f4f0ff;
+            padding: 1rem 1.2rem;
+            border-radius: 1.2rem;
+            margin-top: 1rem;
+            border-left: 4px solid #8e6fcb;
+        }
+        .footer-note {
+            margin-top: 1.2rem;
+            font-size: 0.7rem;
+            text-align: center;
+            color: #826cb0;
+        }
+        hr {
+            margin: 1rem 0;
+            border: none;
+            height: 1px;
+            background: #e2daf5;
+        }
+        @media (max-width: 550px) {
+            .content-panel { padding: 1.5rem; }
+            .question-text { font-size: 1.2rem; }
+            .likert-option { padding: 0.4rem 0.3rem; font-size: 0.7rem; min-width: 45px; }
+        }
+    </style>
+</head>
+<body>
+<div class="test-container">
+    <div class="test-card">
+        <div class="accent-header">
+            <h1>🧠 Эмоциональный интеллект</h1>
+            <p>Понимаете ли вы себя и других? · Тест EQ Холла</p>
+        </div>
+        <div class="content-panel" id="eqApp"></div>
+    </div>
+</div>
+
+<script>
+    // ========= ТЕСТ ЭМОЦИОНАЛЬНОГО ИНТЕЛЛЕКТА (методика Н. Холла) =========
+    // 5 шкал: 
+    // 1) Эмоциональная осведомленность (восточная) – 4 вопроса
+    // 2) Управление своими эмоциями – 4 вопроса
+    // 3) Самомотивация – 4 вопроса
+    // 4) Эмпатия – 4 вопроса
+    // 5) Распознавание эмоций других – 4 вопроса
+    // Итого 20 вопросов. Ответы по 6-балльной шкале: 1 – полностью не согласен, 6 – полностью согласен.
+    // Прямые вопросы (без инверсии), все шкалы суммируются, затем переводятся в баллы от 0 до 100.
+    // Общий EQ = среднее по шкалам (0–100%).
+    
+    const QUESTIONS_EQ = [
+        // Шкала 1: эмоциональная осведомленность
+        "Я замечаю, когда моё настроение меняется, и понимаю причины этого.",
+        "Я осознаю свои истинные чувства в любой момент.",
+        "Я могу точно описать свои ощущения и эмоции.",
+        "Я понимаю, что чувствую внутри, даже если это сложно.",
+        // Шкала 2: управление своими эмоциями
+        "Мне легко успокоиться после того, как я разозлился(лась).",
+        "Я умею контролировать вспышки гнева и раздражения.",
+        "Когда я расстроен(а), я могу взять себя в руки и не совершать необдуманных поступков.",
+        "Я способен(на) управлять своими эмоциями даже в стрессовой ситуации.",
+        // Шкала 3: самомотивация
+        "Я могу заставить себя делать то, что нужно, даже если не хочется.",
+        "Я легко сосредотачиваюсь на важных целях и довожу дела до конца.",
+        "Я верю в свои силы и позитивно настраиваю себя на достижение результата.",
+        "Я умею подбадривать себя и находить внутренний ресурс.",
+        // Шкала 4: эмпатия
+        "Я чувствую, что переживают другие люди, даже если они не говорят об этом.",
+        "Мне легко поставить себя на место другого человека.",
+        "Я искренне сопереживаю чужим трудностям.",
+        "Я замечаю изменения в настроении окружающих и понимаю их причины.",
+        // Шкала 5: распознавание эмоций других
+        "По выражению лица я могу точно определить эмоции человека.",
+        "Я понимаю, что говорят жесты и позы собеседника.",
+        "Мне несложно уловить скрытые эмоции в голосе или интонациях.",
+        "Я быстро понимаю, когда кто-то рядом расстроен или недоволен, даже без слов."
+    ];
+    
+    const TOTAL_QS = 20;
+    let currentIndex = 0;
+    let answers = new Array(TOTAL_QS).fill(null); // 1..6
+    let testActive = false;
+    const appRoot = document.getElementById('eqApp');
+    
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+    
+    function renderStartScreen() {
+        appRoot.innerHTML = `
+            <div class="screen welcome-screen">
+                <div class="badge-info">🎯 академическая основа: тест эмоционального интеллекта Н. Холла</div>
+                <div class="welcome-text">
+                    <strong>Главный навык 21 века. Насколько хорошо вы управляете гневом, считываете эмоции коллег и можете вдохновлять?</strong><br><br>
+                    Тест для руководителей и тех, кто хочет гармонии в отношениях. На 20 утверждений ответьте честно по шкале от 1 до 6, где 1 — «полностью не согласен», 6 — «полностью согласен».
+                    Результат покажет ваш уровень эмоционального интеллекта по пяти компонентам и общий индекс.
+                </div>
+                <div class="btn-group">
+                    <button id="startEqBtn" class="btn btn-primary">✨ Измерить EQ</button>
+                </div>
+                <div class="footer-note">🧩 Эмоциональный интеллект можно развивать. Тест станет первой точкой роста.</div>
+            </div>
+        `;
+        document.getElementById('startEqBtn')?.addEventListener('click', () => {
+            resetTest();
+        });
+    }
+    
+    function resetTest() {
+        currentIndex = 0;
+        answers = new Array(TOTAL_QS).fill(null);
+        testActive = true;
+        renderQuestion();
+    }
+    
+    function renderQuestion() {
+        if (!testActive) return;
+        if (currentIndex >= TOTAL_QS) {
+            computeResults();
+            return;
+        }
+        const qText = QUESTIONS_EQ[currentIndex];
+        const answeredCount = answers.filter(v => v !== null).length;
+        const percent = (answeredCount / TOTAL_QS) * 100;
+        
+        // Генерируем 6 вариантов с лейблами
+        let optionsHtml = '';
+        for (let val = 1; val <= 6; val++) {
+            let label = '';
+            if (val === 1) label = 'не согласен';
+            else if (val === 6) label = 'полностью согласен';
+            else label = '';
+            const selectedClass = (answers[currentIndex] === val) ? 'selected' : '';
+            optionsHtml += `
+                <div class="likert-option ${selectedClass}" data-value="${val}">
+                    ${val}
+                    <span class="likert-label">${label}</span>
+                </div>
+            `;
+        }
+        
+        appRoot.innerHTML = `
+            <div class="screen question-screen">
+                <div class="question-header">
+                    <div class="q-counter">Вопрос ${currentIndex+1} из ${TOTAL_QS}</div>
+                    <div class="progress-bar-bg"><div class="progress-fill" style="width: ${percent}%;"></div></div>
+                </div>
+                <div class="question-text">${escapeHtml(qText)}</div>
+                <div class="likert-row" id="likertEqRow">
+                    ${optionsHtml}
+                </div>
+                <div class="note-text">1 – полностью не согласен, 6 – полностью согласен</div>
+                <div class="btn-group" style="margin-top: 1.8rem;">
+                    <button id="nextEqBtn" class="btn btn-primary" ${answers[currentIndex] === null ? 'disabled style="opacity:0.5;"' : ''}>Далее →</button>
+                </div>
+            </div>
+        `;
+        
+        const options = document.querySelectorAll('.likert-option');
+        options.forEach(opt => {
+            opt.addEventListener('click', () => {
+                const val = parseInt(opt.getAttribute('data-value'));
+                answers[currentIndex] = val;
+                options.forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                const nextBtn = document.getElementById('nextEqBtn');
+                if (nextBtn) {
+                    nextBtn.disabled = false;
+                    nextBtn.style.opacity = '1';
+                }
+            });
+        });
+        
+        const nextBtn = document.getElementById('nextEqBtn');
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                if (answers[currentIndex] !== null) {
+                    currentIndex++;
+                    renderQuestion();
+                }
+            });
+        }
+    }
+    
+    function computeResults() {
+        testActive = false;
+        // Шкалы: первые 4 - осведомленность, след 4 - управление, 4 - самомотивация, 4 - эмпатия, 4 - распознавание
+        const scales = [
+            { name: "Эмоциональная осведомленность", scores: [], range: [0,3] },
+            { name: "Управление эмоциями", scores: [], range: [4,7] },
+            { name: "Самомотивация", scores: [], range: [8,11] },
+            { name: "Эмпатия", scores: [], range: [12,15] },
+            { name: "Распознавание эмоций других", scores: [], range: [16,19] }
+        ];
+        
+        for (let i = 0; i < TOTAL_QS; i++) {
+            let ans = answers[i];
+            if (ans === null) ans = 3; // если вдруг пропуск (не должно быть)
+            // находим шкалу
+            if (i <= 3) scales[0].scores.push(ans);
+            else if (i <= 7) scales[1].scores.push(ans);
+            else if (i <= 11) scales[2].scores.push(ans);
+            else if (i <= 15) scales[3].scores.push(ans);
+            else scales[4].scores.push(ans);
+        }
+        
+        // Каждая шкала: сумма от 4 до 24. Переводим в проценты: (сумма - 4) / (24-4) * 100 = (сумма - 4)/20 * 100
+        let scalePercents = [];
+        let totalPercentSum = 0;
+        for (let s of scales) {
+            let sum = s.scores.reduce((a,b) => a + b, 0);
+            let percent = ((sum - 4) / 20) * 100;
+            percent = Math.min(100, Math.max(0, percent));
+            scalePercents.push(Math.round(percent));
+            totalPercentSum += percent;
+        }
+        const overallEQ = Math.round(totalPercentSum / 5);
+        
+        // интерпретация
+        let levelMessage = "";
+        let overallDesc = "";
+        if (overallEQ >= 75) {
+            levelMessage = "🏆 Очень высокий эмоциональный интеллект";
+            overallDesc = "Вы прекрасно понимаете себя и других, эффективно управляете эмоциями и вдохновляете окружающих. Такие люди — лидеры по природе, у них гармоничные отношения и высокая стрессоустойчивость.";
+        } else if (overallEQ >= 60) {
+            levelMessage = "🌟 Высокий эмоциональный интеллект";
+            overallDesc = "Вы хорошо осознаёте свои и чужие эмоции, умеете управлять настроением и мотивировать себя. Это надёжный фундамент для успеха в карьере и личной жизни.";
+        } else if (overallEQ >= 45) {
+            levelMessage = "🌱 Средний уровень EQ";
+            overallDesc = "Ваш эмоциональный интеллект развит на базовом уровне. Иногда вам сложно распознавать скрытые чувства или справляться с импульсами. Но EQ можно тренировать, и вы уже на правильном пути.";
+        } else if (overallEQ >= 30) {
+            levelMessage = "🍂 Ниже среднего";
+            overallDesc = "Вы часто испытываете трудности в понимании своих эмоций и реакций других. Это может вести к конфликтам или выгоранию. Хорошая новость: эмоциональный интеллект развивается с практикой.";
+        } else {
+            levelMessage = "🌧️ Низкий уровень EQ";
+            overallDesc = "Вам сложно управлять эмоциями и понимать чувства других. Это не приговор, а зона роста. Начните с малого: отслеживайте своё настроение 2-3 раза в день и задавайте вопросы близким об их переживаниях.";
+        }
+        
+        // рекомендации по слабым зонам
+        let weaknessAdvice = "";
+        const weakScales = [];
+        for (let i=0; i<scalePercents.length; i++) {
+            if (scalePercents[i] < 50) weakScales.push(scales[i].name);
+        }
+        if (weakScales.length > 0) {
+            weaknessAdvice = `🔍 Ваши зоны роста: ${weakScales.join(", ")}. Для развития практикуйте ведение дневника эмоций (для осознанности), техники глубокого дыхания (управление эмоциями), активное слушание (эмпатия).`;
+        } else {
+            weaknessAdvice = "🎯 У вас сбалансированные показатели! Чтобы поддерживать EQ, продолжайте рефлексировать и тренировать эмпатию.";
+        }
+        
+        // Формируем таблицу шкал
+        let scalesHtml = "";
+        for (let i=0; i<scales.length; i++) {
+            scalesHtml += `
+                <div class="scale-item">
+                    <div class="scale-name">${scales[i].name}</div>
+                    <div class="scale-score">${scalePercents[i]}%</div>
+                </div>
+            `;
+        }
+        
+        appRoot.innerHTML = `
+            <div class="screen result-screen">
+                <div class="result-card">
+                    <div class="result-title">${levelMessage}</div>
+                    <div class="score-grid">${scalesHtml}</div>
+                    <div class="score-badge" style="font-size:2rem; font-weight:700; color:#6a4e9b; text-align:center;">Общий EQ: ${overallEQ}%</div>
+                    <div class="result-desc" style="margin-top:0.5rem;">
+                        ${overallDesc}<br><br>
+                        <strong>${overallEQ >= 60 ? "✨ Вы умеете вдохновлять" : "💪 Каждый может повысить EQ"}</strong>
+                    </div>
+                    <div class="advice">
+                        💡 <strong>Совет по развитию:</strong> ${weaknessAdvice}
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button id="restartEqBtn" class="btn btn-secondary">🔄 Пройти тест заново</button>
+                </div>
+                <hr>
+                <div class="footer-note">
+                    📚 Тест на основе модели эмоционального интеллекта Н. Холла. Регулярная рефлексия и обратная связь от близких помогут повысить навыки EQ.
+                </div>
+            </div>
+        `;
+        document.getElementById('restartEqBtn')?.addEventListener('click', () => {
+            resetTest();
+        });
+    }
+    
+    renderStartScreen();
+</script>
+</body>
+</html>

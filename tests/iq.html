@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Тест: Узнай свой IQ | Полная проверка способностей (Векслер)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(145deg, #1a2639 0%, #0d1624 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            padding: 1.5rem;
+        }
+        .test-container {
+            max-width: 880px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .test-card {
+            background: #fefefc;
+            border-radius: 2rem;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+        .accent-header {
+            background: linear-gradient(105deg, #0f2b4d 0%, #1a3f66 100%);
+            padding: 1.6rem 2rem;
+            color: white;
+            text-align: center;
+        }
+        .accent-header h1 {
+            font-size: 1.8rem;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .accent-header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 0.3rem;
+        }
+        .content-panel {
+            padding: 2rem;
+        }
+        .badge-info {
+            background: #e5ecf5;
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #1a3f66;
+            margin-bottom: 1rem;
+        }
+        .welcome-text {
+            background: #f2f6fc;
+            padding: 1rem;
+            border-radius: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: #1e293b;
+        }
+        .btn {
+            background: #1a3f66;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 3rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-primary {
+            background: #2a5a8c;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .btn-primary:hover {
+            background: #1a3f66;
+            transform: translateY(-2px);
+        }
+        .task-block {
+            background: #ffffff;
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #e2e8f0;
+        }
+        .question-text {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #0f2b4d;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin: 1rem 0;
+        }
+        .option-row {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.5rem;
+            border-radius: 1rem;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+        }
+        .option-row.selected {
+            background: #eef2ff;
+            border-color: #2a5a8c;
+        }
+        input[type="radio"] {
+            width: 18px;
+            height: 18px;
+        }
+        .next-btn {
+            background: #2a5a8c;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            width: 100%;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .next-btn:disabled {
+            background: #b9c8e0;
+            cursor: not-allowed;
+        }
+        .result-card {
+            background: #ffffff;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .iq-score {
+            font-size: 4rem;
+            font-weight: 800;
+            color: #1a3f66;
+        }
+        .footer-note {
+            margin-top: 1rem;
+            font-size: 0.7rem;
+            text-align: center;
+            color: #5b6e8c;
+        }
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.8rem;
+            margin: 1rem 0;
+        }
+        .matrix-cell {
+            background: #f1f5f9;
+            border-radius: 0.8rem;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .option-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.8rem;
+            margin: 1rem 0;
+        }
+        .option-figure {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.8rem;
+            aspect-ratio: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .option-figure.selected {
+            border-color: #2a5a8c;
+            background: #eef2ff;
+        }
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+        @media (max-width: 550px) {
+            .content-panel { padding: 1rem; }
+            .question-text { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="test-container">
+    <div class="test-card">
+        <div class="accent-header">
+            <h1>🧠 Узнай свой IQ</h1>
+            <p>полная проверка способностей · тест Векслера (WAIS/WISC)</p>
+        </div>
+        <div class="content-panel" id="iqApp"></div>
+    </div>
+</div>
+
+<script>
+    // ========= ТЕСТ НА ОСНОВЕ МЕТОДИКИ ВЕКСЛЕРА =========
+    // Сочетание вербальных и невербальных субтестов:
+    // 1. Словарный запас (верб) – 5 вопросов
+    // 2. Общая понятливость (верб) – 5 вопросов
+    // 3. Арифметический (верб) – 4 вопроса
+    // 4. Нахождение недостающих деталей (неверб) – 3 визуальных задания
+    // 5. Кодирование/символы (неверб) – 1 задание (поиск закономерности)
+    // Итого ~18 заданий. Оценка по шкале IQ (среднее 100, отклонение 15).
+    // Упрощённая модель: баллы переводятся в шкалу IQ от 70 до 130+.
+    
+    const VERBAL_QS = [
+        { text: "Что означает слово «альтруист»?", options: ["человек, любящий искусство", "бескорыстный помощник", "астроном", "путешественник"], correct: 1 },
+        { text: "Что такое «эклектика»?", options: ["направление в искусстве", "смешение стилей", "научный метод", "философское течение"], correct: 1 },
+        { text: "Значение слова «инновация»:", options: ["нововведение", "консервация", "налог", "производство"], correct: 0 },
+        { text: "Кто такой «конформист»?", options: ["бунтарь", "лидер", "человек, принимающий господствующие нормы", "изобретатель"], correct: 2 },
+        { text: "Что означает «амбивалентность»?", options: ["двойственность переживаний", "безразличие", "радость", "агрессия"], correct: 0 }
+    ];
+    
+    const UNDERSTANDING_QS = [
+        { text: "Почему важно платить налоги?", options: ["это традиция", "для финансирования общественных благ", "чтобы не было штрафа", "не знаю"], correct: 1 },
+        { text: "Зачем люди читают книги?", options: ["для развлечения", "чтобы получать новые знания и развиваться", "чтобы проводить время", "все варианты верны"], correct: 3 },
+        { text: "Почему врачи носят белые халаты?", options: ["белый цвет успокаивает", "символ чистоты и стерильности", "так сложилось исторически", "все варианты"], correct: 3 },
+        { text: "Зачем нужны правила дорожного движения?", options: ["чтобы штрафовать", "для безопасности всех участников", "чтобы усложнить жизнь", "чтобы быстрее ездить"], correct: 1 },
+        { text: "Почему важно уметь работать в команде?", options: ["чтобы получить повышение", "это весело", "для достижения общих целей эффективнее", "не обязательно"], correct: 2 }
+    ];
+    
+    const ARITHMETIC_QS = [
+        { text: "Если у вас есть 120 рублей, и вы тратите треть, сколько останется?", options: ["80", "60", "40", "90"], correct: 0 },
+        { text: "Сколько будет 15 × 7 − 20?", options: ["85", "95", "105", "75"], correct: 0 },
+        { text: "Поезд едет 3 часа со скоростью 80 км/ч. Какое расстояние он проедет?", options: ["240 км", "200 км", "260 км", "220 км"], correct: 0 },
+        { text: "Если 5 рабочих выполняют заказ за 8 дней, за сколько дней сделают 10 рабочих (при той же производительности)?", options: ["4 дня", "5 дней", "3 дня", "6 дней"], correct: 0 }
+    ];
+    
+    // Невербальные: матрицы, недостающие детали (рисуем канвасом)
+    // Используем простые логические матрицы (аналогично Равену, 3 задания)
+    const NONVERBAL_TASKS = [
+        {   // матрица 3x3 с кругами (количество растёт)
+            drawMatrix: (ctx, size, cellW, cellH, idx) => {} // общая функция
+        }
+    ];
+    // Для простоты создадим 3 визуальных задания с выбором из 4 вариантов.
+    // Задание 1: паттерн с квадратами (количество линий)
+    // Задание 2: паттерн с треугольниками (направление)
+    // Задание 3: паттерн с заливкой
+    
+    // Определим список невербальных заданий с функциями рисования
+    const NONVERBAL_ITEMS = [
+        {
+            drawMatrix: (cells, containerSize) => {
+                // cells - массив из 8 canvas (0..7, 8-й пропуск)
+                let patterns = [
+                    [1,2,3, 2,3,4, 3,4,5] // количество чёрных квадратов
+                ];
+                for (let i=0; i<8; i++) {
+                    let num = patterns[0][i];
+                    let canvas = cells[i];
+                    let ctx = canvas.getContext('2d');
+                    let s = containerSize;
+                    ctx.clearRect(0,0,s,s);
+                    ctx.fillStyle="#fff"; ctx.fillRect(0,0,s,s);
+                    ctx.fillStyle="#2a5a8c";
+                    let step = s / 4;
+                    for(let k=0;k<num;k++){
+                        let row = Math.floor(k/3);
+                        let col = k%3;
+                        ctx.fillRect(col*step+step*0.2, row*step+step*0.2, step*0.6, step*0.6);
+                    }
+                }
+            },
+            drawOptions: (ctx, size, optIndex) => {
+                let nums = [5,6,4,7];
+                let num = nums[optIndex];
+                ctx.clearRect(0,0,size,size);
+                ctx.fillStyle="#fff"; ctx.fillRect(0,0,size,size);
+                ctx.fillStyle="#2a5a8c";
+                let step = size / 4;
+                for(let k=0;k<num;k++){
+                    let row = Math.floor(k/3);
+                    let col = k%3;
+                    ctx.fillRect(col*step+step*0.2, row*step+step*0.2, step*0.6, step*0.6);
+                }
+            },
+            correct: 0 // 5 квадратов
+        },
+        {
+            drawMatrix: (cells, containerSize) => {
+                let pat = [
+                    "\\","/","\\", "/","\\","/", "\\","/","×"
+                ];
+                for(let i=0;i<8;i++){
+                    let canvas = cells[i];
+                    let ctx = canvas.getContext('2d');
+                    let s = containerSize;
+                    ctx.clearRect(0,0,s,s);
+                    ctx.fillStyle="#fff"; ctx.fillRect(0,0,s,s);
+                    ctx.strokeStyle="#2a5a8c"; ctx.lineWidth=4;
+                    let sym = pat[i];
+                    if(sym==="\\"){ ctx.beginPath(); ctx.moveTo(s*0.2,s*0.2); ctx.lineTo(s*0.8,s*0.8); ctx.stroke(); }
+                    else if(sym==="/"){ ctx.beginPath(); ctx.moveTo(s*0.8,s*0.2); ctx.lineTo(s*0.2,s*0.8); ctx.stroke(); }
+                    else if(sym==="×"){ ctx.beginPath(); ctx.moveTo(s*0.2,s*0.2); ctx.lineTo(s*0.8,s*0.8); ctx.moveTo(s*0.8,s*0.2); ctx.lineTo(s*0.2,s*0.8); ctx.stroke(); }
+                }
+            },
+            drawOptions: (ctx, size, optIndex) => {
+                let syms = ["\\","/","×","-"];
+                ctx.clearRect(0,0,size,size);
+                ctx.fillStyle="#fff"; ctx.fillRect(0,0,size,size);
+                ctx.strokeStyle="#2a5a8c"; ctx.lineWidth=4;
+                let s=size;
+                if(syms[optIndex]==="\\"){ ctx.beginPath(); ctx.moveTo(s*0.2,s*0.2); ctx.lineTo(s*0.8,s*0.8); ctx.stroke(); }
+                else if(syms[optIndex]==="/"){ ctx.beginPath(); ctx.moveTo(s*0.8,s*0.2); ctx.lineTo(s*0.2,s*0.8); ctx.stroke(); }
+                else if(syms[optIndex]==="×"){ ctx.beginPath(); ctx.moveTo(s*0.2,s*0.2); ctx.lineTo(s*0.8,s*0.8); ctx.moveTo(s*0.8,s*0.2); ctx.lineTo(s*0.2,s*0.8); ctx.stroke(); }
+                else{ ctx.beginPath(); ctx.moveTo(s*0.2,s*0.5); ctx.lineTo(s*0.8,s*0.5); ctx.stroke(); }
+            },
+            correct: 1 // "/"
+        },
+        {
+            drawMatrix: (cells, containerSize) => {
+                let fills = [0,1,0, 1,0,1, 0,1,2];
+                for(let i=0;i<8;i++){
+                    let canvas = cells[i];
+                    let ctx = canvas.getContext('2d');
+                    let s = containerSize;
+                    ctx.clearRect(0,0,s,s);
+                    ctx.fillStyle="#fff"; ctx.fillRect(0,0,s,s);
+                    if(fills[i]===0) ctx.fillStyle="#e2e8f0";
+                    else if(fills[i]===1) ctx.fillStyle="#2a5a8c";
+                    else ctx.fillStyle="#facc15";
+                    ctx.beginPath(); ctx.rect(s*0.2, s*0.2, s*0.6, s*0.6); ctx.fill();
+                }
+            },
+            drawOptions: (ctx, size, optIndex) => {
+                let cols = ["#e2e8f0", "#2a5a8c", "#facc15", "#cbd5e1"];
+                ctx.clearRect(0,0,size,size);
+                ctx.fillStyle="#fff"; ctx.fillRect(0,0,size,size);
+                ctx.fillStyle = cols[optIndex];
+                ctx.beginPath(); ctx.rect(size*0.2, size*0.2, size*0.6, size*0.6); ctx.fill();
+            },
+            correct: 1 // синий
+        }
+    ];
+    
+    let state = {
+        step: 0, // 0-welcome, 1-verba, 2-under, 3-arith, 4-nonverb, 5-result
+        verbalAnswers: new Array(VERBAL_QS.length).fill(null),
+        underAnswers: new Array(UNDERSTANDING_QS.length).fill(null),
+        arithAnswers: new Array(ARITHMETIC_QS.length).fill(null),
+        nonverbAnswers: new Array(NONVERBAL_ITEMS.length).fill(null),
+        currentSubIndex: 0
+    };
+    
+    let totalScore = 0;
+    let maxScore = VERBAL_QS.length + UNDERSTANDING_QS.length + ARITHMETIC_QS.length + NONVERBAL_ITEMS.length;
+    const appRoot = document.getElementById('iqApp');
+    
+    function renderWelcome() {
+        appRoot.innerHTML = `
+            <div class="badge-info">⭐ золотой стандарт тестов на интеллект (WAIS/WISC)</div>
+            <div class="welcome-text">
+                <strong>Не просто цифра, а понимание того, какой канал восприятия у вас ведущий.</strong><br><br>
+                Тест включает вербальные и невербальные субтесты: словарный запас, понятливость, арифметику, визуальные матрицы.<br>
+                Результат покажет ваш общий IQ и склонность к аналитическому или образному мышлению.
+            </div>
+            <button id="startIQBtn" class="btn btn-primary">🧠 Начать тест (около 15 мин)</button>
+            <div class="footer-note">отвечайте честно, не пользуйтесь подсказками</div>
+        `;
+        document.getElementById('startIQBtn')?.addEventListener('click', () => {
+            startTest();
+        });
+    }
+    
+    function startTest() {
+        state = {
+            step: 1,
+            verbalAnswers: new Array(VERBAL_QS.length).fill(null),
+            underAnswers: new Array(UNDERSTANDING_QS.length).fill(null),
+            arithAnswers: new Array(ARITHMETIC_QS.length).fill(null),
+            nonverbAnswers: new Array(NONVERBAL_ITEMS.length).fill(null),
+            currentSubIndex: 0
+        };
+        renderVerbal();
+    }
+    
+    function renderVerbal() {
+        let q = VERBAL_QS[state.currentSubIndex];
+        let selected = state.verbalAnswers[state.currentSubIndex];
+        let optionsHtml = q.options.map((opt, idx) => `
+            <div class="option-row ${selected === idx ? 'selected' : ''}" data-idx="${idx}">
+                <input type="radio" name="verbal" value="${idx}" ${selected === idx ? 'checked' : ''}>
+                <label>${opt}</label>
+            </div>
+        `).join('');
+        appRoot.innerHTML = `
+            <div class="task-block">
+                <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
+                    <span class="badge-info">📖 Словарный запас</span>
+                    <span>${state.currentSubIndex+1}/${VERBAL_QS.length}</span>
+                </div>
+                <div class="question-text">${q.text}</div>
+                <div class="options">${optionsHtml}</div>
+                <button id="nextBtn" class="next-btn" ${selected === null ? 'disabled' : ''}>Далее</button>
+            </div>
+        `;
+        attachOptionListeners('.option-row', (idx) => {
+            state.verbalAnswers[state.currentSubIndex] = idx;
+            renderVerbal(); // обновить кнопку
+        });
+        document.getElementById('nextBtn')?.addEventListener('click', () => {
+            if (state.verbalAnswers[state.currentSubIndex] !== null) {
+                if (state.currentSubIndex + 1 < VERBAL_QS.length) {
+                    state.currentSubIndex++;
+                    renderVerbal();
+                } else {
+                    state.currentSubIndex = 0;
+                    state.step = 2;
+                    renderUnderstanding();
+                }
+            }
+        });
+    }
+    
+    function renderUnderstanding() {
+        let q = UNDERSTANDING_QS[state.currentSubIndex];
+        let selected = state.underAnswers[state.currentSubIndex];
+        let optionsHtml = q.options.map((opt, idx) => `
+            <div class="option-row ${selected === idx ? 'selected' : ''}" data-idx="${idx}">
+                <input type="radio" name="under" value="${idx}" ${selected === idx ? 'checked' : ''}>
+                <label>${opt}</label>
+            </div>
+        `).join('');
+        appRoot.innerHTML = `
+            <div class="task-block">
+                <div style="display:flex; justify-content:space-between;">
+                    <span class="badge-info">🧭 Общая понятливость</span>
+                    <span>${state.currentSubIndex+1}/${UNDERSTANDING_QS.length}</span>
+                </div>
+                <div class="question-text">${q.text}</div>
+                <div class="options">${optionsHtml}</div>
+                <button id="nextBtn" class="next-btn" ${selected === null ? 'disabled' : ''}>Далее</button>
+            </div>
+        `;
+        attachOptionListeners('.option-row', (idx) => {
+            state.underAnswers[state.currentSubIndex] = idx;
+            renderUnderstanding();
+        });
+        document.getElementById('nextBtn')?.addEventListener('click', () => {
+            if (state.underAnswers[state.currentSubIndex] !== null) {
+                if (state.currentSubIndex + 1 < UNDERSTANDING_QS.length) {
+                    state.currentSubIndex++;
+                    renderUnderstanding();
+                } else {
+                    state.currentSubIndex = 0;
+                    state.step = 3;
+                    renderArithmetic();
+                }
+            }
+        });
+    }
+    
+    function renderArithmetic() {
+        let q = ARITHMETIC_QS[state.currentSubIndex];
+        let selected = state.arithAnswers[state.currentSubIndex];
+        let optionsHtml = q.options.map((opt, idx) => `
+            <div class="option-row ${selected === idx ? 'selected' : ''}" data-idx="${idx}">
+                <input type="radio" name="arith" value="${idx}" ${selected === idx ? 'checked' : ''}>
+                <label>${opt}</label>
+            </div>
+        `).join('');
+        appRoot.innerHTML = `
+            <div class="task-block">
+                <div style="display:flex; justify-content:space-between;">
+                    <span class="badge-info">🔢 Арифметические способности</span>
+                    <span>${state.currentSubIndex+1}/${ARITHMETIC_QS.length}</span>
+                </div>
+                <div class="question-text">${q.text}</div>
+                <div class="options">${optionsHtml}</div>
+                <button id="nextBtn" class="next-btn" ${selected === null ? 'disabled' : ''}>Далее</button>
+            </div>
+        `;
+        attachOptionListeners('.option-row', (idx) => {
+            state.arithAnswers[state.currentSubIndex] = idx;
+            renderArithmetic();
+        });
+        document.getElementById('nextBtn')?.addEventListener('click', () => {
+            if (state.arithAnswers[state.currentSubIndex] !== null) {
+                if (state.currentSubIndex + 1 < ARITHMETIC_QS.length) {
+                    state.currentSubIndex++;
+                    renderArithmetic();
+                } else {
+                    state.currentSubIndex = 0;
+                    state.step = 4;
+                    renderNonverbal();
+                }
+            }
+        });
+    }
+    
+    function renderNonverbal() {
+        let idx = state.currentSubIndex;
+        if (idx >= NONVERBAL_ITEMS.length) {
+            computeIQ();
+            return;
+        }
+        let task = NONVERBAL_ITEMS[idx];
+        let selected = state.nonverbAnswers[idx];
+        let containerSize = 140;
+        // построить матрицу 3x3 (8 клеток + ?)
+        let matrixHtml = '<div class="matrix-grid">';
+        for (let i=0; i<9; i++) {
+            if (i === 8) {
+                matrixHtml += `<div class="matrix-cell" style="background:#f1f5f9;"><div style="font-size:1.5rem;">❓</div></div>`;
+            } else {
+                matrixHtml += `<div class="matrix-cell"><canvas id="nv_cell_${i}" width="${containerSize}" height="${containerSize}" style="width:100%;height:auto;"></canvas></div>`;
+            }
+        }
+        matrixHtml += '</div>';
+        let optionsHtml = '<div class="option-grid">';
+        for (let opt=0; opt<4; opt++) {
+            optionsHtml += `<div class="option-figure ${selected === opt ? 'selected' : ''}" data-opt="${opt}"><canvas id="nv_opt_${opt}" width="100" height="100"></canvas></div>`;
+        }
+        optionsHtml += '</div>';
+        appRoot.innerHTML = `
+            <div class="task-block">
+                <div style="display:flex; justify-content:space-between;">
+                    <span class="badge-info">🎨 Визуальная логика (матрицы)</span>
+                    <span>${idx+1}/${NONVERBAL_ITEMS.length}</span>
+                </div>
+                <div class="question-text">Найдите недостающий элемент</div>
+                ${matrixHtml}
+                <div class="options" style="margin-top:0.5rem;">
+                    ${optionsHtml}
+                </div>
+                <button id="nextNonverbBtn" class="next-btn" ${selected === null ? 'disabled' : ''}>Далее</button>
+            </div>
+        `;
+        // отрисовка матрицы
+        let canvases = [];
+        for (let i=0; i<8; i++) {
+            let canvas = document.getElementById(`nv_cell_${i}`);
+            if (canvas) canvases.push(canvas);
+        }
+        task.drawMatrix(canvases, containerSize);
+        // отрисовка опций
+        for (let opt=0; opt<4; opt++) {
+            let canvas = document.getElementById(`nv_opt_${opt}`);
+            if (canvas) {
+                canvas.width = 100; canvas.height = 100;
+                let ctx = canvas.getContext('2d');
+                task.drawOptions(ctx, 100, opt);
+            }
+        }
+        // обработка кликов
+        const optionDivs = document.querySelectorAll('.option-figure');
+        optionDivs.forEach(div => {
+            div.addEventListener('click', () => {
+                let optVal = parseInt(div.getAttribute('data-opt'));
+                state.nonverbAnswers[idx] = optVal;
+                optionDivs.forEach(d => d.classList.remove('selected'));
+                div.classList.add('selected');
+                const nextBtn = document.getElementById('nextNonverbBtn');
+                if (nextBtn) nextBtn.disabled = false;
+            });
+        });
+        document.getElementById('nextNonverbBtn')?.addEventListener('click', () => {
+            if (state.nonverbAnswers[idx] !== null) {
+                state.currentSubIndex++;
+                renderNonverbal();
+            }
+        });
+    }
+    
+    function attachOptionListeners(selector, callback) {
+        document.querySelectorAll(selector).forEach(el => {
+            el.addEventListener('click', (e) => {
+                let idx = parseInt(el.getAttribute('data-idx'));
+                callback(idx);
+            });
+        });
+    }
+    
+    function computeIQ() {
+        let verbalCorrect = 0, underCorrect = 0, arithCorrect = 0, nonverbCorrect = 0;
+        for (let i=0; i<VERBAL_QS.length; i++) if (state.verbalAnswers[i] === VERBAL_QS[i].correct) verbalCorrect++;
+        for (let i=0; i<UNDERSTANDING_QS.length; i++) if (state.underAnswers[i] === UNDERSTANDING_QS[i].correct) underCorrect++;
+        for (let i=0; i<ARITHMETIC_QS.length; i++) if (state.arithAnswers[i] === ARITHMETIC_QS[i].correct) arithCorrect++;
+        for (let i=0; i<NONVERBAL_ITEMS.length; i++) if (state.nonverbAnswers[i] === NONVERBAL_ITEMS[i].correct) nonverbCorrect++;
+        
+        let totalRaw = verbalCorrect + underCorrect + arithCorrect + nonverbCorrect;
+        let maxRaw = VERBAL_QS.length + UNDERSTANDING_QS.length + ARITHMETIC_QS.length + NONVERBAL_ITEMS.length;
+        let percent = totalRaw / maxRaw;
+        let iq = Math.round(70 + percent * 60); // диапазон 70-130
+        iq = Math.min(145, Math.max(70, iq));
+        
+        let verbalPercent = (verbalCorrect+underCorrect+arithCorrect) / (VERBAL_QS.length+UNDERSTANDING_QS.length+ARITHMETIC_QS.length);
+        let nonverbPercent = nonverbCorrect / NONVERBAL_ITEMS.length;
+        let channel = "";
+        if (verbalPercent > nonverbPercent + 0.2) channel = "🔤 Вербальный (аналитик, слова, логика)";
+        else if (nonverbPercent > verbalPercent + 0.2) channel = "🎨 Невербальный (визуал, образное мышление, пространство)";
+        else channel = "⚖️ Сбалансированный (гармоничное развитие обоих каналов)";
+        
+        let interpretation = "";
+        if (iq >= 130) interpretation = "Выдающийся интеллект. Вы быстро схватываете сложные концепции.";
+        else if (iq >= 115) interpretation = "Высокий уровень. Вы способны решать нестандартные задачи.";
+        else if (iq >= 90) interpretation = "Средний уровень. У вас хороший потенциал для обучения.";
+        else if (iq >= 70) interpretation = "Ниже среднего. Регулярные тренировки помогут развить способности.";
+        else interpretation = "Низкий уровень. Возможно, стоит обратиться к специалисту.";
+        
+        appRoot.innerHTML = `
+            <div class="result-card">
+                <div class="badge-info" style="margin-bottom:1rem;">📊 Ваш IQ по методике Векслера</div>
+                <div class="iq-score">${iq}</div>
+                <div style="font-size:1.2rem; margin:0.5rem 0;">${interpretation}</div>
+                <div class="task-block" style="background:#f2f6fc; text-align:left;">
+                    <strong>🧩 Детали:</strong><br>
+                    Вербальные субтесты: ${verbalCorrect+underCorrect+arithCorrect}/${VERBAL_QS.length+UNDERSTANDING_QS.length+ARITHMETIC_QS.length}<br>
+                    Невербальные субтесты: ${nonverbCorrect}/${NONVERBAL_ITEMS.length}<br>
+                    <strong>🎯 Ведущий канал восприятия:</strong> ${channel}
+                </div>
+                <button id="restartIQBtn" class="btn" style="background:#1a3f66; margin-top:1rem;">🔄 Пройти заново</button>
+            </div>
+            <div class="footer-note">Тест основан на субтестах WAIS/WISC. Для точной диагностики обратитесь к специалисту.</div>
+        `;
+        document.getElementById('restartIQBtn')?.addEventListener('click', () => {
+            renderWelcome();
+        });
+    }
+    
+    renderWelcome();
+</script>
+</body>
+</html>

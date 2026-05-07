@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Тест: Золотое настроение | Забота об эмоциях</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(125deg, #fce6cf 0%, #f8d9bc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            padding: 1.5rem;
+        }
+
+        .test-container {
+            max-width: 720px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .test-card {
+            background: rgba(255, 252, 245, 0.97);
+            border-radius: 2rem;
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            border: 1px solid rgba(200, 150, 110, 0.3);
+        }
+
+        .accent-header {
+            background: linear-gradient(105deg, #b97f4b 0%, #d69d6c 100%);
+            padding: 1.8rem 2rem 1.5rem;
+            color: white;
+            text-align: center;
+        }
+
+        .accent-header h1 {
+            font-size: 1.9rem;
+            letter-spacing: -0.3px;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .accent-header p {
+            font-size: 0.95rem;
+            opacity: 0.92;
+            max-width: 90%;
+            margin: 0.5rem auto 0;
+        }
+
+        .content-panel {
+            padding: 2rem 2rem 2.2rem;
+        }
+
+        .welcome-text {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #4a2e1e;
+            background: #fff6ed;
+            padding: 1.3rem;
+            border-radius: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid #d69d6c;
+        }
+
+        .badge-info {
+            display: inline-block;
+            background: #f2e1d2;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #b1623a;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            border: none;
+            background: #b97f4b;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.9rem 1.8rem;
+            border-radius: 3rem;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+            max-width: 260px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #cb8b56;
+            box-shadow: 0 6px 14px rgba(187, 117, 64, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #a86e40;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #ebdfd3;
+            color: #73573e;
+            border: 1px solid #d9bfa8;
+        }
+
+        .btn-secondary:hover {
+            background: #ded0c1;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+        }
+
+        .q-counter {
+            background: #f3e7de;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #aa6f48;
+        }
+
+        .progress-bar-bg {
+            background: #e9d8cc;
+            border-radius: 20px;
+            height: 8px;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .progress-fill {
+            background: #cb8b56;
+            width: 0%;
+            height: 8px;
+            border-radius: 20px;
+            transition: width 0.2s ease;
+        }
+
+        .question-text {
+            font-size: 1.45rem;
+            font-weight: 500;
+            line-height: 1.4;
+            margin: 1.5rem 0 2rem;
+            color: #3d2b1c;
+        }
+
+        .option-buttons {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            margin: 1.2rem 0 0.5rem;
+        }
+
+        .answer-btn {
+            background: #fff3ea;
+            border: 1.5px solid #ddbfa8;
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            min-width: 120px;
+            color: #5a3a26;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .answer-btn.yes {
+            background: #ffe7db;
+            border-color: #d6a47a;
+        }
+
+        .answer-btn.no {
+            background: #f4e8df;
+            border-color: #cdb09a;
+        }
+
+        .answer-btn:hover {
+            transform: scale(0.97);
+            background: #f0dfd2;
+        }
+
+        .result-card {
+            background: #fffcf7;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin: 1rem 0 1.8rem;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.05);
+        }
+
+        .result-title {
+            font-size: 1.7rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .result-desc {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #4b3624;
+            margin: 1rem 0;
+        }
+
+        .advice {
+            background: #fef1e7;
+            padding: 1rem 1.2rem;
+            border-radius: 1.2rem;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            border-left: 4px solid #d69d6c;
+        }
+
+        .score-circles {
+            display: flex;
+            justify-content: center;
+            margin: 1rem 0;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #b97f4b;
+        }
+
+        .footer-note {
+            margin-top: 1.2rem;
+            font-size: 0.7rem;
+            text-align: center;
+            color: #8b6c53;
+        }
+
+        hr {
+            margin: 1rem 0;
+            border: none;
+            height: 1px;
+            background: #efdfd1;
+        }
+
+        @media (max-width: 550px) {
+            .content-panel {
+                padding: 1.5rem;
+            }
+            .question-text {
+                font-size: 1.25rem;
+            }
+            .answer-btn {
+                padding: 0.6rem 1rem;
+                min-width: 100px;
+            }
+            .accent-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="test-container">
+    <div class="test-card">
+        <div class="accent-header">
+            <h1>
+                🌟 Золотое настроение
+            </h1>
+            <p>Забота об эмоциях в любом возрасте · гериатрическая шкала депрессии (GDS-15)</p>
+        </div>
+        <div class="content-panel" id="appGDS"></div>
+    </div>
+</div>
+
+<script>
+    // ========= ТЕСТ: ГЕРИАТРИЧЕСКАЯ ШКАЛА ДЕПРЕССИИ (GDS-15) =========
+    // Вопросы сформулированы просто и бережно.
+    // Ответ "Да" на вопросы, помеченные знаком (!) в коде, означает депрессивный симптом (1 балл).
+    // Для некоторых вопросов "Нет" даёт балл (обратные).
+    // Всего 15 вопросов, максимум 15 баллов (чем выше, тем больше выраженность).
+    // Интерпретация: 0-4 – норма; 5-8 – лёгкая депрессия/субдепрессия; 9-11 – умеренная; 12-15 – тяжёлая (нужна поддержка специалиста).
+
+    const QUESTIONS_DATA = [
+        { text: "В целом вы удовлетворены своей жизнью?",         reverse: true },   // Нет = 1 балл
+        { text: "Вы оставили многие свои занятия и интересы?",   reverse: false },  // Да = 1
+        { text: "Вы чувствуете, что ваша жизнь пуста?",          reverse: false },  // Да = 1
+        { text: "Вам часто бывает скучно?",                      reverse: false },  // Да = 1
+        { text: "У вас чаще хорошее настроение?",                reverse: true },   // Нет = 1
+        { text: "Вы боитесь, что с вами случится что-то плохое?", reverse: false }, // Да = 1
+        { text: "Большую часть времени вы чувствуете себя счастливым человеком?", reverse: true }, // Нет = 1
+        { text: "Вы часто чувствуете себя беспомощным?",         reverse: false },  // Да = 1
+        { text: "Вы предпочитаете сидеть дома, а не выходить и заниматься новыми делами?", reverse: false }, // Да = 1
+        { text: "У вас проблемы с памятью больше, чем у других?", reverse: false },  // Да = 1
+        { text: "Вы думаете, что сейчас жить замечательно?",     reverse: true },   // Нет = 1
+        { text: "Вы считаете себя никчёмным человеком?",         reverse: false },  // Да = 1
+        { text: "Вы чувствуете себя полным сил и энергии?",      reverse: true },   // Нет = 1
+        { text: "Ваше положение кажется вам безнадёжным?",       reverse: false },  // Да = 1
+        { text: "Вы считаете, что у других людей дела обстоят лучше, чем у вас?" , reverse: false } // Да = 1
+    ];
+
+    let currentQuestionIndex = 0;
+    let answers = new Array(15).fill(null); // null = нет ответа, 1 = да, 0 = нет
+    let testActive = false;
+    const appRoot = document.getElementById('appGDS');
+
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    function renderStartScreen() {
+        appRoot.innerHTML = `
+            <div class="screen welcome-screen">
+                <div class="badge-info">🌸 академическая основа: гериатрическая шкала депрессии (GDS-15)</div>
+                <div class="welcome-text">
+                    <strong>🧡 Очень бережный тест без сложных терминов</strong><br><br>
+                    Помогает отличить обычную хандру и усталость от состояния, при котором нужна профессиональная поддержка.
+                    Ответьте на 15 простых вопросов «да» или «нет» — это займёт всего несколько минут.
+                    <br><br>
+                    ✨ Никаких диагнозов, только забота о вашем эмоциональном благополучии. Результат подскажет, стоит ли обратить внимание на своё состояние и поддержать себя.
+                </div>
+                <div class="btn-group">
+                    <button id="startGdsBtn" class="btn btn-primary">🌸 Начать бережный тест</button>
+                </div>
+                <div class="footer-note">
+                    🌼 Тест адаптирован для людей любого возраста. При серьёзных переживаниях всегда лучше обратиться к специалисту.
+                </div>
+            </div>
+        `;
+        document.getElementById('startGdsBtn')?.addEventListener('click', () => {
+            resetAndStart();
+        });
+    }
+
+    function resetAndStart() {
+        currentQuestionIndex = 0;
+        answers = new Array(15).fill(null);
+        testActive = true;
+        renderQuestionScreen();
+    }
+
+    function renderQuestionScreen() {
+        if (!testActive) return;
+        if (currentQuestionIndex >= 15) {
+            finishAndShowResult();
+            return;
+        }
+        const qData = QUESTIONS_DATA[currentQuestionIndex];
+        const answeredCount = answers.filter(v => v !== null).length;
+        const percent = (answeredCount / 15) * 100;
+
+        appRoot.innerHTML = `
+            <div class="screen question-screen">
+                <div class="question-header">
+                    <div class="q-counter">Вопрос ${currentQuestionIndex+1} из 15</div>
+                    <div class="progress-bar-bg"><div class="progress-fill" style="width: ${percent}%;"></div></div>
+                </div>
+                <div class="question-text">${escapeHtml(qData.text)}</div>
+                <div class="option-buttons">
+                    <button class="answer-btn yes" data-ans="1">✅ Да</button>
+                    <button class="answer-btn no" data-ans="0">❌ Нет</button>
+                </div>
+                <div class="footer-note" style="margin-top: 1.8rem;">
+                    ☁️ отвечайте честно — так результат будет точнее.
+                </div>
+            </div>
+        `;
+        const yesBtn = document.querySelector('.answer-btn.yes');
+        const noBtn = document.querySelector('.answer-btn.no');
+        if (yesBtn) {
+            yesBtn.addEventListener('click', () => {
+                if (answers[currentQuestionIndex] !== null) return;
+                answers[currentQuestionIndex] = 1;
+                moveToNext();
+            });
+        }
+        if (noBtn) {
+            noBtn.addEventListener('click', () => {
+                if (answers[currentQuestionIndex] !== null) return;
+                answers[currentQuestionIndex] = 0;
+                moveToNext();
+            });
+        }
+    }
+
+    function moveToNext() {
+        if (currentQuestionIndex + 1 < 15) {
+            currentQuestionIndex++;
+            renderQuestionScreen();
+        } else {
+            finishAndShowResult();
+        }
+    }
+
+    function finishAndShowResult() {
+        testActive = false;
+        let totalScore = 0;
+        for (let i = 0; i < 15; i++) {
+            const answer = answers[i];
+            if (answer === null) continue; // теоретически не должно быть
+            const q = QUESTIONS_DATA[i];
+            // если вопрос обратный (reverse: true) — то балл даёт ответ "Нет" (0)
+            if (q.reverse) {
+                if (answer === 0) totalScore++;
+            } else {
+                if (answer === 1) totalScore++;
+            }
+        }
+        
+        // интерпретация
+        let category = "";
+        let description = "";
+        let adviceText = "";
+        let emoji = "";
+        
+        if (totalScore <= 4) {
+            category = "🌞 Отличное эмоциональное состояние";
+            description = `Ваш результат: ${totalScore} из 15. Это говорит о том, что сейчас ваше настроение стабильно, вы в гармонии с собой. Возможная хандра или усталость — временное явление, не требующее беспокойства.`;
+            adviceText = `🍃 Чтобы поддерживать «золотое настроение»: продолжайте радовать себя маленькими приятными вещами, общайтесь с близкими, гуляйте на свежем воздухе. Вы молодец, что уделяете внимание своим эмоциям!`;
+            emoji = "☀️";
+        } 
+        else if (totalScore <= 8) {
+            category = "🍂 Лёгкое снижение настроения";
+            description = `Ваш результат: ${totalScore} из 15. Возможно, вы испытываете усталость, апатию или сезонную хандру. Это не критично, но стоит прислушаться к себе.`;
+            adviceText = `🕯️ Несколько шагов для заботы: постарайтесь добавить в день хотя бы одно радующее занятие, избегайте долгого одиночества, поговорите с другом по душам. Если состояние не проходит пару недель, возможно, стоит обратиться к психологу — это нормально и ответственно.`;
+        }
+        else if (totalScore <= 11) {
+            category = "🌧️ Умеренное эмоциональное напряжение";
+            description = `Ваш результат: ${totalScore} из 15. Это может указывать на состояние, близкое к депрессивному эпизоду. Вы, вероятно, часто чувствуете усталость, грусть или потерю интереса к привычным делам.`;
+            adviceText = `🤝 Важно не оставаться с этим один на один. Поделитесь переживаниями с близкими или обратитесь к семейному врачу / психологу. Профессиональная поддержка поможет вернуть вкус к жизни. Вы заслуживаете помощи и тепла.`;
+        }
+        else {
+            category = "💙 Выраженное снижение настроения";
+            description = `Ваш результат: ${totalScore} из 15. Такие баллы могут говорить о клинической депрессии. Это не ваша вина, это состояние, которое лечится, — обращение к психиатру или психотерапевту очень важно.`;
+            adviceText = `🌟 Пожалуйста, не стесняйтесь просить о помощи. Запишитесь к специалисту (психиатру или психотерапевту) — современные методы очень эффективны. Вы не одни, многие люди проходят через это и чувствуют себя лучше. Забота о себе — самый смелый шаг.`;
+        }
+        
+        appRoot.innerHTML = `
+            <div class="screen result-screen">
+                <div class="result-card">
+                    <div class="result-title">
+                        <span>${emoji} ${category}</span>
+                    </div>
+                    <div class="score-circles">${totalScore} / 15</div>
+                    <div class="result-desc">
+                        ${description}
+                    </div>
+                    <div class="advice">
+                        💛 <strong>Рекомендация:</strong><br> ${adviceText}
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button id="restartGdsBtn" class="btn btn-secondary">🔄 Пройти ещё раз</button>
+                </div>
+                <hr>
+                <div class="footer-note">
+                    📋 Тест основан на гериатрической шкале депрессии (GDS-15), но подходит для любого взрослого возраста. Диагноз может поставить только специалист. 
+                    Если вам трудно — обратитесь за помощью, это проявление силы.
+                </div>
+            </div>
+        `;
+        document.getElementById('restartGdsBtn')?.addEventListener('click', () => {
+            resetAndStart();
+        });
+    }
+
+    renderStartScreen();
+</script>
+</body>
+</html>

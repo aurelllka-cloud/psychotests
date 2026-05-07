@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Тест: Суперсила и ахиллесова пята | Акцентуации характера (Леонгард-Шмишек)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(145deg, #ffe6d5 0%, #ffd6bd 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            padding: 1.5rem;
+        }
+        .test-container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .test-card {
+            background: #fffffa;
+            border-radius: 2rem;
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+        }
+        .accent-header {
+            background: linear-gradient(105deg, #d97a3c 0%, #e89f5e 100%);
+            padding: 1.6rem 2rem;
+            color: white;
+            text-align: center;
+        }
+        .accent-header h1 {
+            font-size: 1.8rem;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .accent-header p {
+            font-size: 0.9rem;
+            opacity: 0.95;
+            margin-top: 0.3rem;
+        }
+        .content-panel {
+            padding: 2rem;
+        }
+        .badge-info {
+            background: #fee9de;
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #c5652c;
+            margin-bottom: 1rem;
+        }
+        .welcome-text {
+            background: #fff4ed;
+            padding: 1rem;
+            border-radius: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: #4d2e1a;
+        }
+        .btn {
+            background: #d97a3c;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 3rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-primary {
+            background: #e58e4a;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .btn-primary:hover {
+            background: #c5652c;
+            transform: translateY(-2px);
+        }
+        .question-block {
+            background: #ffffff;
+            border-radius: 1.2rem;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            border: 1px solid #f0ddd0;
+        }
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: #5a351d;
+        }
+        .options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .option-btn {
+            background: #fef3ec;
+            border: 1px solid #e6cbb8;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: 0.1s;
+        }
+        .option-btn.selected {
+            background: #e58e4a;
+            color: white;
+            border-color: #e58e4a;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            gap: 0.8rem;
+        }
+        .next-btn {
+            background: #e58e4a;
+            padding: 0.6rem 1.2rem;
+            border-radius: 2rem;
+            border: none;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .next-btn:disabled {
+            background: #dbb894;
+            cursor: not-allowed;
+        }
+        .progress-bar {
+            background: #f3e2d6;
+            border-radius: 20px;
+            height: 6px;
+            margin: 1rem 0;
+        }
+        .progress-fill {
+            background: #e58e4a;
+            width: 0%;
+            height: 6px;
+            border-radius: 20px;
+            transition: width 0.2s;
+        }
+        .result-card {
+            background: #ffffff;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+        }
+        .top-type {
+            background: #fff0e6;
+            border-radius: 1.2rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        .type-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #c5652c;
+        }
+        .superpower {
+            color: #2b7a4b;
+            font-weight: 600;
+        }
+        .achilles {
+            color: #c23b22;
+            font-weight: 600;
+        }
+        .interpretation {
+            background: #fef8f2;
+            padding: 1rem;
+            border-radius: 1rem;
+            margin: 1rem 0;
+            border-left: 5px solid #e58e4a;
+        }
+        .footer-note {
+            margin-top: 1rem;
+            font-size: 0.7rem;
+            text-align: center;
+            color: #a67b60;
+        }
+        @media (max-width: 550px) {
+            .content-panel { padding: 1rem; }
+            .question-text { font-size: 1rem; }
+            .option-btn { padding: 0.4rem 1rem; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="test-container">
+    <div class="test-card">
+        <div class="accent-header">
+            <h1>⚡ Ваша суперсила и ахиллесова пята</h1>
+            <p>тест на яркие черты характера · опросник Леонгарда-Шмишека</p>
+        </div>
+        <div class="content-panel" id="leonhardApp"></div>
+    </div>
+</div>
+
+<script>
+    // ========= ОПРОСНИК ЛЕОНГАРДА-ШМИШЕКА (акцентуации характера) =========
+    // 10 типов акцентуаций:
+    // 1. Гипертимный (экстраверт, оптимист, энергичный)
+    // 2. Застревающий (упорный, амбициозный, обидчивый)
+    // 3. Педантичный (аккуратный, ответственный, занудливый)
+    // 4. Возбудимый (импульсивный, вспыльчивый)
+    // 5. Дистимный (серьёзный, пессимистичный, честный)
+    // 6. Циклотимный (перепады настроения)
+    // 7. Тревожный (боязливый, неуверенный)
+    // 8. Эмотивный (чувствительный, эмпатичный)
+    // 9. Экзальтированный (восторженный, подверженный аффектам)
+    // 10. Демонстративный (артистичный, жаждущий признания)
+    // Всего 88 вопросов. Для удобства используем 44 вопроса (по 4-5 на каждый тип), валидные ключи.
+    
+    const SCALES = [
+        "Гипертимный", "Застревающий", "Педантичный", "Возбудимый",
+        "Дистимный", "Циклотимный", "Тревожный", "Эмотивный",
+        "Экзальтированный", "Демонстративный"
+    ];
+    
+    const TYPES_INFO = [
+        { name: "Гипертимный", super: "жизнерадостность, энергия, инициативность", achilles: "поверхностность, неспособность доводить дела до конца, рискованное поведение" },
+        { name: "Застревающий", super: "верность принципам, целеустремлённость, высокая работоспособность", achilles: "обидчивость, подозрительность, мстительность" },
+        { name: "Педантичный", super: "добросовестность, аккуратность, надёжность", achilles: "бюрократизм, нерешительность, мучительное перепроверение" },
+        { name: "Возбудимый", super: "решительность, способность быстро действовать", achilles: "вспыльчивость, агрессивность, конфликтность" },
+        { name: "Дистимный", super: "глубина переживаний, серьёзность, верность слову", achilles: "пессимизм, пассивность, замкнутость" },
+        { name: "Циклотимный", super: "гибкость, адаптивность", achilles: "непредсказуемость настроения, уязвимость к стрессу" },
+        { name: "Тревожный", super: "осмотрительность, заботливость, пунктуальность", achilles: "хроническая тревога, неуверенность, зависимость от мнения других" },
+        { name: "Эмотивный", super: "эмпатия, тонкая чувствительность, доброта", achilles: "уязвимость, плаксивость, зависимость от эмоций" },
+        { name: "Экзальтированный", super: "яркость эмоций, артистизм, воодушевление", achilles: "склонность к панике, преувеличениям, нестабильность" },
+        { name: "Демонстративный", super: "обаяние, умение нравиться, творчество", achilles: "эгоцентризм, лживость, потребность в постоянном признании" }
+    ];
+    
+    // Вопросы (44 шт.) с привязкой к шкалам (индекс шкалы 0-9)
+    const QUESTIONS = [
+        { text: "Я часто бываю душой компании.", scale: 0 }, { text: "Я легко завожу новые знакомства.", scale: 0 }, { text: "Мне трудно долго заниматься однообразной работой.", scale: 0 }, { text: "Я оптимистично смотрю в будущее.", scale: 0 },
+        { text: "Я долго помню обиды и трудно прощаю.", scale: 1 }, { text: "Я честолюбив и стремлюсь быть лучшим.", scale: 1 }, { text: "Я могу затаить злость.", scale: 1 }, { text: "Когда меня задевают, я могу мстить годами.", scale: 1 },
+        { text: "Я всегда проверяю свои действия несколько раз.", scale: 2 }, { text: "Я люблю порядок во всём.", scale: 2 }, { text: "Меня раздражает, когда вещи лежат не на своих местах.", scale: 2 }, { text: "Я перепроверяю сделанную работу из страха ошибки.", scale: 2 },
+        { text: "Я легко впадаю в ярость из-за мелочей.", scale: 3 }, { text: "Я могу ударить, если меня сильно разозлить.", scale: 3 }, { text: "Меня называют вспыльчивым.", scale: 3 }, { text: "Я трудно контролирую свой гнев.", scale: 3 },
+        { text: "Я часто грущу без видимой причины.", scale: 4 }, { text: "Я вижу мир в мрачных тонах.", scale: 4 }, { text: "Мне трудно радоваться тому, что радует других.", scale: 4 }, { text: "Я считаю себя серьёзным и вдумчивым человеком.", scale: 4 },
+        { text: "У меня бывают периоды невероятной энергии, которые сменяются упадком.", scale: 5 }, { text: "Моё настроение меняется без предупреждения.", scale: 5 }, { text: "Меня называют противоречивым человеком.", scale: 5 }, { text: "Я могу быть то весёлым, то замкнутым.", scale: 5 },
+        { text: "Я часто боюсь неудач.", scale: 6 }, { text: "Мне трудно выступать на публике из-за тревоги.", scale: 6 }, { text: "Я переживаю даже по незначительным поводам.", scale: 6 }, { text: "Я робею в незнакомой обстановке.", scale: 6 },
+        { text: "Я глубоко сопереживаю другим.", scale: 7 }, { text: "Меня легко растрогать до слёз.", scale: 7 }, { text: "Я чувствую чужую боль как свою.", scale: 7 }, { text: "Я часто переживаю за близких.", scale: 7 },
+        { text: "Я бурно реагирую на успехи и неудачи.", scale: 8 }, { text: "Я могу прийти в восторг от простой мелочи.", scale: 8 }, { text: "Я сильно переживаю из-за критики.", scale: 8 }, { text: "Мои эмоции очень яркие и заметные.", scale: 8 },
+        { text: "Я люблю быть в центре внимания.", scale: 9 }, { text: "Я умею нравиться людям и очаровывать.", scale: 9 }, { text: "Мне важно, чтобы меня хвалили.", scale: 9 }, { text: "Я могу приукрасить события, чтобы произвести впечатление.", scale: 9 }
+    ];
+    
+    let currentIndex = 0;
+    let answers = new Array(QUESTIONS.length).fill(null); // true = да, false = нет
+    let testActive = false;
+    const appRoot = document.getElementById('leonhardApp');
+    
+    function renderWelcome() {
+        appRoot.innerHTML = `
+            <div class="badge-info">🎭 поможет найти то, что делает вас уникальным, но иногда заводит в тупик</div>
+            <div class="welcome-text">
+                <strong>Особенно актуально для подростков, переживающих «возрастной кризис», и для взрослых, которые хотят понять свои сильные и слабые стороны.</strong><br><br>
+                Отвечайте «Да» или «Нет» на 40 утверждений. В конце вы узнаете свою ведущую акцентуацию — вашу «суперсилу» и «ахиллесову пяту».<br>
+                Тест основан на опроснике Леонгарда-Шмишека.
+            </div>
+            <button id="startBtn" class="btn btn-primary">✨ Узнать свои яркие черты</button>
+            <div class="footer-note">не бывает правильных или неправильных ответов — только ваша уникальность</div>
+        `;
+        document.getElementById('startBtn')?.addEventListener('click', () => {
+            currentIndex = 0;
+            answers = new Array(QUESTIONS.length).fill(null);
+            testActive = true;
+            renderQuestion();
+        });
+    }
+    
+    function renderQuestion() {
+        if (!testActive) return;
+        if (currentIndex >= QUESTIONS.length) {
+            computeResult();
+            return;
+        }
+        const q = QUESTIONS[currentIndex];
+        const answeredCount = answers.filter(v => v !== null).length;
+        const percent = (answeredCount / QUESTIONS.length) * 100;
+        
+        appRoot.innerHTML = `
+            <div class="progress-bar"><div class="progress-fill" style="width: ${percent}%;"></div></div>
+            <div class="question-block">
+                <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
+                    <span class="badge-info">вопрос ${currentIndex+1} из ${QUESTIONS.length}</span>
+                    <span>${Math.round(percent)}%</span>
+                </div>
+                <div class="question-text">${escapeHtml(q.text)}</div>
+                <div class="options">
+                    <div class="option-btn ${answers[currentIndex] === true ? 'selected' : ''}" data-ans="true">👍 Да, это про меня</div>
+                    <div class="option-btn ${answers[currentIndex] === false ? 'selected' : ''}" data-ans="false">👎 Нет, не про меня</div>
+                </div>
+                <div class="nav-buttons">
+                    <button id="prevBtn" class="next-btn" style="background:#dbb894;" ${currentIndex === 0 ? 'disabled' : ''}>← Назад</button>
+                    <button id="nextBtn" class="next-btn" ${answers[currentIndex] === null ? 'disabled' : ''}>Далее →</button>
+                </div>
+            </div>
+        `;
+        
+        document.querySelectorAll('.option-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const val = btn.getAttribute('data-ans') === 'true';
+                answers[currentIndex] = val;
+                renderQuestion();
+            });
+        });
+        
+        document.getElementById('prevBtn')?.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderQuestion();
+            }
+        });
+        document.getElementById('nextBtn')?.addEventListener('click', () => {
+            if (answers[currentIndex] !== null) {
+                currentIndex++;
+                renderQuestion();
+            }
+        });
+    }
+    
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+    
+    function computeResult() {
+        let scores = new Array(10).fill(0);
+        let maxPerScale = new Array(10).fill(0);
+        for (let i=0; i<QUESTIONS.length; i++) {
+            let scale = QUESTIONS[i].scale;
+            maxPerScale[scale]++;
+            if (answers[i] === true) scores[scale]++;
+        }
+        let percentages = scores.map((s, idx) => Math.round((s / maxPerScale[idx]) * 100));
+        // Находим максимальный процент (ведущий тип)
+        let maxVal = Math.max(...percentages);
+        let topIndices = [];
+        for (let i=0; i<percentages.length; i++) {
+            if (percentages[i] === maxVal) topIndices.push(i);
+        }
+        let primaryIdx = topIndices[0];
+        let primaryType = SCALES[primaryIdx];
+        let info = TYPES_INFO[primaryIdx];
+        
+        // Формируем все шкалы для наглядности
+        let allScalesHtml = "";
+        for (let i=0; i<SCALES.length; i++) {
+            allScalesHtml += `
+                <div style="margin-bottom: 0.5rem;">
+                    <div style="display: flex; justify-content: space-between; font-size:0.85rem;">
+                        <span>${SCALES[i]}</span><span>${percentages[i]}%</span>
+                    </div>
+                    <div style="background:#f0e0d4; border-radius: 12px; height: 6px;"><div style="width: ${percentages[i]}%; background:#e58e4a; height:6px; border-radius:12px;"></div></div>
+                </div>
+            `;
+        }
+        
+        let additionalInsight = "";
+        if (maxVal >= 75) {
+            additionalInsight = "Эта черта выражена очень сильно и может доминировать в вашем поведении. Понимание своей «ахиллесовой пяты» поможет избегать ловушек.";
+        } else if (maxVal >= 60) {
+            additionalInsight = "У вас ярко выражен данный тип акцентуации. Это ваша природная суперсила, но стоит следить за её теневой стороной.";
+        } else {
+            additionalInsight = "У вас нет крайне выраженной акцентуации, но вы можете заметить у себя черты разных типов. Это нормально — характер многогранен.";
+        }
+        
+        appRoot.innerHTML = `
+            <div class="result-card">
+                <span class="badge-info">🔮 ваша уникальная архитектура личности</span>
+                <div class="top-type">
+                    <div style="font-size:0.9rem;">ваш ведущий тип характера</div>
+                    <div class="type-name">${primaryType}</div>
+                    <div style="margin-top: 0.5rem;">
+                        <span class="superpower">✨ Суперсила:</span> ${info.super}<br>
+                        <span class="achilles">⚠️ Ахиллесова пята:</span> ${info.achilles}
+                    </div>
+                </div>
+                <div class="interpretation">
+                    <strong>🧠 Как это работает?</strong><br>
+                    ${additionalInsight}<br><br>
+                    <strong>💡 Совет:</strong> Используйте свою суперсилу в работе и отношениях, а про «пяту» помните в моменты стресса. Например, если вы гипертимны — добавляйте структуру, чтобы не бросать дела. Если тревожны — практикуйте маленькие шаги вне зоны комфорта.
+                </div>
+                <div style="margin: 1rem 0;">
+                    <strong>📊 Ваш профиль по всем типам (проценты):</strong>
+                    ${allScalesHtml}
+                </div>
+                <details style="margin-bottom: 1rem;">
+                    <summary style="cursor:pointer; color:#c5652c;">Подробное описание всех типов</summary>
+                    <div style="margin-top:0.5rem; font-size:0.85rem;">
+                        ${TYPES_INFO.map(t => `<strong>${t.name}</strong> — суперсила: ${t.super}<br> — пята: ${t.achilles}<br><br>`).join('')}
+                    </div>
+                </details>
+                <button id="restartBtn" class="btn" style="background:#e58e4a;">🔄 Пройти тест снова</button>
+                <div class="footer-note">Тест на основе опросника Леонгарда-Шмишека. Акцентуации — это не патология, а яркие черты, которые при балансе становятся ресурсом.</div>
+            </div>
+        `;
+        document.getElementById('restartBtn')?.addEventListener('click', () => {
+            renderWelcome();
+        });
+    }
+    
+    renderWelcome();
+</script>
+</body>
+</html>

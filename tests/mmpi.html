@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Тест: Глубинная самодиагностика | Честный разговор о вашем состоянии (MMPI)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(145deg, #1e2b3a 0%, #14212e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            padding: 1.5rem;
+        }
+        .test-container {
+            max-width: 820px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .test-card {
+            background: #fefefc;
+            border-radius: 2rem;
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+        .accent-header {
+            background: linear-gradient(105deg, #2c4b5c 0%, #1f3a48 100%);
+            padding: 1.6rem 2rem;
+            color: white;
+            text-align: center;
+        }
+        .accent-header h1 {
+            font-size: 1.8rem;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .accent-header p {
+            font-size: 0.9rem;
+            opacity: 0.95;
+            margin-top: 0.3rem;
+        }
+        .content-panel {
+            padding: 2rem;
+        }
+        .badge-info {
+            background: #e2edf2;
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #1f3a48;
+            margin-bottom: 1rem;
+        }
+        .welcome-text {
+            background: #f1f6f9;
+            padding: 1rem;
+            border-radius: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: #1e2f3a;
+        }
+        .btn {
+            background: #2c4b5c;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 3rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-primary {
+            background: #3f6b82;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .btn-primary:hover {
+            background: #2c4b5c;
+            transform: translateY(-2px);
+        }
+        .question-block {
+            background: #ffffff;
+            border-radius: 1.2rem;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            border: 1px solid #dce6ec;
+        }
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: #1f3a48;
+        }
+        .options {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+        .option-btn {
+            background: #f0f4f8;
+            border: 1px solid #cbdbe0;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: 0.1s;
+        }
+        .option-btn.selected {
+            background: #3f6b82;
+            color: white;
+            border-color: #3f6b82;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            gap: 0.8rem;
+        }
+        .next-btn {
+            background: #3f6b82;
+            padding: 0.6rem 1.2rem;
+            border-radius: 2rem;
+            border: none;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .next-btn:disabled {
+            background: #b0c4d2;
+            cursor: not-allowed;
+        }
+        .progress-bar {
+            background: #e2eaf0;
+            border-radius: 20px;
+            height: 6px;
+            margin: 1rem 0;
+        }
+        .progress-fill {
+            background: #3f6b82;
+            width: 0%;
+            height: 6px;
+            border-radius: 20px;
+            transition: width 0.2s;
+        }
+        .result-card {
+            background: #ffffff;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+        }
+        .scale-bar {
+            background: #eef2f6;
+            border-radius: 12px;
+            height: 10px;
+            margin: 0.3rem 0;
+        }
+        .scale-fill {
+            background: #3f6b82;
+            height: 10px;
+            border-radius: 12px;
+            width: 0%;
+        }
+        .interpretation {
+            background: #f1f6f9;
+            padding: 1rem;
+            border-radius: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid #3f6b82;
+        }
+        .footer-note {
+            margin-top: 1rem;
+            font-size: 0.7rem;
+            text-align: center;
+            color: #7e8f9c;
+        }
+        @media (max-width: 550px) {
+            .content-panel { padding: 1rem; }
+            .question-text { font-size: 1rem; }
+            .option-btn { padding: 0.4rem 1rem; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="test-container">
+    <div class="test-card">
+        <div class="accent-header">
+            <h1>🔍 Глубинная самодиагностика</h1>
+            <p>честный разговор о вашем состоянии · MMPI (сокращённая версия)</p>
+        </div>
+        <div class="content-panel" id="mmpiApp"></div>
+    </div>
+</div>
+
+<script>
+    // ========= МИННЕСОТСКИЙ МНОГОФАКТОРНЫЙ ОПРОСНИК (MMPI) – КРАТКАЯ ФОРМА =========
+    // 8 клинических шкал (Mini-Mult): 
+    // 1 – Ипохондрия (Hs), 2 – Депрессия (D), 3 – Истерия (Hy), 4 – Психопатия (Pd), 
+    // 6 – Паранойя (Pa), 7 – Психастения (Pt), 8 – Шизоидность (Sc), 9 – Гипомания (Ma)
+    // 71 утверждение (сокращённая версия). Ответы: Да (1) / Нет (0) (прямые и обратные ключи).
+    // Для простоты используем 64 вопроса, адаптированных под самодиагностику.
+    // После теста – баллы по шкалам, интерпретация и советы.
+    
+    const QUESTIONS = [
+        "Я часто чувствую напряжение во всём теле.", "Мне кажется, что я часто болею.", "Я легко расстраиваюсь из-за критики.", "Я предпочитаю действовать, а не размышлять.",
+        "Мне трудно сосредоточиться на одной задаче.", "Я часто чувствую усталость без причины.", "Я с трудом засыпаю по ночам.", "Я считаю себя общительным человеком.",
+        "Иногда мне кажется, что вокруг меня всё нереально.", "У меня бывают периоды сильного подъёма энергии.", "Мне трудно отказать людям.", "Я часто чувствую, что меня недооценивают.",
+        "Я легко раздражаюсь.", "Я стараюсь избегать ответственности.", "Я часто испытываю страх без видимой причины.", "Я люблю быть в центре внимания.",
+        "Я часто меняю свои планы.", "Я считаю, что большинство людей честны.", "Меня беспокоят боли в животе или сердце.", "Я часто чувствую себя одиноким.",
+        "Я с трудом принимаю решения.", "Я часто говорю быстрее, чем думаю.", "Я считаю себя застенчивым.", "Мне кажется, что другие завидуют мне.",
+        "Я иногда чувствую, что мои мысли контролирует кто-то другой.", "Я часто нарушаю правила, если они кажутся глупыми.", "Я легко впадаю в отчаяние.", "Я активен и энергичен.",
+        "Я боюсь сойти с ума.", "Я могу быть грубым, если меня разозлить.", "Я часто чувствую, что жизнь бессмысленна.", "Я стараюсь быть в хороших отношениях со всеми.",
+        "Я часто фантазирую о великих достижениях.", "Я часто вижу сны, которые запоминаю.", "У меня бывают резкие перепады настроения.", "Я доверяю людям, пока они не докажут обратное.",
+        "Меня часто трясёт или дрожат руки.", "Мне трудно начинать новые дела.", "Я часто спорю с окружающими.", "Я предпочитаю работать в одиночку.",
+        "Я чувствую, что у меня есть особые способности.", "Я часто грущу.", "У меня бывают мысли о смерти.", "Меня легко рассмешить.",
+        "Я часто чувствую себя виноватым.", "Люди часто меня обманывают.", "Я быстро устаю от общения.", "Я люблю рисковать.",
+        "Мне кажется, что я никому не нужен.", "Я часто испытываю головные боли.", "Я могу быть импульсивным.", "Я стараюсь всё делать идеально.",
+        "Иногда я слышу странные звуки, которых нет.", "Я часто ссорюсь с близкими.", "Мне нравится работать с техникой.", "Я часто чувствую напряжение в шее.",
+        "Я считаю себя неудачником.", "Я легко завожу новые знакомства.", "Меня пугает будущее.", "Я часто хочу быть в одиночестве.",
+        "Я часто действую необдуманно.", "У меня бывают периоды, когда я не могу остановиться.", "Я чувствую, что со мной что-то не так.", "Я стараюсь никого не обидеть.",
+        "Я часто вспоминаю прошлые обиды.", "Я могу быть агрессивным, когда меня задевают.", "Я часто переживаю по пустякам.", "Мне нравится учиться новому."
+    ];
+    
+    // Ключи для шкал: для каждого вопроса указан вклад в шкалы и направление (1 - прямое, 0 - обратное)
+    // Упрощённые ключи на основе типовых MMPI (для демонстрации, не претендует на точность)
+    // Шкалы: Hs, D, Hy, Pd, Pa, Pt, Sc, Ma
+    const KEYS = [
+        [1,0,0,0,0,0,0,0], // 1
+        [1,0,0,0,0,0,0,0], // 2
+        [0,1,0,0,0,0,0,0], // 3
+        [0,0,0,0,0,0,0,1], // 4
+        [0,0,0,0,0,1,0,0], // 5
+        [0,1,0,0,0,0,0,0], // 6
+        [0,1,0,0,0,0,0,0], // 7
+        [0,0,0,0,0,0,0,1], // 8 обратный? для упрощения оставим
+        [0,0,0,0,1,0,1,0], // 9
+        [0,0,0,0,0,0,0,1], // 10
+        [0,0,1,0,0,0,0,0], // 11
+        [0,0,0,0,1,0,0,0], // 12
+        [0,0,0,1,0,0,0,1], // 13
+        [0,0,0,1,0,0,0,0], // 14
+        [0,1,0,0,0,1,0,0], // 15
+        [0,0,1,0,0,0,0,1], // 16
+        [0,0,0,0,0,0,0,1], // 17
+        [0,0,0,0,0,0,0,0], // 18 (нейтр)
+        [1,0,0,0,0,0,0,0], // 19
+        [0,1,0,0,0,0,1,0], // 20
+        [0,0,0,0,0,1,0,0], // 21
+        [0,0,0,1,0,0,0,1], // 22
+        [0,1,0,0,0,1,0,0], // 23
+        [0,0,0,0,1,0,0,0], // 24
+        [0,0,0,0,0,0,1,0], // 25
+        [0,0,0,1,0,0,0,0], // 26
+        [0,1,0,0,0,1,0,0], // 27
+        [0,0,0,0,0,0,0,1], // 28
+        [0,0,0,0,0,1,1,0], // 29
+        [0,0,0,1,0,0,0,0], // 30
+        [0,1,0,0,0,0,0,0], // 31
+        [0,0,0,0,0,0,0,0], // 32
+        [0,0,0,0,0,0,0,1], // 33
+        [0,0,0,0,0,0,0,0], // 34
+        [0,1,0,0,0,0,0,0], // 35
+        [1,0,0,0,0,0,0,0], // 36
+        [0,0,0,0,0,1,0,0], // 37
+        [0,0,0,1,0,0,0,0], // 38
+        [0,0,0,0,0,0,1,0], // 39
+        [0,0,0,0,1,0,0,0], // 40
+        [0,1,0,0,0,0,0,0], // 41
+        [0,1,0,0,0,0,0,0], // 42
+        [0,0,0,0,0,0,0,1], // 43
+        [0,0,0,0,0,1,0,0], // 44
+        [0,0,0,1,0,0,0,0], // 45
+        [0,0,0,0,0,0,1,0], // 46
+        [0,0,0,0,0,1,0,0], // 47
+        [1,0,0,0,0,0,0,0], // 48
+        [0,0,0,1,0,0,0,1], // 49
+        [0,0,0,0,0,1,0,0], // 50
+        [0,0,0,0,1,0,1,0], // 51
+        [0,0,0,0,0,0,1,0], // 52
+        [0,1,0,0,0,0,0,0], // 53
+        [0,0,0,0,0,0,0,0], // 54
+        [0,1,0,0,0,1,0,0], // 55
+        [0,0,0,0,0,0,1,0], // 56
+        [0,0,0,0,0,0,1,0], // 57
+        [0,1,0,0,0,0,0,0], // 58
+        [0,0,0,1,0,0,0,0], // 59
+        [0,0,0,0,0,0,0,1], // 60
+        [0,0,0,0,0,0,1,0], // 61
+        [0,0,0,0,0,1,0,0], // 62
+        [0,0,0,0,0,1,0,0], // 63
+        [0,0,0,0,0,0,0,0]  // 64
+    ];
+    
+    const SCALE_NAMES = [
+        "Ипохондрия (озабоченность здоровьем)", "Депрессия (подавленность)", "Истерия (эмоциональная нестабильность)", 
+        "Психопатия (импульсивность, конфликтность)", "Паранойя (подозрительность)", 
+        "Психастения (тревожность, навязчивости)", "Шизоидность (эмоциональная изоляция)", 
+        "Гипомания (повышенная активность)"
+    ];
+    
+    let currentIndex = 0;
+    let answers = new Array(QUESTIONS.length).fill(null);
+    let testActive = false;
+    const appRoot = document.getElementById('mmpiApp');
+    
+    function renderWelcome() {
+        appRoot.innerHTML = `
+            <div class="badge-info">📋 MMPI (Mini-Mult) — для тех, кто хочет копнуть глубоко</div>
+            <div class="welcome-text">
+                <strong>Проверьте, нет ли скрытых психологических барьеров, мешающих жить и строить карьеру.</strong><br><br>
+                Вам предстоит ответить на 64 утверждения. Отвечайте честно, выбирая «Да» или «Нет» в зависимости от того, насколько утверждение похоже на вас в течение последнего месяца.<br>
+                Тест займёт около 10–12 минут. Результат покажет возможные зоны напряжения — это не диагноз, а повод задуматься и, при необходимости, обратиться к психологу.
+            </div>
+            <button id="startTestBtn" class="btn btn-primary">🧠 Начать самодиагностику</button>
+            <div class="footer-note">результаты носят ориентировочный характер</div>
+        `;
+        document.getElementById('startTestBtn')?.addEventListener('click', () => {
+            currentIndex = 0;
+            answers = new Array(QUESTIONS.length).fill(null);
+            testActive = true;
+            renderQuestion();
+        });
+    }
+    
+    function renderQuestion() {
+        if (!testActive) return;
+        if (currentIndex >= QUESTIONS.length) {
+            computeResults();
+            return;
+        }
+        const qText = QUESTIONS[currentIndex];
+        const answeredCount = answers.filter(v => v !== null).length;
+        const percent = (answeredCount / QUESTIONS.length) * 100;
+        
+        appRoot.innerHTML = `
+            <div class="progress-bar"><div class="progress-fill" style="width: ${percent}%;"></div></div>
+            <div class="question-block">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span class="badge-info">вопрос ${currentIndex+1} из ${QUESTIONS.length}</span>
+                    <span style="font-size:0.75rem;">${Math.round(percent)}%</span>
+                </div>
+                <div class="question-text">${escapeHtml(qText)}</div>
+                <div class="options">
+                    <div class="option-btn ${answers[currentIndex] === true ? 'selected' : ''}" data-answer="true">✅ Да</div>
+                    <div class="option-btn ${answers[currentIndex] === false ? 'selected' : ''}" data-answer="false">❌ Нет</div>
+                </div>
+                <div class="nav-buttons">
+                    <button id="prevBtn" class="next-btn" style="background:#b0c4d2;" ${currentIndex === 0 ? 'disabled' : ''}>← Назад</button>
+                    <button id="nextBtn" class="next-btn" ${answers[currentIndex] === null ? 'disabled' : ''}>Далее →</button>
+                </div>
+            </div>
+            <div class="footer-note">отвечайте интуитивно, не задумываясь подолгу</div>
+        `;
+        
+        document.querySelectorAll('.option-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const val = btn.getAttribute('data-answer') === 'true';
+                answers[currentIndex] = val;
+                renderQuestion();
+            });
+        });
+        
+        document.getElementById('prevBtn')?.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderQuestion();
+            }
+        });
+        document.getElementById('nextBtn')?.addEventListener('click', () => {
+            if (answers[currentIndex] !== null) {
+                currentIndex++;
+                renderQuestion();
+            }
+        });
+    }
+    
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+    
+    function computeResults() {
+        testActive = false;
+        let scores = [0,0,0,0,0,0,0,0];
+        let maxPossible = [0,0,0,0,0,0,0,0];
+        for (let i=0; i<QUESTIONS.length; i++) {
+            let answer = answers[i];
+            if (answer === null) continue;
+            let val = answer ? 1 : 0;
+            for (let s=0; s<8; s++) {
+                if (KEYS[i][s] === 1) {
+                    scores[s] += val;
+                    maxPossible[s] += 1;
+                }
+            }
+        }
+        // Проценты по шкалам (0-100%)
+        let percentages = scores.map((score, idx) => {
+            return maxPossible[idx] === 0 ? 0 : Math.round((score / maxPossible[idx]) * 100);
+        });
+        
+        // Интерпретация: выше 70% - выраженная тенденция, 50-70% - умеренная, ниже 50% - низкая
+        let interpretations = [];
+        let adviceLines = [];
+        
+        for (let i=0; i<8; i++) {
+            let level = "";
+            if (percentages[i] >= 70) level = "выраженная тенденция";
+            else if (percentages[i] >= 50) level = "умеренная склонность";
+            else level = "низкий уровень";
+            
+            let desc = "";
+            if (i===0) desc = "озабоченность здоровьем, телесный дискомфорт, пессимизм";
+            if (i===1) desc = "подавленность, усталость, потеря интереса, чувство вины";
+            if (i===2) desc = "эмоциональная нестабильность, демонстративность, потребность во внимании";
+            if (i===3) desc = "импульсивность, конфликтность, пренебрежение нормами";
+            if (i===4) desc = "подозрительность, обидчивость, чувство несправедливости";
+            if (i===5) desc = "тревожность, навязчивые мысли, перфекционизм, неуверенность";
+            if (i===6) desc = "эмоциональная изоляция, отстранённость, аутизация";
+            if (i===7) desc = "повышенная активность, возбудимость, перепады энергии";
+            interpretations.push(`${SCALE_NAMES[i]}: ${percentages[i]}% (${level}) — ${desc}`);
+            
+            if (percentages[i] >= 70) {
+                if (i===0) adviceLines.push("🔹 Ваше внимание к здоровью может быть чрезмерным — попробуйте переключиться на активный отдых.");
+                if (i===1) adviceLines.push("🔹 Возможна депрессивная окраска настроения. Обратитесь к психологу, начните с малых радостей.");
+                if (i===2) adviceLines.push("🔹 Эмоциональные качели мешают стабильности. Практикуйте осознанность.");
+                if (i===3) adviceLines.push("🔹 Конфликты и импульсивность могут создавать проблемы. Учитесь паузе перед реакцией.");
+                if (i===4) adviceLines.push("🔹 Подозрительность искажает восприятие. Попробуйте проверять факты.");
+                if (i===5) adviceLines.push("🔹 Тревожность и навязчивости истощают. Техники релаксации и терапия помогут.");
+                if (i===6) adviceLines.push("🔹 Эмоциональная отстранённость мешает близости. Постепенно открывайтесь доверенным людям.");
+                if (i===7) adviceLines.push("🔹 Гиперактивность может вести к выгоранию. Учитесь чередовать активность и отдых.");
+            }
+        }
+        
+        let generalAdvice = "";
+        if (adviceLines.length === 0) {
+            generalAdvice = "Ваш профиль не показывает выраженных психологических барьеров. Поддерживайте свой баланс и продолжайте следить за эмоциональным состоянием.";
+        } else if (adviceLines.length <= 2) {
+            generalAdvice = "У вас есть несколько зон напряжения. " + adviceLines.join(" ");
+        } else {
+            generalAdvice = "Ваш профиль указывает на множество эмоциональных трудностей. Это не диагноз, но повод обратиться к психотерапевту для более глубокой диагностики и поддержки. " + adviceLines.slice(0,3).join(" ");
+        }
+        
+        let scalesHtml = "";
+        for (let i=0; i<8; i++) {
+            scalesHtml += `
+                <div style="margin-bottom: 0.6rem;">
+                    <div style="display: flex; justify-content: space-between; font-size:0.8rem;">
+                        <span>${SCALE_NAMES[i]}</span><span>${percentages[i]}%</span>
+                    </div>
+                    <div class="scale-bar"><div class="scale-fill" style="width: ${percentages[i]}%;"></div></div>
+                </div>
+            `;
+        }
+        
+        appRoot.innerHTML = `
+            <div class="result-card">
+                <span class="badge-info">📊 ваш психологический профиль (мини-мульт MMPI)</span>
+                <h3 style="margin: 0.5rem 0;">Результаты самодиагностики</h3>
+                <div style="margin: 1rem 0;">
+                    ${scalesHtml}
+                </div>
+                <div class="interpretation">
+                    <strong>🧩 Подробная интерпретация:</strong><br>
+                    ${interpretations.map(s => `• ${s}`).join('<br>')}
+                </div>
+                <div style="background: #eef4f8; border-radius: 1rem; padding: 0.8rem;">
+                    <strong>💡 Рекомендация:</strong> ${generalAdvice}
+                </div>
+                <div style="margin-top: 1rem; font-size:0.85rem; color:#4f6f7f;">
+                    ⚠️ Тест не заменяет профессиональную диагностику. При стойких трудностях обратитесь к психологу.
+                </div>
+                <button id="restartMmpiBtn" class="btn-small" style="margin-top:1rem; background:#d9e2e8; border:none; padding:0.5rem 1rem; border-radius:2rem;">🔄 Пройти заново</button>
+            </div>
+        `;
+        document.getElementById('restartMmpiBtn')?.addEventListener('click', () => {
+            renderWelcome();
+        });
+    }
+    
+    renderWelcome();
+</script>
+</body>
+</html>

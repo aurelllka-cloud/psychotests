@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Тест: Якоря вашей карьеры | Что движет вами на работе</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e4e9f2 0%, #cdd6e4 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            padding: 1.5rem;
+        }
+
+        .test-container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .test-card {
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 2rem;
+            box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            border: 1px solid #bfcfdf;
+        }
+
+        .accent-header {
+            background: linear-gradient(105deg, #2c5a6e 0%, #3e7f96 100%);
+            padding: 1.8rem 2rem 1.5rem;
+            color: white;
+            text-align: center;
+        }
+
+        .accent-header h1 {
+            font-size: 1.9rem;
+            letter-spacing: -0.3px;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .accent-header p {
+            font-size: 0.95rem;
+            opacity: 0.92;
+            max-width: 90%;
+            margin: 0.5rem auto 0;
+        }
+
+        .content-panel {
+            padding: 2rem 2rem 2.2rem;
+        }
+
+        .welcome-text {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #1e3e4a;
+            background: #eef4f8;
+            padding: 1.3rem;
+            border-radius: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid #3e7f96;
+        }
+
+        .badge-info {
+            display: inline-block;
+            background: #dfecf2;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #2c5a6e;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            border: none;
+            background: #2c5a6e;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.9rem 1.8rem;
+            border-radius: 3rem;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+            max-width: 260px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #3e7f96;
+            box-shadow: 0 6px 14px rgba(46, 98, 118, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #2c6279;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #e4eef4;
+            color: #2c5a6e;
+            border: 1px solid #c2d6e2;
+        }
+
+        .btn-secondary:hover {
+            background: #d2e2ec;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+        }
+
+        .q-counter {
+            background: #e5eff4;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #2c5a6e;
+        }
+
+        .progress-bar-bg {
+            background: #d7e3ec;
+            border-radius: 20px;
+            height: 8px;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .progress-fill {
+            background: #3e7f96;
+            width: 0%;
+            height: 8px;
+            border-radius: 20px;
+            transition: width 0.2s ease;
+        }
+
+        .question-text {
+            font-size: 1.45rem;
+            font-weight: 500;
+            line-height: 1.4;
+            margin: 1.5rem 0 2rem;
+            color: #1f4052;
+        }
+
+        .likert-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            margin: 1.2rem 0 0.8rem;
+        }
+        .likert-option {
+            background: #f7fafc;
+            border: 1px solid #caddf0;
+            border-radius: 2rem;
+            padding: 0.6rem 0.5rem;
+            flex: 1;
+            min-width: 55px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.1s;
+            color: #2c5a6e;
+        }
+        .likert-option.selected {
+            background: #3e7f96;
+            border-color: #2c5a6e;
+            color: white;
+        }
+        .likert-label {
+            font-size: 0.65rem;
+            display: block;
+            margin-top: 0.2rem;
+            opacity: 0.8;
+        }
+        .note-text {
+            font-size: 0.7rem;
+            text-align: center;
+            margin-top: 0.8rem;
+            color: #6f8ea0;
+        }
+
+        .result-card {
+            background: #fdfeff;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin: 1rem 0 1.8rem;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+        }
+        .result-title {
+            font-size: 1.7rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+        .top-anchor {
+            background: #eef4fa;
+            border-radius: 1.2rem;
+            padding: 0.8rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        .anchor-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c5a6e;
+        }
+        .score-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin: 1rem 0;
+            justify-content: space-between;
+        }
+        .scale-item {
+            background: #f2f6fa;
+            border-radius: 1rem;
+            padding: 0.5rem 0.7rem;
+            flex: 1 1 120px;
+            text-align: center;
+        }
+        .advice {
+            background: #eef4fa;
+            padding: 1rem 1.2rem;
+            border-radius: 1.2rem;
+            margin-top: 0.8rem;
+            border-left: 4px solid #3e7f96;
+        }
+        .footer-note {
+            margin-top: 1.2rem;
+            font-size: 0.7rem;
+            text-align: center;
+            color: #6f8ea0;
+        }
+        hr {
+            margin: 1rem 0;
+            border: none;
+            height: 1px;
+            background: #dce6f0;
+        }
+
+        @media (max-width: 550px) {
+            .content-panel { padding: 1.5rem; }
+            .question-text { font-size: 1.2rem; }
+            .likert-option { padding: 0.4rem 0.3rem; font-size: 0.7rem; min-width: 45px; }
+            .anchor-name { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="test-container">
+    <div class="test-card">
+        <div class="accent-header">
+            <h1>⚓ Якоря вашей карьеры</h1>
+            <p>Что на самом деле движет вами на работе · методика Э. Шейна</p>
+        </div>
+        <div class="content-panel" id="careerApp"></div>
+    </div>
+</div>
+
+<script>
+    // МЕТОДИКА «ЯКОРЯ КАРЬЕРЫ» (Э. Шейн) – 8 якорей:
+    // 1. Профессиональная компетентность
+    // 2. Менеджмент / управление
+    // 3. Автономия (независимость)
+    // 4. Стабильность (работы и места жительства)
+    // 5. Служение / служение людям
+    // 6. Вызов / предпринимательство
+    // 7. Интеграция стилей жизни
+    // 8. Предпринимательское творчество (в некоторых версиях объединено, но в оригинале Шейна – 8)
+    // Вопросов: 32 (по 4 на каждый якорь). Шкала: 1 – совершенно не важно, 5 – очень важно.
+    // Подсчёт: сумма по каждому якорю, затем нормировка. Выделяется 1-3 ведущих якоря.
+    
+    const ANCHORS = [
+        { name: "Профессиональная компетентность", desc: "Стремление быть экспертом, мастером своего дела, развивать навыки." },
+        { name: "Менеджмент", desc: "Желание руководить людьми, отвечать за результат, управлять ресурсами." },
+        { name: "Автономия", desc: "Независимость, свобода от организационных правил и контроля." },
+        { name: "Стабильность", desc: "Надёжность работы, предсказуемость, долгосрочное присутствие." },
+        { name: "Служение", desc: "Приносить пользу людям, обществу, помогать, делать мир лучше." },
+        { name: "Вызов", desc: "Решать сложные задачи, конкурировать, преодолевать препятствия." },
+        { name: "Интеграция стилей жизни", desc: "Баланс между работой, семьёй, хобби, личным временем." },
+        { name: "Предпринимательство", desc: "Создавать новое, рисковать, владеть делом, воплощать идеи." }
+    ];
+    
+    // 32 вопроса, по 4 на каждый якорь в порядке: 0-3: компетентность, 4-7: менеджмент, 8-11: автономия, 12-15: стабильность, 16-19: служение, 20-23: вызов, 24-27: интеграция, 28-31: предпринимательство
+    const QUESTIONS = [
+        "Быть признанным экспертом в своей области для меня очень важно.",
+        "Я хочу постоянно повышать квалификацию и становиться лучшим специалистом.",
+        "Моя профессиональная репутация важнее управленческой должности.",
+        "Я предпочитаю углубляться в узкую специализацию, а не расширять зону ответственности.",
+        "Я чувствую удовлетворение, когда управляю людьми и проектами.",
+        "Моя цель — занять руководящую позицию с полномочиями.",
+        "Я готов(а) брать на себя ответственность за результаты всей команды.",
+        "Мне нравится планировать и координировать работу других.",
+        "Свобода в принятии решений — главное в моей работе.",
+        "Я бы не хотел(а) зависеть от корпоративных правил и графиков.",
+        "Гибкий график и возможность работать удалённо — мой приоритет.",
+        "Я лучше работаю там, где мне не мешают и не контролируют каждый шаг.",
+        "Стабильность и надёжность работы важнее высокой зарплаты.",
+        "Я хочу работать в компании, где гарантирована долгосрочная занятость.",
+        "Быть уверенным в завтрашнем дне — одно из главных условий.",
+        "Для меня важно жить в одном месте и не переезжать по требованию работы.",
+        "Мне важно видеть, что моя работа приносит реальную пользу людям.",
+        "Я хочу посвятить себя делу, которое помогает другим или улучшает общество.",
+        "Социальная значимость моей работы для меня превыше всего.",
+        "Я бы выбрал(а) менее оплачиваемую, но более полезную работу.",
+        "Меня привлекают сложные задачи, где нужны нестандартные решения.",
+        "Люблю соревноваться и преодолевать серьёзные вызовы.",
+        "Мне быстро становится скучно от рутины, нужен постоянный вызов.",
+        "Готов(а) рисковать ради достижения амбициозных целей.",
+        "Для меня критичен баланс между карьерой и личной жизнью.",
+        "Я не пожертвую семьёй и здоровьем ради продвижения по службе.",
+        "Гибкость графика и время на хобби важнее повышения.",
+        "Я хочу, чтобы работа не нарушала мою личную гармонию.",
+        "Моя мечта — создать собственный бизнес или стартап.",
+        "Мне нравится генерировать идеи и воплощать их с нуля.",
+        "Готов(а) рисковать финансово ради собственного дела.",
+        "Я хочу быть хозяином своего дела, а не наёмным работником."
+    ];
+    
+    const TOTAL = 32;
+    let currentIndex = 0;
+    let answers = new Array(TOTAL).fill(null); // 1-5
+    let testActive = false;
+    const appRoot = document.getElementById('careerApp');
+    
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+    
+    function renderStart() {
+        appRoot.innerHTML = `
+            <div class="screen welcome-screen">
+                <div class="badge-info">⚓ академическая основа: якоря карьеры Э. Шейна</div>
+                <div class="welcome-text">
+                    <strong>Деньги, стабильность, творчество, власть или независимость?</strong><br><br>
+                    Этот тест вскроет ваши истинные трудовые ценности, чтобы вы перестали ходить на работу «ради зарплаты». 
+                    Оцените каждое утверждение от 1 (совершенно неважно) до 5 (чрезвычайно важно). 
+                    Результат покажет ваши ведущие карьерные «якоря» — то, что действительно удерживает вас в профессии и даёт удовлетворение.
+                </div>
+                <div class="btn-group">
+                    <button id="startCareerBtn" class="btn btn-primary">🎯 Определить свои якоря</button>
+                </div>
+                <div class="footer-note">Тест состоит из 32 вопросов, займёт 4-5 минут.</div>
+            </div>
+        `;
+        document.getElementById('startCareerBtn')?.addEventListener('click', () => {
+            resetTest();
+        });
+    }
+    
+    function resetTest() {
+        currentIndex = 0;
+        answers = new Array(TOTAL).fill(null);
+        testActive = true;
+        renderQuestion();
+    }
+    
+    function renderQuestion() {
+        if (!testActive) return;
+        if (currentIndex >= TOTAL) {
+            computeResults();
+            return;
+        }
+        const qText = QUESTIONS[currentIndex];
+        const answeredCount = answers.filter(v => v !== null).length;
+        const percent = (answeredCount / TOTAL) * 100;
+        
+        let optionsHtml = '';
+        const labels = ['1 - неважно', '2 - скорее нет', '3 - средне', '4 - важно', '5 - очень важно'];
+        for (let val = 1; val <= 5; val++) {
+            const selected = (answers[currentIndex] === val) ? 'selected' : '';
+            optionsHtml += `
+                <div class="likert-option ${selected}" data-value="${val}">
+                    ${val}
+                    <span class="likert-label">${labels[val-1].substring(3,8)}</span>
+                </div>
+            `;
+        }
+        
+        appRoot.innerHTML = `
+            <div class="screen question-screen">
+                <div class="question-header">
+                    <div class="q-counter">Вопрос ${currentIndex+1} из ${TOTAL}</div>
+                    <div class="progress-bar-bg"><div class="progress-fill" style="width: ${percent}%;"></div></div>
+                </div>
+                <div class="question-text">${escapeHtml(qText)}</div>
+                <div class="likert-row" id="careerRow">
+                    ${optionsHtml}
+                </div>
+                <div class="note-text">оцените важность для вашего карьерного удовлетворения</div>
+                <div class="btn-group" style="margin-top: 1.8rem;">
+                    <button id="nextCareerBtn" class="btn btn-primary" ${answers[currentIndex] === null ? 'disabled style="opacity:0.5;"' : ''}>Далее →</button>
+                </div>
+            </div>
+        `;
+        
+        const options = document.querySelectorAll('.likert-option');
+        options.forEach(opt => {
+            opt.addEventListener('click', () => {
+                const val = parseInt(opt.getAttribute('data-value'));
+                answers[currentIndex] = val;
+                options.forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                const nextBtn = document.getElementById('nextCareerBtn');
+                if (nextBtn) {
+                    nextBtn.disabled = false;
+                    nextBtn.style.opacity = '1';
+                }
+            });
+        });
+        
+        const nextBtn = document.getElementById('nextCareerBtn');
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                if (answers[currentIndex] !== null) {
+                    currentIndex++;
+                    renderQuestion();
+                }
+            });
+        }
+    }
+    
+    function computeResults() {
+        testActive = false;
+        // Подсчёт сумм по 8 якорям
+        let scores = new Array(8).fill(0);
+        for (let i = 0; i < TOTAL; i++) {
+            let anchorIdx = Math.floor(i / 4);
+            let val = answers[i];
+            if (val === null) val = 3; // на случай пропуска
+            scores[anchorIdx] += val;
+        }
+        // максимальная сумма на якорь = 5*4=20
+        let maxScore = Math.max(...scores);
+        // найти все якоря, которые набрали >= maxScore - 2 (т.е. ведущие, возможно несколько)
+        let topAnchorsIndices = [];
+        for (let i = 0; i < scores.length; i++) {
+            if (scores[i] >= maxScore - 2) {
+                topAnchorsIndices.push(i);
+            }
+        }
+        // если слишком много (более 3), возьмём первые 3 с максимальными
+        if (topAnchorsIndices.length > 3) {
+            topAnchorsIndices.sort((a,b) => scores[b] - scores[a]);
+            topAnchorsIndices = topAnchorsIndices.slice(0,3);
+        }
+        
+        const primaryAnchor = topAnchorsIndices[0];
+        const primaryName = ANCHORS[primaryAnchor].name;
+        const primaryDesc = ANCHORS[primaryAnchor].desc;
+        
+        // Формируем описание и совет
+        let advice = "";
+        switch(primaryAnchor) {
+            case 0: advice = "💼 Ваш якорь — экспертность. Ищите возможности для развития навыков, обучения и признания мастерства. Вам подойдут позиции ведущего специалиста, технического лидера, наставника. Избегайте чисто административной работы."; break;
+            case 1: advice = "📊 Вы стремитесь к управлению и власти. Развивайте лидерские качества, учитесь делегировать и стратегически мыслить. Вам комфортно в роли руководителя или project-менеджера."; break;
+            case 2: advice = "🗽 Свобода и автономия — ваш главный драйвер. Рассмотрите фриланс, консультирование, удалённую работу или предпринимательство. Вам не подходит строгая иерархия."; break;
+            case 3: advice = "🏛️ Стабильность создаёт ваш фундамент. Выбирайте крупные компании с долгосрочными контрактами, государственную службу или профессии с гарантированной занятостью. Создайте финансовую подушку."; break;
+            case 4: advice = "🤝 Служение другим даёт смысл. Ищите работу в НКО, образовании, медицине, социальной сфере. Даже в бизнесе выбирайте миссию, которая помогает людям. Важно ощущать ценность своей деятельности."; break;
+            case 5: advice = "⚡ Вам нужны вызов и конкуренция. Подойдут стартапы, кризисный менеджмент, сложные проекты, спорт или соревновательные индустрии. Не бойтесь рискованных задач."; break;
+            case 6: advice = "⚖️ Баланс — ваш приоритет. Ищите компании с гибким графиком, удалёнку или частичную занятость. Не жертвуйте семьёй и здоровьем ради карьеры. Фриланс может дать нужную гармонию."; break;
+            case 7: advice = "🚀 Предпринимательская жилка тянет создавать новое. Подумайте о запуске своего дела, интрапренёрстве внутри компании или венчурных проектах. Вам важно видеть результат своих идей."; break;
+            default: advice = "Развивайте свои сильные стороны и ищите работу, которая соответствует вашим ценностям.";
+        }
+        
+        // Дополнительно, если есть второй ведущий якорь, включим в рекомендацию
+        let secondAdvice = "";
+        if (topAnchorsIndices.length > 1) {
+            const second = topAnchorsIndices[1];
+            secondAdvice = `<br>🔹 Также вас может вдохновлять <strong>${ANCHORS[second].name}</strong>: ${ANCHORS[second].desc}`;
+        }
+        if (topAnchorsIndices.length > 2) {
+            const third = topAnchorsIndices[2];
+            secondAdvice += `<br>🔹 и <strong>${ANCHORS[third].name}</strong>: ${ANCHORS[third].desc}`;
+        }
+        
+        // Построить все баллы для таблицы (в процентах от макс 20)
+        let scalesHtml = "";
+        for (let i = 0; i < ANCHORS.length; i++) {
+            let percent = Math.round((scores[i] / 20) * 100);
+            scalesHtml += `
+                <div class="scale-item">
+                    <div style="font-weight:600; font-size:0.8rem;">${ANCHORS[i].name}</div>
+                    <div style="font-size:1.2rem; font-weight:700;">${scores[i]}/20</div>
+                    <div style="background:#cddfe8; height:4px; width:100%; margin-top:4px;"><div style="background:#3e7f96; width:${percent}%; height:4px;"></div></div>
+                </div>
+            `;
+        }
+        
+        appRoot.innerHTML = `
+            <div class="screen result-screen">
+                <div class="result-card">
+                    <div class="result-title">🔍 Ваш главный карьерный якорь</div>
+                    <div class="top-anchor">
+                        <div class="anchor-name">${escapeHtml(primaryName)}</div>
+                        <div style="margin-top:0.4rem;">${escapeHtml(primaryDesc)}</div>
+                        <div style="font-size:0.85rem; margin-top:0.3rem;">⭐ сумма баллов: ${scores[primaryAnchor]}/20</div>
+                    </div>
+                    <div class="advice">
+                        💡 <strong>Что это значит для вас:</strong><br> ${advice}
+                        ${secondAdvice}
+                    </div>
+                    <div class="score-grid">
+                        ${scalesHtml}
+                    </div>
+                    <div class="note-text" style="margin-top: 0.5rem;">
+                        * Чем выше балл по каждому якорю, тем сильнее эта ценность управляет вашими карьерными решениями.
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button id="restartCareerBtn" class="btn btn-secondary">🔄 Пройти заново</button>
+                </div>
+                <hr>
+                <div class="footer-note">
+                    📚 «Якоря карьеры» Эдгара Шейна помогают осознать то, от чего вы не готовы отказаться ради карьеры. Используйте результат для выбора работы и планирования развития.
+                </div>
+            </div>
+        `;
+        document.getElementById('restartCareerBtn')?.addEventListener('click', () => {
+            resetTest();
+        });
+    }
+    
+    renderStart();
+</script>
+</body>
+</html>

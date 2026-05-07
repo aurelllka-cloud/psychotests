@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Тест: Индекс счастья | Уровень радости и удовлетворенности</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fae8d4 0%, #feefdf 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            padding: 1.5rem;
+        }
+
+        .test-container {
+            max-width: 760px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .test-card {
+            background: rgba(255, 253, 249, 0.98);
+            border-radius: 2rem;
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            border: 1px solid #ffddb0;
+        }
+
+        .accent-header {
+            background: linear-gradient(105deg, #f2a65a 0%, #f7c56e 100%);
+            padding: 1.8rem 2rem 1.5rem;
+            color: #2d2418;
+            text-align: center;
+        }
+
+        .accent-header h1 {
+            font-size: 1.9rem;
+            letter-spacing: -0.3px;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .accent-header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            max-width: 90%;
+            margin: 0.5rem auto 0;
+        }
+
+        .content-panel {
+            padding: 2rem 2rem 2.2rem;
+        }
+
+        .welcome-text {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #5e3a23;
+            background: #fff7ef;
+            padding: 1.3rem;
+            border-radius: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid #f7b05e;
+        }
+
+        .badge-info {
+            display: inline-block;
+            background: #f9e5d2;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #b55b2c;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            border: none;
+            background: #e68a2e;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.9rem 1.8rem;
+            border-radius: 3rem;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+            max-width: 260px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #e6973c;
+            box-shadow: 0 6px 14px rgba(230, 140, 46, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #c97a2c;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #f3e7db;
+            color: #794f2a;
+            border: 1px solid #e2cbb4;
+        }
+
+        .btn-secondary:hover {
+            background: #e8d9cb;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+        }
+
+        .q-counter {
+            background: #fceddf;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #c26d30;
+        }
+
+        .progress-bar-bg {
+            background: #f0dfce;
+            border-radius: 20px;
+            height: 8px;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .progress-fill {
+            background: #f0a64a;
+            width: 0%;
+            height: 8px;
+            border-radius: 20px;
+            transition: width 0.2s ease;
+        }
+
+        .question-text {
+            font-size: 1.45rem;
+            font-weight: 500;
+            line-height: 1.4;
+            margin: 1.5rem 0 2rem;
+            color: #4d311b;
+        }
+
+        /* шкала Likert */
+        .likert-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin: 1.2rem 0 0.8rem;
+        }
+        .likert-option {
+            background: #fdf6ef;
+            border: 1px solid #f2cfb0;
+            border-radius: 2rem;
+            padding: 0.6rem 0.9rem;
+            flex: 1;
+            min-width: 60px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.1s;
+            color: #7f593b;
+        }
+        .likert-option.selected {
+            background: #f7b05e;
+            border-color: #e68a2e;
+            color: white;
+            font-weight: 600;
+        }
+        .likert-label {
+            font-size: 0.7rem;
+            text-align: center;
+            margin-top: 0.2rem;
+            color: #a37651;
+        }
+        .note-text {
+            font-size: 0.75rem;
+            text-align: center;
+            margin-top: 1rem;
+            color: #b68053;
+        }
+
+        .result-card {
+            background: #fffcf6;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin: 1rem 0 1.8rem;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+        }
+
+        .result-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .score-badge {
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: #e68a2e;
+            margin: 0.5rem 0;
+        }
+
+        .result-desc {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #4a3422;
+            margin: 1rem 0;
+        }
+        .advice {
+            background: #fef5ea;
+            padding: 1rem 1.2rem;
+            border-radius: 1.2rem;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            border-left: 4px solid #f7b05e;
+        }
+        .footer-note {
+            margin-top: 1.2rem;
+            font-size: 0.7rem;
+            text-align: center;
+            color: #9c7655;
+        }
+        hr {
+            margin: 1rem 0;
+            border: none;
+            height: 1px;
+            background: #f4e1cf;
+        }
+
+        @media (max-width: 550px) {
+            .content-panel {
+                padding: 1.5rem;
+            }
+            .question-text {
+                font-size: 1.25rem;
+            }
+            .likert-option {
+                padding: 0.4rem 0.5rem;
+                font-size: 0.75rem;
+                min-width: 45px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="test-container">
+    <div class="test-card">
+        <div class="accent-header">
+            <h1>😊 Индекс счастья</h1>
+            <p>Измеряем уровень радости и удовлетворенности · Оксфордский опросник счастья (OHQ)</p>
+        </div>
+        <div class="content-panel" id="happinessApp"></div>
+    </div>
+</div>
+
+<script>
+    // ========= ОКСФОРДСКИЙ ОПРОСНИК СЧАСТЬЯ (OHQ, краткая версия, 8 вопросов) =========
+    // Каждый вопрос оценивается от 1 до 6:
+    // 1 = совершенно не согласен, 6 = полностью согласен (прямые вопросы)
+    // Часть вопросов обратные (их баллы инвертируем при подсчёте).
+    // Диапазон итогового сырого балла: 8–48. Чем выше, тем больше счастья.
+    // Интерпретация: низкий (8-19), ниже среднего (20-27), средний (28-35), высокий (36-48)
+
+    const QUESTIONS_HAPPY = [
+        { text: "Я чувствую, что жизнь доставляет мне большое удовольствие.", reverse: false },
+        { text: "Я часто нахожу причины для смеха и радости.", reverse: false },
+        { text: "Мне кажется, что я многого достигаю в жизни.", reverse: false },
+        { text: "Я всегда смотрю на вещи с оптимизмом.", reverse: false },
+        { text: "Я не особенно люблю общаться с другими людьми.", reverse: true },
+        { text: "Я часто чувствую себя одиноким и изолированным.", reverse: true },
+        { text: "Моя жизнь складывается не так хорошо, как мне хотелось бы.", reverse: true },
+        { text: "В целом я считаю себя счастливым человеком.", reverse: false }
+    ];
+
+    let currentIdx = 0;
+    let likertAnswers = new Array(8).fill(null); // значения 1-6
+    let testActive = false;
+    const appRoot = document.getElementById('happinessApp');
+
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    function renderStart() {
+        appRoot.innerHTML = `
+            <div class="screen welcome-screen">
+                <div class="badge-info">📋 академическая основа: Оксфордский опросник счастья (OHQ)</div>
+                <div class="welcome-text">
+                    <strong>✨ Простой и приятный тест</strong><br><br>
+                    Итогом станет не диагноз, а повод задуматься: <strong>«Счастлив ли я на самом деле? И как стать еще счастливее?»</strong>.
+                    Оцените каждое утверждение по шкале от 1 (совершенно не согласен) до 6 (полностью согласен). 
+                    Будьте честны с собой — это путь к пониманию своих эмоций.
+                </div>
+                <div class="btn-group">
+                    <button id="startHappyBtn" class="btn btn-primary">🌻 Начать тест</button>
+                </div>
+                <div class="footer-note">🧘‍♀️ Тест занимает около 3 минут. Результаты помогут увидеть ваши ресурсы для радости.</div>
+            </div>
+        `;
+        document.getElementById('startHappyBtn')?.addEventListener('click', () => {
+            resetTest();
+        });
+    }
+
+    function resetTest() {
+        currentIdx = 0;
+        likertAnswers = new Array(8).fill(null);
+        testActive = true;
+        renderQuestion();
+    }
+
+    function renderQuestion() {
+        if (!testActive) return;
+        if (currentIdx >= 8) {
+            computeResult();
+            return;
+        }
+        const q = QUESTIONS_HAPPY[currentIdx];
+        const answeredCount = likertAnswers.filter(v => v !== null).length;
+        const percent = (answeredCount / 8) * 100;
+
+        // Создаём варианты от 1 до 6 с лейблами
+        const likertOptions = [];
+        const labels = ["1 - совершенно не согласен", "2", "3", "4", "5", "6 - полностью согласен"];
+        for (let val = 1; val <= 6; val++) {
+            const isSelected = (likertAnswers[currentIdx] === val);
+            likertOptions.push(`
+                <div class="likert-option ${isSelected ? 'selected' : ''}" data-value="${val}">
+                    ${val}<br><span class="likert-label">${labels[val-1].substring(0, 12)}</span>
+                </div>
+            `);
+        }
+
+        appRoot.innerHTML = `
+            <div class="screen question-screen">
+                <div class="question-header">
+                    <div class="q-counter">Вопрос ${currentIdx+1} из 8</div>
+                    <div class="progress-bar-bg"><div class="progress-fill" style="width: ${percent}%;"></div></div>
+                </div>
+                <div class="question-text">${escapeHtml(q.text)}</div>
+                <div class="likert-row" id="likertRow">
+                    ${likertOptions.join('')}
+                </div>
+                <div class="note-text">выберите один вариант — насколько утверждение соответствует вам</div>
+                <div class="btn-group" style="margin-top: 1.8rem;">
+                    <button id="nextHappyBtn" class="btn btn-primary" ${likertAnswers[currentIdx] === null ? 'disabled style="opacity:0.5;"' : ''}>Далее →</button>
+                </div>
+            </div>
+        `;
+
+        // привязываем обработчики к вариантам
+        const options = document.querySelectorAll('.likert-option');
+        options.forEach(opt => {
+            opt.addEventListener('click', () => {
+                const val = parseInt(opt.getAttribute('data-value'));
+                likertAnswers[currentIdx] = val;
+                // обновляем выделение
+                options.forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                // активируем кнопку Далее
+                const nextBtn = document.getElementById('nextHappyBtn');
+                if (nextBtn) {
+                    nextBtn.disabled = false;
+                    nextBtn.style.opacity = '1';
+                }
+            });
+        });
+
+        const nextBtn = document.getElementById('nextHappyBtn');
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                if (likertAnswers[currentIdx] !== null) {
+                    currentIdx++;
+                    renderQuestion();
+                }
+            });
+        }
+    }
+
+    function computeResult() {
+        testActive = false;
+        let rawScore = 0;
+        for (let i = 0; i < 8; i++) {
+            let answer = likertAnswers[i];
+            if (answer === null) answer = 3; // на всякий случай
+            const isReverse = QUESTIONS_HAPPY[i].reverse;
+            if (isReverse) {
+                // инвертируем: 1 -> 6, 2 ->5, 3->4, 4->3,5->2,6->1
+                answer = 7 - answer;
+            }
+            rawScore += answer;
+        }
+        // rawScore от 8 до 48
+        let happinessLevel = "";
+        let title = "";
+        let description = "";
+        let tips = "";
+
+        if (rawScore <= 19) {
+            happinessLevel = "🌧️ Низкий уровень счастья";
+            title = "Вы, возможно, редко чувствуете радость";
+            description = `Ваш индекс счастья: ${rawScore} из 48. Это говорит о том, что вы часто испытываете грусть, неудовлетворённость или апатию. Возможно, вам не хватает поддержки или приятных событий.`;
+            tips = "☀️ Маленькие шаги к радости: начните вести «дневник благодарности» (3 приятных события за день), проводите время с теми, кто вас вдохновляет. При сильной тоске — обратитесь к психологу, это может изменить жизнь.";
+        } 
+        else if (rawScore <= 27) {
+            happinessLevel = "🍂 Ниже среднего";
+            title = "Вам не хватает стабильной удовлетворённости";
+            description = `Ваш результат: ${rawScore} из 48. Вы переживаете как приятные, так и тяжёлые моменты, но позитивных эмоций могло бы быть больше. Часто вы не замечаете того хорошего, что уже есть.`;
+            tips = "🌱 Как добавить красок: практикуйте осознанность, выделите время на хобби, которое раньше приносило удовольствие. Попробуйте каждый день делать маленький сюрприз для себя — чашка любимого чая, прогулка в парке.";
+        }
+        else if (rawScore <= 35) {
+            happinessLevel = "🌼 Средний уровень счастья";
+            title = "Вы достаточно радостны, но есть потенциал для роста";
+            description = `Ваш индекс счастья: ${rawScore} из 48. Вы ощущаете и радость, и грусть, но в целом жизнь приносит вам положительные эмоции. Вы можете стать ещё счастливее!`;
+            tips = "✨ Секреты большего счастья: чаще выражайте благодарность другим, вступайте в новые социальные связи, ставьте перед собой маленькие приятные цели. Помните: счастье — это не постоянное состояние, а навык замечать хорошее.";
+        }
+        else {
+            happinessLevel = "🌟 Высокий уровень счастья!";
+            title = "Вы умеете радоваться жизни и наполнены удовлетворением";
+            description = `Поздравляем! Ваш результат: ${rawScore} из 48. Вы обладаете позитивным взглядом, цените моменты радости и, вероятно, имеете гармоничные отношения с собой и миром.`;
+            tips = "💛 Ваш секрет: продолжайте делиться теплом с окружающими, практикуйте благодарность. Чтобы держать «индекс счастья» высоким, сохраняйте любопытство и заботу о себе. Исследования показывают, что счастливые люди чаще помогают другим — это приумножает радость.";
+        }
+
+        appRoot.innerHTML = `
+            <div class="screen result-screen">
+                <div class="result-card">
+                    <div class="result-title">${happinessLevel}</div>
+                    <div class="score-badge">${rawScore} / 48</div>
+                    <div class="result-desc">
+                        <strong>${title}</strong><br><br>
+                        ${description}
+                    </div>
+                    <div class="advice">
+                        🧡 <strong>Как стать ещё счастливее?</strong><br> ${tips}
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button id="restartHappyBtn" class="btn btn-secondary">🔄 Пройти тест заново</button>
+                </div>
+                <hr>
+                <div class="footer-note">
+                    📊 Оксфордский опросник счастья основан на исследованиях позитивной психологии. Помните: счастье — процесс, а не финальная точка. 
+                    Заботьтесь о себе и замечайте маленькие радости каждый день.
+                </div>
+            </div>
+        `;
+        document.getElementById('restartHappyBtn')?.addEventListener('click', () => {
+            resetTest();
+        });
+    }
+
+    renderStart();
+</script>
+</body>
+</html>
